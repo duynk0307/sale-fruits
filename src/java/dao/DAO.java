@@ -7,14 +7,18 @@ package dao;
 
 import context.DBContext;
 import entity.Account;
+import entity.Banner;
 import entity.CartItem;
 import entity.CartSession;
 import entity.Category;
 import entity.Product;
+import entity.Saleoff;
+import entity.Sources;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -236,5 +240,185 @@ public class DAO {
             System.err.println(e.getMessage());
         }
         return cSession;
+    }
+    
+    public List<Product> getLastProduct() {
+        try {
+            String query = "SELECT TOP 6 * FROM Product p\n"
+                    + "ORDER BY p.productID DESC";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            List<Product> list = new ArrayList<>();
+            while (rs.next()) {
+                Product product = new Product(rs.getString(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getDouble(7),
+                        rs.getDouble(8));
+                list.add(product);
+            }
+            return list;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public List<Product> getBestsellingProduct() {
+        try {
+            String query = "select * from(SELECT TOP 6 productID FROM OrderDetails o\n"
+                    + "ORDER BY o.orderQuantity DESC) r, Product p\n"
+                    + "Where p.productID = r.productID";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            List<Product> list = new ArrayList<>();
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getString(7),
+                        rs.getDouble(8), rs.getDouble(9));
+                list.add(product);
+            }
+            return list;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+    
+    public List<Sources> getLogoSourses() {
+        try {
+            String query = "select * from Sources";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            List<Sources> list = new ArrayList<>();
+            while (rs.next()) {
+                Sources so = new Sources(rs.getString(1), rs.getString(2), rs.getString(3));
+                list.add(so);
+            }
+            return list;
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public List<Category> getFeaturedProduct() {
+        try {
+            String query = "select r.cateID, c.cateName from Category c,(SELECT DISTINCT Top 4 cateID FROM Product p\n"
+                    + "where p.inventory > 0\n"
+                    + "ORDER BY p.cateID DESC) r\n"
+                    + "where c.cateID = r.cateID";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            List<Category> list = new ArrayList<>();
+            while (rs.next()) {
+                Category cate = new Category(rs.getString(1), rs.getString(2));
+                list.add(cate);
+            }
+            return list;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public List<Banner> getListBanner() {
+        try {
+            String query = "select * from Banner";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            List<Banner> list = new ArrayList<>();
+            while (rs.next()) {
+                Banner banner = new Banner(rs.getString(1),
+                        rs.getString(2));
+                list.add(banner);
+            }
+            return list;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Product getProductByID(String id) {
+        try {
+            String query = "select * from Product p\n"
+                    + "where p.productID = ?";
+
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Product(rs.getString(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getDouble(7),
+                        rs.getDouble(8));
+            }
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public List<Product> getRelatedProduct(List<Product> rltProduct, Product p) {
+        List<Product> rltPro = new ArrayList<>();
+        int count = 0;
+        for (Product rp : rltProduct) {
+            if (rp.getProductID().equals(p.getProductID())) {
+                count++;
+            }
+        }
+        if (count == 0) {
+            rltProduct.add(p);
+            rltPro.addAll(rltProduct);
+        } else {
+            for (Product rp : rltProduct) {
+                if (!rp.getProductID().equals(p.getProductID())) {
+                    rltPro.add(rp);
+                }
+            }
+            rltPro.add(p);
+        }
+        rltProduct.clear();
+        rltProduct.addAll(rltPro);
+        Collections.reverse(rltPro);
+
+        return rltPro;
+    }
+
+    public List<Saleoff> getListSaleOff() {
+        try {
+            String query = "select * from Saleoff s, Product p, Category c\n"
+                    + "where s.productID = p.productID\n"
+                    + "	and p.cateID = c.cateID";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            List<Saleoff> list = new ArrayList<>();
+            while (rs.next()) {
+                Saleoff saleoff = new Saleoff(
+                        rs.getString(1), rs.getDouble(2),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getDouble(9),
+                        rs.getString(12));
+                list.add(saleoff);
+            }
+            return list;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 }

@@ -6,17 +6,14 @@
 package controlServlet;
 
 import dao.DAO;
-import entity.Account;
-import entity.Banner;
-import entity.CartItem;
-import entity.CartSession;
 import entity.Category;
 import entity.Product;
-import entity.Sources;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,10 +21,11 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Nguyen Khanh Duy;
+ * @author Minh Nhat
  */
-public class HomeControl extends HttpServlet {
-
+@WebServlet(name = "detailsControl", urlPatterns = {"/detailsControl"})
+public class detailsControl extends HttpServlet {
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,42 +38,6 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // get data from database
-        DAO dao = new DAO();
-        List<Product> product = dao.getListProduct();
-        List<Product> lastPro = dao.getLastProduct();
-        List<Product> bestPro = dao.getBestsellingProduct();
-        List<Sources> srcPro = dao.getLogoSourses();
-        List<Category> cate = dao.getListCategory();
-        List<Category> featPro = dao.getFeaturedProduct();
-        List<Banner> banner = dao.getListBanner();
-        for (Sources s : srcPro) {
-            System.out.println(s.toString());
-        }
-        // set data to jsp page
-        request.setAttribute("lastPro", lastPro);
-        request.setAttribute("bestPro", bestPro);
-        request.setAttribute("Logo1", srcPro);
-        request.setAttribute("listFeat", featPro);
-        request.setAttribute("listBnr", banner);
-        request.setAttribute("listPro", product);
-        request.setAttribute("listCate", cate);
-
-        System.out.println(request.getRequestURL());
-        System.out.println(request.getRequestURI());
-
-        HttpSession session = request.getSession();
-        Account acc = (Account) session.getAttribute("account");
-        if (acc != null) {
-            List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
-            CartSession cSession = dao.getCartSession(acc.getUserID());
-            if (cItem != null) {
-                request.setAttribute("cItem", cItem);
-                request.setAttribute("cSession", cSession);
-            }
-        }
-
-        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -90,7 +52,27 @@ public class HomeControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        DAO dao = new DAO();
+        List<Category> catePro = dao.getListCategory();
+        String proId = request.getParameter("sid");
+        Product p = dao.getProductByID(proId);
+        HttpSession session = request.getSession();
+        List<Product> rltProduct = new ArrayList<>();;
+        try {
+            session.getAttribute("rltProduct");
+            rltProduct.addAll((ArrayList<Product>)session.getAttribute("rltProduct"));
+        } catch (Exception e) {
+        }
+        //Xử lý Related Product
+        List<Product> rltPro = dao.getRelatedProduct(rltProduct, p);
+        //Kết thúc xử lý Related Product
+        
+        session.setAttribute("rltProduct", rltProduct);
+        request.setAttribute("rltPro", rltPro);
+        request.setAttribute("pd", p);
+        request.setAttribute("category1", catePro);
+        request.getRequestDispatcher("shop-details.jsp").forward(request, response);
     }
 
     /**

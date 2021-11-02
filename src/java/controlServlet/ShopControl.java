@@ -6,27 +6,25 @@
 package controlServlet;
 
 import dao.DAO;
-import entity.Account;
-import entity.Banner;
-import entity.CartItem;
-import entity.CartSession;
 import entity.Category;
 import entity.Product;
-import entity.Sources;
+import entity.Saleoff;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Nguyen Khanh Duy;
+ * @author ACER
  */
-public class HomeControl extends HttpServlet {
+@WebServlet(name = "ShopControl", urlPatterns = {"/ShopControl"})
+public class ShopControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,42 +38,16 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // get data from database
         DAO dao = new DAO();
-        List<Product> product = dao.getListProduct();
+        List<Category> catePro = dao.getListCategory();
         List<Product> lastPro = dao.getLastProduct();
-        List<Product> bestPro = dao.getBestsellingProduct();
-        List<Sources> srcPro = dao.getLogoSourses();
-        List<Category> cate = dao.getListCategory();
-        List<Category> featPro = dao.getFeaturedProduct();
-        List<Banner> banner = dao.getListBanner();
-        for (Sources s : srcPro) {
-            System.out.println(s.toString());
-        }
-        // set data to jsp page
+        List<Saleoff> listSff = dao.getListSaleOff();
+        
+        
+        request.setAttribute("listPff", listSff);
         request.setAttribute("lastPro", lastPro);
-        request.setAttribute("bestPro", bestPro);
-        request.setAttribute("Logo1", srcPro);
-        request.setAttribute("listFeat", featPro);
-        request.setAttribute("listBnr", banner);
-        request.setAttribute("listPro", product);
-        request.setAttribute("listCate", cate);
-
-        System.out.println(request.getRequestURL());
-        System.out.println(request.getRequestURI());
-
-        HttpSession session = request.getSession();
-        Account acc = (Account) session.getAttribute("account");
-        if (acc != null) {
-            List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
-            CartSession cSession = dao.getCartSession(acc.getUserID());
-            if (cItem != null) {
-                request.setAttribute("cItem", cItem);
-                request.setAttribute("cSession", cSession);
-            }
-        }
-
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.setAttribute("category1", catePro);
+        request.getRequestDispatcher("shop-grid.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
