@@ -38,12 +38,29 @@ public class ShopControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String indexPage = request.getParameter("index");
+        if (indexPage == null) {
+            indexPage = "1";
+        }
+        int index = Integer.parseInt(indexPage);
+        
         DAO dao = new DAO();
         List<Category> catePro = dao.getListCategory();
         List<Product> lastPro = dao.getLastProduct();
         List<Saleoff> listSff = dao.getListSaleOff();
         
+        //new-------------------------------------------------------
         
+        int count = dao.getTotalProduct();
+        int endPage = count/6;
+        if (count % 3 != 0) {
+            endPage++;
+        }
+        List<Product> listPro = dao.pagingProduct(index);
+        
+        request.setAttribute("endP", endPage);
+        request.setAttribute("tag", index);
+        request.setAttribute("listPro", listPro);
         request.setAttribute("listPff", listSff);
         request.setAttribute("lastPro", lastPro);
         request.setAttribute("category1", catePro);

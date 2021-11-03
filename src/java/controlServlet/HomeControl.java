@@ -45,6 +45,7 @@ public class HomeControl extends HttpServlet {
         List<Product> product = dao.getListProduct();
         List<Product> lastPro = dao.getLastProduct();
         List<Product> bestPro = dao.getBestsellingProduct();
+        List<Product> reviewPro = dao.getReviewProduct();
         List<Sources> srcPro = dao.getLogoSourses();
         List<Category> cate = dao.getListCategory();
         List<Category> featPro = dao.getFeaturedProduct();
@@ -55,6 +56,7 @@ public class HomeControl extends HttpServlet {
         // set data to jsp page
         request.setAttribute("lastPro", lastPro);
         request.setAttribute("bestPro", bestPro);
+        request.setAttribute("rewPro", reviewPro);
         request.setAttribute("Logo1", srcPro);
         request.setAttribute("listFeat", featPro);
         request.setAttribute("listBnr", banner);

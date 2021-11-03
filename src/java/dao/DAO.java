@@ -209,7 +209,7 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
-    
+
     public void changeState(int cartID) {
         try {
             String query = "UPDATE CartItem SET quantity = 1, state = 1 WHERE cartID = ?";
@@ -241,7 +241,7 @@ public class DAO {
         }
         return cSession;
     }
-    
+
     public List<Product> getLastProduct() {
         try {
             String query = "SELECT TOP 6 * FROM Product p\n"
@@ -288,7 +288,7 @@ public class DAO {
         }
         return null;
     }
-    
+
     public List<Sources> getLogoSourses() {
         try {
             String query = "select * from Sources";
@@ -414,6 +414,66 @@ public class DAO {
                         rs.getString(6), rs.getDouble(9),
                         rs.getString(12));
                 list.add(saleoff);
+            }
+            return list;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public int getTotalProduct() {
+        String query = "select count(*) from Product";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public List<Product> pagingProduct(int index) {
+        List<Product> list = new ArrayList<>();
+        String query = "select * from Product p\n"
+                + "ORDER BY p.productID\n"
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, (index - 1) * 6);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(rs.getString(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getDouble(7),
+                        rs.getDouble(8));
+                list.add(product);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public List<Product> getReviewProduct() {
+        try {
+            String query = "SELECT TOP 6 * FROM Product p\n"
+                    + "ORDER BY p.salePrice DESC";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            List<Product> list = new ArrayList<>();
+            while (rs.next()) {
+                Product product = new Product(rs.getString(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getDouble(7),
+                        rs.getDouble(8));
+                list.add(product);
             }
             return list;
         } catch (Exception e) {
