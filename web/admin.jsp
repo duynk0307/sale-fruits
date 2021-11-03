@@ -36,7 +36,6 @@
         <div id="preloder">
             <div class="loader"></div>
         </div>
-        <h1>Son vua sua file</h1>
         <!-- Humberger Begin -->
         <div class="humberger__menu__overlay"></div>
         <div class="humberger__menu__wrapper">
