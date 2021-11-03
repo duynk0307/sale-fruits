@@ -298,30 +298,30 @@
                                 </div>
                             </div>
                         </div>
-<!--                        <div class="filter__item">
-                            <div class="row">
-                                <div class="col-lg-4 col-md-5">
-                                    <div class="filter__sort">
-                                        <span>Sort By</span>
-                                        <select>
-                                            <option value="0">Default</option>
-                                            <option value="0">Default</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4">
-                                    <div class="filter__found">
-                                        <h6><span>16</span> Products found</h6>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-3">
-                                    <div class="filter__option">
-                                        <span class="icon_grid-2x2"></span>
-                                        <span class="icon_ul"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
+                        <!--                        <div class="filter__item">
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-md-5">
+                                                            <div class="filter__sort">
+                                                                <span>Sort By</span>
+                                                                <select>
+                                                                    <option value="0">Default</option>
+                                                                    <option value="0">Default</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-4">
+                                                            <div class="filter__found">
+                                                                <h6><span>16</span> Products found</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-md-3">
+                                                            <div class="filter__option">
+                                                                <span class="icon_grid-2x2"></span>
+                                                                <span class="icon_ul"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
                         <div class="row">
                             <c:forEach var="p" items="${listPro}" >
                                 <div class="col-lg-4 col-md-6 col-sm-6">
@@ -522,10 +522,15 @@
                                                         </div>
                                                     </div>-->
                             <div class="product__pagination">
-                                <c:forEach begin="1" end="${endP}" var="i">
+                                <c:if test="${tag > 1}">
+                                    <a href="ShopControl?index=${tag-1}"><i class="fa fa-long-arrow-left"></i></a>
+                                    </c:if>
+                                    <c:forEach begin="1" end="${endP}" var="i">
                                     <a style="${tag == i?"background-color: forestgreen":""}" href="ShopControl?index=${i}">${i}</a>
                                 </c:forEach>
-                                    <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                                <c:if test="${tag < endP}">
+                                    <a href="ShopControl?index=${tag+1}"><i class="fa fa-long-arrow-right"></i></a>
+                                    </c:if>
                             </div>
                         </div>
                     </div>
