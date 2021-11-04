@@ -50,9 +50,9 @@ public class HomeControl extends HttpServlet {
         List<Category> cate = dao.getListCategory();
         List<Category> featPro = dao.getFeaturedProduct();
         List<Banner> banner = dao.getListBanner();
-        for (Sources s : srcPro) {
-            System.out.println(s.toString());
-        }
+//        for (Sources s : srcPro) {
+//            System.out.println(s.toString());
+//        }
         // set data to jsp page
         request.setAttribute("lastPro", lastPro);
         request.setAttribute("bestPro", bestPro);

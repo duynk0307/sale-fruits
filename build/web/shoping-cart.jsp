@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -65,16 +66,15 @@
             </div>
             <nav class="humberger__menu__nav mobile-menu">
                 <ul>
-                    <li class="active"><a href="./index.jsp">Home</a></li>
-                    <li><a href="./shop-grid.jsp">Shop</a></li>
+                    <li class="active"><a href="./HomeControl">Home</a></li>
+                    <li><a href="./ShopControl">Shop</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="header__menu__dropdown">
-                            <li><a href="./shop-details.jsp">Shop Details</a></li>
-                            <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                            <li><a href="./checkout.jsp">Check Out</a></li>
+                            <li><a href="./shoppingcart">Shoping Cart</a></li>
+                            <li><a href="./checkout">Check Out</a></li>
                         </ul>
                     </li>
-                    <li><a href="./contact.jsp">Contact</a></li>
+                    <li><a href="./contact">Contact</a></li>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
@@ -106,7 +106,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-md-6">
                             <div class="header__top__right">
                                 <div class="header__top__right__social">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
@@ -114,9 +114,16 @@
                                     <a href="#"><i class="fa fa-linkedin"></i></a>
                                     <a href="#"><i class="fa fa-pinterest-p"></i></a>
                                 </div>
-                                <div class="header__top__right__auth">
-                                    <a href="./login.jsp"><i class="fa fa-user"></i> Login</a>
-                                </div>
+                                <c:if test="${account == null}">
+                                    <div class="header__top__right__auth">
+                                        <a href="./login.jsp"><i class="fa fa-user"></i> Login</a>
+                                    </div>
+                                </c:if>
+                                <c:if test="${account != null}">
+                                    <div class="header__top__right__auth">
+                                        <a href="Logout"><i class="fa fa-user"></i> Logout</a>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -132,27 +139,53 @@
                     <div class="col-lg-6">
                         <nav class="header__menu">
                             <ul>
-                                <li><a href="./index.jsp">Home</a></li>
-                                <li><a href="./shop-grid.jsp">Shop</a></li>
+                                <li><a href="./HomeControl">Home</a></li>
+                                <li><a href="./ShopControl">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
-                                        <li><a href="./shop-details.jsp">Shop Details</a></li>
-                                        <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                                        <li><a href="./checkout.jsp">Check Out</a></li>
+                                        <li><a href="./shoppingcart">Shoping Cart</a></li>
+                                        <li><a href="./checkout">Check Out</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="./contact.jsp">Contact</a></li>
+                                <li><a href="./contact">Contact</a></li>
+                                    <c:if test="${account.roleID == 1}">
+                                    <li><a href="./admin.jsp">Administrator</a></li>
+                                    </c:if>
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="header__cart">
-                            <ul>
-                                <li><a href="./shoping-cart.jsp"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
-                            </ul>
-                            <div class="header__cart__price">item: <span>$150.00</span></div>
+                    <c:if test="${account != null}">
+                        <c:if test="${cItem != null}">
+                            <div class="col-lg-2">
+                                <div class="header__cart">
+                                    <ul>
+                                        <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>${cItem.size()}</span></a></li>
+                                    </ul>
+                                    <div class="header__cart__price">item: <span>$${cSession.total}</span></div>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${cItem == null}">
+                            <div class="col-lg-2">
+                                <div class="header__cart">
+                                    <ul>
+                                        <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                                    </ul>
+                                    <div class="header__cart__price">item: <span>$${cSession.total}</span></div>
+                                </div>
+                            </div>
+                        </c:if>
+                    </c:if>
+                    <c:if test="${account == null}">
+                        <div class="col-lg-2">
+                            <div class="header__cart">
+                                <ul>
+                                    <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                                </ul>
+                                <div class="header__cart__price">item: <span>0.00</span></div>
+                            </div>
                         </div>
-                    </div>
+                    </c:if>
                 </div>
                 <div class="humberger__open">
                     <i class="fa fa-bars"></i>
@@ -172,17 +205,9 @@
                                 <span>All departments</span>
                             </div>
                             <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
-                                <li><a href="#">Fresh Bananas</a></li>
+                                <c:forEach var="cate" items="${listCate}">
+                                    <li><a href="#">${cate.cateName}</a></li>
+                                    </c:forEach>
                             </ul>
                         </div>
                     </div>
@@ -222,7 +247,7 @@
                         <div class="breadcrumb__text">
                             <h2>Shopping Cart</h2>
                             <div class="breadcrumb__option">
-                                <a href="./index.jsp">Home</a>
+                                <a href="./HomeControl">Home</a>
                                 <span>Shopping Cart</span>
                             </div>
                         </div>
@@ -249,72 +274,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="shoping__cart__item">
-                                            <img src="img/cart/cart-1.jpg" alt="">
-                                            <h5>Vegetable’s Package</h5>
-                                        </td>
-                                        <td class="shoping__cart__price">
-                                            $55.00
-                                        </td>
-                                        <td class="shoping__cart__quantity">
-                                            <div class="quantity">
-                                                <div class="pro-qty">
-                                                    <input type="text" value="1">
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="shoping__cart__total">
-                                            $110.00
-                                        </td>
-                                        <td class="shoping__cart__item__close">
-                                            <span class="icon_close"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shoping__cart__item">
-                                            <img src="img/cart/cart-2.jpg" alt="">
-                                            <h5>Fresh Garden Vegetable</h5>
-                                        </td>
-                                        <td class="shoping__cart__price">
-                                            $39.00
-                                        </td>
-                                        <td class="shoping__cart__quantity">
-                                            <div class="quantity">
-                                                <div class="pro-qty">
-                                                    <input type="text" value="1">
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="shoping__cart__total">
-                                            $39.99
-                                        </td>
-                                        <td class="shoping__cart__item__close">
-                                            <span class="icon_close"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shoping__cart__item">
-                                            <img src="img/cart/cart-3.jpg" alt="">
-                                            <h5>Organic Bananas</h5>
-                                        </td>
-                                        <td class="shoping__cart__price">
-                                            $69.00
-                                        </td>
-                                        <td class="shoping__cart__quantity">
-                                            <div class="quantity">
-                                                <div class="pro-qty">
-                                                    <input type="text" value="1">
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="shoping__cart__total">
-                                            $69.99
-                                        </td>
-                                        <td class="shoping__cart__item__close">
-                                            <span class="icon_close"></span>
-                                        </td>
-                                    </tr>
+                                    <c:if test="${!cItem.isEmpty()}">
+                                        <c:forEach items="${cItem}" var="item" >
+                                            <tr>
+                                                <td class="shoping__cart__item">
+                                                    <img src="<c:out value="${item.product.image}" />" alt="">
+                                                    <h5><c:out value="${item.productName}" /></h5>
+                                                </td>
+                                                <td class="shoping__cart__price">
+                                                    $<c:out value="${item.salePrice}" />
+                                                </td>
+                                                <td class="shoping__cart__quantity">
+                                                    <div class="quantity">
+                                                        <div class="pro-qty">
+                                                            <input type="text" value="<c:out value="${item.quantity}" />">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="shoping__cart__total">
+                                                    S<c:out value="${item.total}" />
+                                                </td>
+                                                <td class="shoping__cart__item__close">
+                                                    <a href="#"><span class="icon_close"></span></a>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:if>
+                                    <c:if test="${cItem.isEmpty()}">
+                                        <tr>
+                                            <td class="shoping__cart__item">Bạn chưa chọn sản phẩm nào! Vui lòng chọn thêm sản phẩm!</td>
+                                        </tr>
+                                    </c:if>
                                 </tbody>
                             </table>
                         </div>
@@ -361,7 +351,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="footer__about">
                             <div class="footer__about__logo">
-                                <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+                                <a href="./HomeControl"><img src="img/logo.png" alt=""></a>
                             </div>
                             <ul>
                                 <li>Address: 60-49 Road 11378 New York</li>

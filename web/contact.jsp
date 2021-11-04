@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -66,15 +67,15 @@
             <nav class="humberger__menu__nav mobile-menu">
                 <ul>
                     <li class="active"><a href="./index.jsp">Home</a></li>
-                    <li><a href="./shop-grid.jsp">Shop</a></li>
+                    <li><a href="./ShopControl">Shop</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="header__menu__dropdown">
                             <li><a href="./shop-details.jsp">Shop Details</a></li>
                             <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                            <li><a href="./checkout.jsp">Check Out</a></li>
+                            <li><a href="./checkout">Check Out</a></li>
                         </ul>
                     </li>
-                    <li><a href="./contact.jsp">Contact</a></li>
+                    <li><a href="./contact">Contact</a></li>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
@@ -114,9 +115,16 @@
                                     <a href="#"><i class="fa fa-linkedin"></i></a>
                                     <a href="#"><i class="fa fa-pinterest-p"></i></a>
                                 </div>
-                                <div class="header__top__right__auth">
-                                    <a href="./login.jsp"><i class="fa fa-user"></i> Login</a>
-                                </div>
+                                <c:if test="${account == null}">
+                                    <div class="header__top__right__auth">
+                                        <a href="./login.jsp"><i class="fa fa-user"></i> Login</a>
+                                    </div>
+                                </c:if>
+                                <c:if test="${account != null}">
+                                    <div class="header__top__right__auth">
+                                        <a href="Logout"><i class="fa fa-user"></i> Logout</a>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -133,26 +141,53 @@
                         <nav class="header__menu">
                             <ul>
                                 <li><a href="./index.jsp">Home</a></li>
-                                <li><a href="./shop-grid.jsp">Shop</a></li>
+                                <li><a href="./ShopControl">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
-                                        <li><a href="./shop-details.jsp">Shop Details</a></li>
+<!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
                                         <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                                        <li><a href="./checkout.jsp">Check Out</a></li>
+                                        <li><a href="./checkout">Check Out</a></li>
                                     </ul>
                                 </li>
-                                <li class="active"><a href="./contact.jsp">Contact</a></li>
+                                <li class="active"><a href="./contact">Contact</a></li>
+                                <c:if test="${account.roleID == 1}">
+                                    <li><a href="./admin.jsp">Administrator</a></li>
+                                    </c:if>
                             </ul>
                         </nav>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="header__cart">
-                            <ul>
-                                <li><a href="./shoping-cart.jsp"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
-                            </ul>
-                            <div class="header__cart__price">item: <span>$150.00</span></div>
+                    <c:if test="${account != null}">
+                        <c:if test="${cItem != null}">
+                            <div class="col-lg-2">
+                                <div class="header__cart">
+                                    <ul>
+                                        <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>${cItem.size()}</span></a></li>
+                                    </ul>
+                                    <div class="header__cart__price">item: <span>$${cSession.total}</span></div>
+                                </div>
+                            </div>
+                        </c:if>
+                        <c:if test="${cItem == null}">
+                            <div class="col-lg-2">
+                                <div class="header__cart">
+                                    <ul>
+                                        <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                                    </ul>
+                                    <div class="header__cart__price">item: <span>$${cSession.total}</span></div>
+                                </div>
+                            </div>
+                        </c:if>
+                    </c:if>
+                    <c:if test="${account == null}">
+                        <div class="col-lg-2">
+                            <div class="header__cart">
+                                <ul>
+                                    <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                                </ul>
+                                <div class="header__cart__price">item: <span>0.00</span></div>
+                            </div>
                         </div>
-                    </div>
+                    </c:if>
                 </div>
                 <div class="humberger__open">
                     <i class="fa fa-bars"></i>
@@ -172,17 +207,9 @@
                                 <span>All departments</span>
                             </div>
                             <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
-                                <li><a href="#">Fresh Bananas</a></li>
+                                <c:forEach items="${category1}" var="i">
+                                    <li><a href="#">${i.cateName}</a></li>
+                                    </c:forEach>
                             </ul>
                         </div>
                     </div>

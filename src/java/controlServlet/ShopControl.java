@@ -6,18 +6,20 @@
 package controlServlet;
 
 import dao.DAO;
+import entity.Account;
+import entity.CartItem;
+import entity.CartSession;
 import entity.Category;
 import entity.Product;
 import entity.Saleoff;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -64,6 +66,19 @@ public class ShopControl extends HttpServlet {
         request.setAttribute("listPff", listSff);
         request.setAttribute("lastPro", lastPro);
         request.setAttribute("category1", catePro);
+        
+        // kiem soat da login hay chua
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("account");
+        if (acc != null) {
+            List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
+            CartSession cSession = dao.getCartSession(acc.getUserID());
+            if (cItem != null) {
+                request.setAttribute("cItem", cItem);
+                request.setAttribute("cSession", cSession);
+            }
+        }
+        
         request.getRequestDispatcher("shop-grid.jsp").forward(request, response);
     }
 

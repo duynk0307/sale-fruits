@@ -6,6 +6,9 @@
 package controlServlet;
 
 import dao.DAO;
+import entity.Account;
+import entity.CartItem;
+import entity.CartSession;
 import entity.Category;
 import entity.Product;
 import java.io.IOException;
@@ -72,6 +75,17 @@ public class detailsControl extends HttpServlet {
         request.setAttribute("rltPro", rltPro);
         request.setAttribute("pd", p);
         request.setAttribute("category1", catePro);
+        
+        // kiem soat da login hay chua
+        Account acc = (Account) session.getAttribute("account");
+        if (acc != null) {
+            List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
+            CartSession cSession = dao.getCartSession(acc.getUserID());
+            if (cItem != null) {
+                request.setAttribute("cItem", cItem);
+                request.setAttribute("cSession", cSession);
+            }
+        }
         request.getRequestDispatcher("shop-details.jsp").forward(request, response);
     }
 

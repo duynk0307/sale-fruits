@@ -9,8 +9,14 @@ import dao.DAO;
 import entity.Account;
 import entity.CartItem;
 import entity.CartSession;
+import entity.Category;
 import entity.Product;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +28,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "AddToCart", urlPatterns = {"/AddToCart"})
-public class AddToCart extends HttpServlet {
+@WebServlet(name = "ShoppingCartControl", urlPatterns = {"/shoppingcart"})
+public class ShoppingCartControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,33 +44,24 @@ public class AddToCart extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         DAO dao = new DAO();
+        List<Category> cate = dao.getListCategory();
 
-        // kiem tra session va lay cac thong tin tai khoan dang su dung tren session
+        request.setAttribute("listCate", cate);
+
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
-        if (acc == null) {
-            response.sendRedirect("login.jsp");
-        } else {
+        if (acc != null) {
+            List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
             CartSession cSession = dao.getCartSession(acc.getUserID());
-
-            // lay product id can them vao gio hang
-            String productID = request.getParameter("pID");
-            System.out.println(productID);
-            // kiem tra gio hang da co san pham nay chua
-            CartItem pItem = dao.getProductCartItem(productID);
-            Product product = dao.getProductByID(productID);
-            // neu chua thi them vao gio
-            // nguoc lai neu da co thi them so luong, hoac neu dang o trang thai 0, thi chuyen trang thai 1 (hien)
-            if (pItem == null) {
-                dao.insertCartItem(cSession.getSessionID(), productID, product.getSalePrice());
-            } else {
-                if (pItem.getState() == 0) {
-                    dao.changeState(pItem.getCartID());
-                } else {
-                    dao.updateCartItem(pItem.getCartID(), pItem.getQuantity() + 1, product.getSalePrice());
-                }
-            }
-            response.sendRedirect("./ShopControl");
+            System.out.println(cItem);
+            if (cItem.isEmpty()) {
+                cItem = new ArrayList<>();
+            } 
+            request.setAttribute("cItem", cItem);
+            request.setAttribute("cSession", cSession);
+            request.getRequestDispatcher("shoping-cart.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("login.jsp");
         }
     }
 

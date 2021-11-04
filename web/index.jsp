@@ -45,7 +45,7 @@
             </div>
             <div class="humberger__menu__cart">
                 <ul>
-                    <li><a href="./shoping-cart.jsp"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                    <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                 </ul>
                 <div class="header__cart__price">item: <span>$150.00</span></div>
             </div>
@@ -61,11 +61,11 @@
                     <li><a href="#">Pages</a>
                         <ul class="header__menu__dropdown">
                             <!--<li><a href="./shop-details.jsp">Shop Details</a></li>-->
-                            <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                            <li><a href="./checkout.jsp">Check Out</a></li>
+                            <li><a href="./shoppingcart">Shoping Cart</a></li>
+                            <li><a href="./checkout">Check Out</a></li>
                         </ul>
                     </li>
-                    <li><a href="./contact.jsp">Contact</a></li>
+                    <li><a href="./contact">Contact</a></li>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
@@ -134,12 +134,12 @@
                                 <li><a href="./ShopControl">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
-                                        <!--<li><a href="./shop-details.jsp">Shop Details</a></li>-->
-                                        <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                                        <li><a href="./checkout.jsp">Check Out</a></li>
+<!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
+                                        <li><a href="./shoppingcart">Shoping Cart</a></li>
+                                        <li><a href="./checkout">Check Out</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="./contact.jsp">Contact</a></li>
+                                <li><a href="./contact">Contact</a></li>
                                     <c:if test="${account.roleID == 1}">
                                     <li><a href="./admin.jsp">Administrator</a></li>
                                     </c:if>
@@ -151,7 +151,7 @@
                             <div class="col-lg-2">
                                 <div class="header__cart">
                                     <ul>
-                                        <li><a href="./shoping-cart.jsp"><i class="fa fa-shopping-bag"></i> <span>${cItem.size()}</span></a></li>
+                                        <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>${cItem.size()}</span></a></li>
                                     </ul>
                                     <div class="header__cart__price">item: <span>$${cSession.total}</span></div>
                                 </div>
@@ -161,7 +161,7 @@
                             <div class="col-lg-2">
                                 <div class="header__cart">
                                     <ul>
-                                        <li><a href="./shoping-cart.jsp"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                                        <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
                                     </ul>
                                     <div class="header__cart__price">item: <span>$${cSession.total}</span></div>
                                 </div>
@@ -172,7 +172,7 @@
                         <div class="col-lg-2">
                             <div class="header__cart">
                                 <ul>
-                                    <li><a href="./shoping-cart.jsp"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
+                                    <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
                                 </ul>
                                 <div class="header__cart__price">item: <span>0.00</span></div>
                             </div>

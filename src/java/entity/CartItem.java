@@ -16,16 +16,24 @@ public class CartItem {
     private String productID;
     private int quantity;
     private int state;
+    private double total;
+    private Product product = new Product();
+    private String productName;
+    private double salePrice;
 
     public CartItem() {
     }
 
-    public CartItem(int cartID, int sessionID, String productID, int quantity, int state) {
+    public CartItem(int cartID, int sessionID, String productID, int quantity, int state, double total, Product product) {
         this.cartID = cartID;
         this.sessionID = sessionID;
         this.productID = productID;
         this.quantity = quantity;
         this.state = state;
+        this.total = total;
+        this.product = product;
+        this.salePrice = product.getSalePrice();
+        this.productName = product.getProductName();
     }
 
     public int getCartID() {
@@ -68,9 +76,43 @@ public class CartItem {
         this.state = state;
     }
 
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = product.getProductName();
+    }
+
+    public double getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(double salePrice) {
+        this.salePrice = product.getSalePrice();
+    }
+
     @Override
     public String toString() {
-        return "CartItem{" + "cartID=" + cartID + ", sessionID=" + sessionID + ", productID=" + productID + ", quantity=" + quantity + ", state=" + state + '}';
+        return "CartItem{" + "cartID=" + cartID + ", sessionID=" + sessionID + ", productID=" + productID + ", quantity=" + quantity + ", state=" + state + ", total=" + total + ", product=" + product + ", productName=" + productName + ", salePrice=" + salePrice + '}';
     }
+
+    
 
 }

@@ -5,6 +5,8 @@
  */
 package entity;
 
+import java.util.List;
+
 /**
  *
  * @author Nguyen Khanh Duy;
@@ -14,14 +16,15 @@ public class CartSession {
     private int sessionID;
     private int userID;
     private double total;
-
+    List<CartItem> listCartItem;
     public CartSession() {
     }
 
-    public CartSession(int sessionID, int userID, double total) {
+    public CartSession(int sessionID, int userID, double total, List<CartItem> listCartItem) {
         this.sessionID = sessionID;
         this.userID = userID;
         this.total = total;
+        this.listCartItem = listCartItem;
     }
 
     public int getSessionID() {
@@ -48,9 +51,19 @@ public class CartSession {
         this.total = total;
     }
 
+    public List<CartItem> getListCartItem() {
+        return listCartItem;
+    }
+
+    public void setListCartItem(List<CartItem> listCartItem) {
+        this.listCartItem = listCartItem;
+    }
+
     @Override
     public String toString() {
-        return "CartSession{" + "sessionID=" + sessionID + ", userID=" + userID + ", total=" + total + '}';
+        return "CartSession{" + "sessionID=" + sessionID + ", userID=" + userID + ", total=" + total + ", listCartItem=" + listCartItem + '}';
     }
+
+   
 
 }

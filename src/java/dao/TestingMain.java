@@ -6,6 +6,7 @@
 package dao;
 
 import entity.Account;
+import entity.CartItem;
 import entity.Category;
 import entity.Product;
 import java.util.List;
@@ -23,10 +24,8 @@ public class TestingMain {
 //        for (Product product : pro) {
 //            System.out.println(product.toString());
 //        }
-        List<Category> cate = dao.getListCategory();
+        List<CartItem> cate = dao.getListCartItem(115);
 
-        for (Category cat : cate) {
-            System.out.println(cat.toString());
-        }
+        System.out.println(cate);
     }
 }

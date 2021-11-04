@@ -141,25 +141,24 @@ public class DAO {
     }
 
     public List<CartItem> getListCartItem(int userID) {
-        List<CartItem> list = new ArrayList<>();
         try {
-            String query = "select ci.cartID,ci.sessionID, ci.productID, ci.quantity, ci.\"state\" from CartItem ci, \n"
-                    + "(select * from CartSession where userID = ?) cs\n"
-                    + "where ci.sessionID = cs.sessionID";
+            String query = "select ci.cartID, ci.sessionID, ci.productID, ci.quantity, ci.\"state\", ci.total from CartItem ci, \n"
+                    + "(select * from CartSession where userID = ?) c\n"
+                    + "where ci.sessionID = c.sessionID";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             ps.setInt(1, userID);
             rs = ps.executeQuery();
-
+            List<CartItem> list = new ArrayList<>();
             while (rs.next()) {
-                CartItem cItem = new CartItem(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+                CartItem cItem = new CartItem(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDouble(6), getProductByID(rs.getString(3)));
                 list.add(cItem);
             }
             return list;
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        return list;
+        return new ArrayList<>();
     }
 
     public CartItem getProductCartItem(String productID) {
@@ -173,22 +172,24 @@ public class DAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                item = new CartItem(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
+                item = new CartItem(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDouble(6), getProductByID(rs.getString(3)));
             }
             return item;
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        return item;
+        return null;
     }
 
-    public void insertCartItem(int sessionID, String productID) {
+    public void insertCartItem(int sessionID, String productID, double salePrice) {
         try {
             String query = "insert into CartItem\n"
-                    + "values(?,?,1,1)";
+                    + "values(?,?,1,1, ?)";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
-            ps.setString(1, productID);
+            ps.setInt(1, sessionID);
+            ps.setString(2, productID);
+            ps.setDouble(3, salePrice);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -196,13 +197,14 @@ public class DAO {
         }
     }
 
-    public void updateCartItem(int cartID, int quantity) {
+    public void updateCartItem(int cartID, int quantity, double total) {
         try {
-            String query = "UPDATE CartItem SET quantity = ? WHERE cartID = ?";
+            String query = "UPDATE CartItem SET quantity = ?, total = ? WHERE cartID = ?";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             ps.setInt(1, quantity);
-            ps.setInt(2, cartID);
+            ps.setDouble(2, total * quantity);
+            ps.setInt(3, cartID);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -233,7 +235,7 @@ public class DAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                cSession = new CartSession(rs.getInt(1), rs.getInt(2), rs.getDouble(3));
+                cSession = new CartSession(rs.getInt(1), rs.getInt(2), rs.getDouble(3), getListCartItem(userID));
             }
             return cSession;
         } catch (Exception e) {
