@@ -30,6 +30,9 @@ public class DAO {
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
+    Connection con1 = null;
+    PreparedStatement ps1 = null;
+    ResultSet rs1 = null;
 
     public List<Account> getListAccount() {
         try {
@@ -141,18 +144,22 @@ public class DAO {
     }
 
     public List<CartItem> getListCartItem(int userID) {
+        List<Product> listP = getListProduct();
         try {
-            String query = "select ci.cartID, ci.sessionID, ci.productID, ci.quantity, ci.\"state\", ci.total from CartItem ci, \n"
-                    + "(select * from CartSession where userID = ?) c\n"
-                    + "where ci.sessionID = c.sessionID";
+            String query = "select ci.cartID, ci.sessionID, ci.productID, ci.quantity, ci.\"state\", ci.total from CartItem ci\n"
+                    + "INNER JOIN (select * from CartSession where userID = ?) c \n"
+                    + "ON c.sessionID = ci.sessionID and ci.\"state\" = 1;";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             ps.setInt(1, userID);
             rs = ps.executeQuery();
             List<CartItem> list = new ArrayList<>();
             while (rs.next()) {
-                CartItem cItem = new CartItem(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDouble(6), getProductByID(rs.getString(3)));
-                list.add(cItem);
+                for (int i = 0; i < listP.size(); i++) {
+                    if (listP.get(i).getProductID().equals(rs.getString(3))) {
+                        list.add(new CartItem(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDouble(6), listP.get(i)));
+                    }
+                }
             }
             return list;
         } catch (Exception e) {
@@ -161,36 +168,77 @@ public class DAO {
         return new ArrayList<>();
     }
 
-    public CartItem getProductCartItem(String productID) {
+    public CartItem getProductCartItem(int sessionID, String productID) {
 
         CartItem item = new CartItem();
+        Product pro = getProductByID(productID);
         try {
-            String query = "select * from CartItem where productID = ?";
+            String query = "select * from CartItem where sessionID = ? and productID = ?";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
-            ps.setString(1, productID);
+            ps.setInt(1, sessionID);
+            ps.setString(2, productID);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                item = new CartItem(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDouble(6), getProductByID(rs.getString(3)));
+                item = new CartItem(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getDouble(6), pro);
             }
-            return item;
+            if (item.getCartID() == 0) {
+                return null;
+            } else {
+                return item;
+            }
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         return null;
     }
 
+    public double getCartTotal(int sessionID) {
+        try {
+            String query = "select sum(total) total from CartItem where sessionID = ? and \"state\" = 1";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, sessionID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                double total = rs.getDouble(1);
+                System.out.println("chay thanh cong" + total);
+                return total;
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return 0;
+    }
+
+    public double setCartTotal(double total, int sessionID) {
+        try {
+            String query = "UPDATE CartSession SET total = ? WHERE sessionID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setDouble(1, total);
+            ps.setInt(2, sessionID);
+            ps.executeUpdate();
+            System.out.println("update tong tien gio hang thanh cong");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return 0;
+    }
+
     public void insertCartItem(int sessionID, String productID, double salePrice) {
         try {
-            String query = "insert into CartItem\n"
-                    + "values(?,?,1,1, ?)";
+            String query = "insert into CartItem values(?,?,1,1,?)";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             ps.setInt(1, sessionID);
             ps.setString(2, productID);
             ps.setDouble(3, salePrice);
             ps.executeUpdate();
+            System.out.println(sessionID);
+            System.out.println(productID);
+            System.out.println(salePrice);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -212,9 +260,22 @@ public class DAO {
         }
     }
 
-    public void changeState(int cartID) {
+    public void changeStateOn(int cartID) {
         try {
             String query = "UPDATE CartItem SET quantity = 1, state = 1 WHERE cartID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, cartID);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void changeStateOff(int cartID) {
+        try {
+            String query = "UPDATE CartItem SET state = 0 WHERE cartID = ?";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             ps.setInt(1, cartID);
@@ -229,9 +290,10 @@ public class DAO {
 
         CartSession cSession = new CartSession();
         try {
-            String query = "select * from CartSession";
+            String query = "select * from CartSession where userID = ?";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
+            ps.setInt(1, userID);
             rs = ps.executeQuery();
 
             while (rs.next()) {

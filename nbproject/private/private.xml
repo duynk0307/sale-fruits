@@ -3,12 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/checkout.jsp</file>
             <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/entity/CartItem.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/CheckoutControl.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/DeleteCartItem.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/contact.jsp</file>
             <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/ShoppingCartControl.java</file>
             <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/AddToCart.java</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/entity/CartSession.java</file>
             <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/shoping-cart.jsp</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/sass/_shoping-cart.scss</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/index.jsp</file>
             <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/dao/TestingMain.java</file>
             <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/dao/DAO.java</file>
         </group>

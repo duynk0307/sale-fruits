@@ -71,6 +71,8 @@ public class HomeControl extends HttpServlet {
         if (acc != null) {
             List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
             CartSession cSession = dao.getCartSession(acc.getUserID());
+            System.out.println(cSession);
+            System.out.println("total" + cSession.getTotal());
             if (cItem != null) {
                 request.setAttribute("cItem", cItem);
                 request.setAttribute("cSession", cSession);

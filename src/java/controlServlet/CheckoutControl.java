@@ -12,6 +12,7 @@ import entity.CartSession;
 import entity.Category;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,16 +45,17 @@ public class CheckoutControl extends HttpServlet {
 
         request.setAttribute("listCate", cate);
 
-        // kiem soat da login hay chua
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
         if (acc != null) {
             List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
             CartSession cSession = dao.getCartSession(acc.getUserID());
-            if (cItem != null) {
-                request.setAttribute("cItem", cItem);
-                request.setAttribute("cSession", cSession);
-            }
+            if (cItem.isEmpty()) {
+                cItem = new ArrayList<>();
+            } 
+            request.setAttribute("cItem", cItem);
+            request.setAttribute("cSession", cSession);
+            dao.setCartTotal(dao.getCartTotal(cSession.getSessionID()), cSession.getSessionID());
             request.getRequestDispatcher("checkout.jsp").forward(request, response);
         } else {
             response.sendRedirect("login.jsp");

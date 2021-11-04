@@ -46,20 +46,12 @@
             <div class="humberger__menu__cart">
                 <ul>
                     <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                    <li><a href="./shoping-cart.jsp"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                    <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                 </ul>
                 <div class="header__cart__price">item: <span>$150.00</span></div>
             </div>
             <div class="humberger__menu__widget">
-                <div class="header__top__right__language">
-                    <img src="img/language.png" alt="">
-                    <div>English</div>
-                    <span class="arrow_carrot-down"></span>
-                    <ul>
-                        <li><a href="#">Spanish</a></li>
-                        <li><a href="#">English</a></li>
-                    </ul>
-                </div>
+
                 <div class="header__top__right__auth">
                     <a href="./login.jsp"><i class="fa fa-user"></i> Login</a>
                 </div>
@@ -70,8 +62,7 @@
                     <li><a href="./ShopControl">Shop</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="header__menu__dropdown">
-                            <li><a href="./shop-details.jsp">Shop Details</a></li>
-                            <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
+                            <li><a href="./shoppingcart">Shoping Cart</a></li>
                             <li><a href="./checkout">Check Out</a></li>
                         </ul>
                     </li>
@@ -134,18 +125,18 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="header__logo">
-                            <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+                            <a href="./HomeControl"><img src="img/logo.png" alt=""></a>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <nav class="header__menu">
                             <ul>
-                                <li><a href="./index.jsp">Home</a></li>
+                                <li><a href="./HomeControl">Home</a></li>
                                 <li><a href="./ShopControl">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
 <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
-                                        <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
+                                        <li><a href="./shoppingcart">Shoping Cart</a></li>
                                         <li><a href="./checkout">Check Out</a></li>
                                     </ul>
                                 </li>
@@ -249,7 +240,7 @@
                         <div class="breadcrumb__text">
                             <h2>Contact Us</h2>
                             <div class="breadcrumb__option">
-                                <a href="./index.jsp">Home</a>
+                                <a href="./HomeControl">Home</a>
                                 <span>Contact Us</span>
                             </div>
                         </div>
@@ -349,7 +340,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="footer__about">
                             <div class="footer__about__logo">
-                                <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+                                <a href="./HomeControl"><img src="img/logo.png" alt=""></a>
                             </div>
                             <ul>
                                 <li>Address: Can Tho, Viet Nam</li>

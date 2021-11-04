@@ -11,6 +11,7 @@ import entity.CartItem;
 import entity.CartSession;
 import entity.Product;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +23,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "AddToCart", urlPatterns = {"/AddToCart"})
-public class AddToCart extends HttpServlet {
+@WebServlet(name = "DeleteCartItem", urlPatterns = {"/deletecart"})
+public class DeleteCartItem extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,30 +50,12 @@ public class AddToCart extends HttpServlet {
 
             // lay product id can them vao gio hang
             String productID = request.getParameter("pID");
-            System.out.println(productID);
-            // kiem tra gio hang da co san pham nay chua
             CartItem pItem = dao.getProductCartItem(cSession.getSessionID(), productID);
-            Product product = dao.getProductByID(productID);
-            System.out.println(pItem);
-            System.out.println(product);
-            System.out.println(cSession.getSessionID());
-            System.out.println(productID);
-            System.out.println(product.getSalePrice());
-            // neu chua thi them vao gio
-            // nguoc lai neu da co thi them so luong, hoac neu dang o trang thai 0, thi chuyen trang thai 1 (hien)
-            if (pItem == null) {
-                System.out.println("lenh nay duoc chay");
-                dao.insertCartItem(cSession.getSessionID(), productID, product.getSalePrice());
-            } else {
-                if (pItem.getState() == 0) {
-                    dao.changeStateOn(pItem.getCartID());
-                } else {
-                    dao.updateCartItem(pItem.getCartID(), pItem.getQuantity() + 1, product.getSalePrice());
-                }
-            }
+            dao.changeStateOff(pItem.getCartID());
+            
             dao.setCartTotal(dao.getCartTotal(cSession.getSessionID()), cSession.getSessionID());
-            response.sendRedirect("./ShopControl");
         }
+        response.sendRedirect("./shoppingcart");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

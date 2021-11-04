@@ -295,7 +295,9 @@
                                                     S<c:out value="${item.total}" />
                                                 </td>
                                                 <td class="shoping__cart__item__close">
-                                                    <a href="#"><span class="icon_close"></span></a>
+                                                    <a href="<c:url value="deletecart">
+                                                           <c:param name="pID" value="${item.productID}"/>
+                                                       </c:url>"><span class="icon_close"></span></a>
                                                 </td>
                                             </tr>
                                         </c:forEach>

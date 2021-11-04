@@ -52,13 +52,15 @@ public class ShoppingCartControl extends HttpServlet {
         Account acc = (Account) session.getAttribute("account");
         if (acc != null) {
             List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
+            System.out.println("citem"+cItem);
             CartSession cSession = dao.getCartSession(acc.getUserID());
-            System.out.println(cItem);
+            System.out.println("cSession"+cSession);
             if (cItem.isEmpty()) {
                 cItem = new ArrayList<>();
             } 
             request.setAttribute("cItem", cItem);
             request.setAttribute("cSession", cSession);
+            dao.setCartTotal(dao.getCartTotal(cSession.getSessionID()), cSession.getSessionID());
             request.getRequestDispatcher("shoping-cart.jsp").forward(request, response);
         } else {
             response.sendRedirect("login.jsp");

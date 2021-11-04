@@ -148,7 +148,7 @@
                                     </ul>
                                 </li>
                                 <li><a href="./contact">Contact</a></li>
-                                <c:if test="${account.roleID == 1}">
+                                    <c:if test="${account.roleID == 1}">
                                     <li><a href="./admin.jsp">Administrator</a></li>
                                     </c:if>
                             </ul>
@@ -316,7 +316,9 @@
                                                      data-setbg="${p.image}">
                                                     <div class="product__discount__percent">-${(p.saleOff*100).intValue()}%</div>
                                                     <ul class="product__item__pic__hover">
-                                                        <li><a href="./shoppingcart"><i class="fa fa-shopping-cart"></i></a></li>
+                                                        <li><a href="<c:url value="AddToCart">
+                                                                   <c:param name="pID" value="${p.productID}"/>
+                                                               </c:url>"><i class="fa fa-shopping-cart"></i></a></li>
                                                     </ul>
                                                 </div>
                                                 <div class="product__discount__item__text">
@@ -360,7 +362,9 @@
                                     <div class="product__item">
                                         <div class="product__item__pic set-bg" data-setbg="${p.image}">
                                             <ul class="product__item__pic__hover">
-                                                <li><a href="./shoppingcart"><i class="fa fa-shopping-cart"></i></a></li>
+                                                <li><a href="<c:url value="AddToCart">
+                                                           <c:param name="pID" value="${p.productID}"/>
+                                                       </c:url>"><i class="fa fa-shopping-cart"></i></a></li>
                                             </ul>
                                         </div>
                                         <div class="product__item__text">
