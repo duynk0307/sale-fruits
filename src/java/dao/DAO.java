@@ -71,7 +71,26 @@ public class DAO {
         }
         return null;
     }
+    public Account getAccountById(int userID) {
+        try {
+            String query = "select * from UserLogin\n"
+                    + "where userID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, userID);
+            rs = ps.executeQuery();
 
+            while (rs.next()) {
+                Account account = new Account(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8));
+                return account;
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+    
+    
     public Account checkSignUp(String username) {
         try {
             String query = "select * from UserLogin\n"
@@ -104,7 +123,25 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
+    
+    public void updateAccount(int userID, String fullName, String phone, String email, String address){
+        try {
+            String query = "UPDATE UserLogin\n"
+                    + "SET fullName = ?, phone = ?, address = ?, email = ? WHERE userID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, fullName);
+            ps.setString(2, phone);
+            ps.setString(3, address);
+            ps.setString(4, email);
+            ps.setInt(5, userID);
+            ps.executeUpdate();
 
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    
     public List<Product> getListProduct() {
         try {
             String query = "select * from Product";

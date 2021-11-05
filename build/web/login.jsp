@@ -16,7 +16,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Login</title>
-
+        
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;900&display=swap" rel="stylesheet">
         <!-- Css Styles -->
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
@@ -41,7 +42,7 @@
                     <div class="col-lg-6">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="./HomeControl">Home</a></li>
+                                <li class="active"><a href="./HomeControl">Trang chủ</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -55,22 +56,22 @@
             <div class="login-html">
                 <div><p>${signupMessage}</p></div>
                 <c:if test="${signupMessage != null}">
-                    <input id="tab-1" type="radio" name="tab" class="sign-in" ><label for="tab-1" class="tab">Sign In</label>
-                    <input id="tab-2" type="radio" name="tab" class="sign-up" checked><label for="tab-2" class="tab">Sign Up</label>
+                    <input id="tab-1" type="radio" name="tab" class="sign-in" ><label for="tab-1" class="tab">Đăng nhập</label>
+                    <input id="tab-2" type="radio" name="tab" class="sign-up" checked><label for="tab-2" class="tab">Đăng ký</label>
                 </c:if>
                 <c:if test="${signupMessage == null}">
-                    <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
-                    <input id="tab-2" type="radio" name="tab" class="sign-up" ><label for="tab-2" class="tab">Sign Up</label>
+                    <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Đăng nhập</label>
+                    <input id="tab-2" type="radio" name="tab" class="sign-up" ><label for="tab-2" class="tab">Đăng ký</label>
                 </c:if>
                 <div class="login-form">
                     <form action="LoginControl" method="post">
                         <div class="sign-in-htm">
                             <div class="group">
-                                <label for="user" class="label">Username</label>
+                                <label for="user" class="label">Tên tài khoản</label>
                                 <input name="username" id="user" type="text" class="input">
                             </div>
                             <div class="group">
-                                <label for="pass" class="label">Password</label>
+                                <label for="pass" class="label">Mật khẩu</label>
                                 <input name="password" id="pass" type="password" class="input" data-type="password">
                             </div>
                             <div class="group">
@@ -89,23 +90,23 @@
                                 <input name="username" id="user" type="text" class="input">
                             </div>
                             <div class="group">
-                                <label for="pass" class="label">Password</label>
+                                <label for="pass" class="label">Mật khẩu</label>
                                 <input name="password"id="pass" type="password" class="input" data-type="password">
                             </div>
                             <div class="group">
-                                <label for="pass" class="label">Repeat Password</label>
+                                <label for="pass" class="label">Nhập lại mật khẩu</label>
                                 <input name="repassword" id="pass" type="password" class="input" data-type="password">
                             </div>
                             <div class="group">
-                                <label for="pass" class="label">Full Name</label>
+                                <label for="pass" class="label">Họ và tên</label>
                                 <input name="fullName" id="pass" type="text" class="input">
                             </div>
                             <div class="group">
-                                <label for="pass" class="label">Email Address</label>
+                                <label for="pass" class="label">Email</label>
                                 <input name="email" id="pass" type="text" class="input">
                             </div>
                             <div class="group">
-                                <label for="pass" class="label">Phone</label>
+                                <label for="pass" class="label">Số điện thoại</label>
                                 <input name="phone" id="pass" type="text" class="input">
                             </div>
                             <div class="group">
@@ -119,14 +120,14 @@
     </div>
 
     <!-- Js Plugins -->
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.nice-select.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/jquery.slicknav.js"></script>
-        <script src="js/mixitup.min.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/main.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 

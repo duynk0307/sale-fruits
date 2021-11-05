@@ -63,45 +63,61 @@
         </style>
     </head>
     <body>
-        
+        <header class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="header__logo">
+                            <a href="./HomeControl"><img src="img/logo.png" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <nav class="header__menu">
+                            <ul>
+                                <li class="active"><a href="./HomeControl">Home</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="humberger__open">
+                    <i class="fa fa-bars"></i>
+                </div>
+            </div>
+        </header>
         <!-- New Table -->
         <section class="vh-100 bg-image" id="gradient-custom-4" > 
-            <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                <div class="w-full overflow-x-auto">
-                    <div class="container rounded bg-white mt-5 mb-5">
-                        <div class="row">
-                            <div class="col-md-3 border-right">
-                                <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
-                            </div>
-                            <div class="col-md-5 border-right">
-                                <div class="p-3 py-5">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h4 class="text-right">Cập Nhật Hồ Sơ</h4>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-md-6"><label class="labels">Tên:</label><input type="text" class="form-control" placeholder="${user.ten}" value="${user.ten}"></div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
-                                        <div class="col-md-12"><label class="labels">Địa chỉ</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                                        <div class="col-md-12"><label class="labels">Area</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                                        <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
-                                    </div>
-                                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+            <form action="updateaccount" method="post">
+                <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                    <div class="w-full overflow-x-auto">
+                        <div class="container rounded bg-white mt-5 mb-5">
+                            <div class="row">
+                                <div class="col-md-3 border-right">
+                                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">${user.username}</span><span class="text-black-50">${user.email}</span><span> </span></div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-<!--                                <div class="p-3 py-5">
-                                    <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
-                                    <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                                    <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
-                                </div>-->
+                                <div class="col-md-5 border-right">
+                                    <div class="p-3 py-5">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h4 class="text-right">Cập Nhật Hồ Sơ</h4>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-6"><label class="labels">Tên:</label><input type="text" class="form-control" name="fullname" placeholder="${user.fullName}" value="${user.fullName}"></div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12"><label class="labels">Số điện thoại</label><input type="text" class="form-control" name="phone" placeholder="${user.phone}" value="${user.phone}"></div>
+                                            <div class="col-md-12"><label class="labels">Địa chỉ</label><input type="text" class="form-control" name="address" placeholder="${user.address}" value="${user.address}"></div>
+                                            <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" name="email" placeholder="${user.email}" value="${user.email}"></div>
+                                        </div>
+                                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Lưu thông tin</button></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
+            </form>
         </section>
     </body>
 </html>

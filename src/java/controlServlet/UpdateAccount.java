@@ -7,16 +7,10 @@ package controlServlet;
 
 import dao.DAO;
 import entity.Account;
-import entity.Banner;
-import entity.CartItem;
-import entity.CartSession;
-import entity.Category;
-import entity.Product;
-import entity.Sources;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +20,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nguyen Khanh Duy;
  */
-public class HomeControl extends HttpServlet {
+@WebServlet(name = "UpdateAccount", urlPatterns = {"/updateaccount"})
+public class UpdateAccount extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,48 +35,25 @@ public class HomeControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        // get data from database
+        request.setCharacterEncoding("utf-8");
+        
         DAO dao = new DAO();
-        List<Product> product = dao.getListProduct();
-        List<Product> lastPro = dao.getLastProduct();
-        List<Product> bestPro = dao.getBestsellingProduct();
-        List<Product> reviewPro = dao.getReviewProduct();
-        List<Sources> srcPro = dao.getLogoSourses();
-        List<Category> cate = dao.getListCategory();
-        List<Category> featPro = dao.getFeaturedProduct();
-        List<Banner> banner = dao.getListBanner();
-//        for (Sources s : srcPro) {
-//            System.out.println(s.toString());
-//        }
-        // set data to jsp page
-        request.setAttribute("lastPro", lastPro);
-        request.setAttribute("bestPro", bestPro);
-        request.setAttribute("rewPro", reviewPro);
-        request.setAttribute("Logo1", srcPro);
-        request.setAttribute("listFeat", featPro);
-        request.setAttribute("listBnr", banner);
-        request.setAttribute("listPro", product);
-        request.setAttribute("listCate", cate);
-
-        System.out.println(request.getRequestURL());
-        System.out.println(request.getRequestURI());
-
+        // kiem soat da login hay chua
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
         if (acc != null) {
-            List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
-            CartSession cSession = dao.getCartSession(acc.getUserID());
-            System.out.println(cSession);
-            System.out.println("total" + cSession.getTotal());
-            if (cItem != null) {
-                request.setAttribute("cItem", cItem);
-                request.setAttribute("cSession", cSession);
-            }
-            dao.setCartTotal(dao.getCartTotal(cSession.getSessionID()), cSession.getSessionID());
+            String fullname = request.getParameter("fullname");
+            String phone = request.getParameter("phone");
+            String address = request.getParameter("address");
+            String email = request.getParameter("email");
+            dao.updateAccount(acc.getUserID(), fullname, phone, email, address);
+            
+            
+            session.setAttribute("account", dao.getAccountById(acc.getUserID()));
+            acc = (Account) session.getAttribute("account");
+            request.setAttribute("user", acc);
         }
-        
-
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("user-info.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

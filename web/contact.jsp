@@ -18,7 +18,7 @@
         <title>Ogani | Template</title>
 
         <!-- Google Font -->
-        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -86,19 +86,20 @@
         <!-- Humberger End -->
 
         <!-- Header Section Begin -->
+        <!-- Header Section Begin -->
         <header class="header">
             <div class="header__top">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-md-6">
                             <div class="header__top__left">
                                 <ul>
-                                    <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                                    <li>Free Shipping for all Order of $99</li>
+                                    <li><i class="fa fa-envelope"></i> hellogroup6@gmail.com</li>
+                                    <li>Miễn phí giao hàng cho đơn hàng từ 500.000 đồng</li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-md-6">
                             <div class="header__top__right">
                                 <div class="header__top__right__social">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
@@ -108,12 +109,12 @@
                                 </div>
                                 <c:if test="${account == null}">
                                     <div class="header__top__right__auth">
-                                        <a href="./login.jsp"><i class="fa fa-user"></i> Login</a>
+                                        <a href="./login.jsp"><i class="fa fa-user"></i> Đăng nhập</a>
                                     </div>
                                 </c:if>
                                 <c:if test="${account != null}">
                                     <div class="header__top__right__auth">
-                                        <a href="Logout"><i class="fa fa-user"></i> Logout</a>
+                                        <a href="Logout"><i class="fa fa-user"></i> Đăng xuất</a>
                                     </div>
                                 </c:if>
                             </div>
@@ -128,20 +129,20 @@
                             <a href="./HomeControl"><img src="img/logo.png" alt=""></a>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li><a href="./HomeControl">Home</a></li>
+                                <li><a href="./HomeControl">Trang chủ</a></li>
                                 <li><a href="./ShopControl">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
 <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
-                                        <li><a href="./shoppingcart">Shoping Cart</a></li>
-                                        <li><a href="./checkout">Check Out</a></li>
+                                        <li><a href="./shoppingcart">Giỏ hàng</a></li>
+                                        <li><a href="./checkout">Thanh toán</a></li>
                                     </ul>
                                 </li>
-                                <li class="active"><a href="./contact">Contact</a></li>
-                                <c:if test="${account.roleID == 1}">
+                                <li class="active"><a href="./contact">Liên hệ</a></li>
+                                    <c:if test="${account.roleID == 1}">
                                     <li><a href="./admin.jsp">Administrator</a></li>
                                     </c:if>
                             </ul>
@@ -154,7 +155,7 @@
                                     <ul>
                                         <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>${cItem.size()}</span></a></li>
                                     </ul>
-                                    <div class="header__cart__price">item: <span>$${cSession.total}</span></div>
+                                    <div class="header__cart__price"> <span>${cSession.total}vnd</span></div>
                                 </div>
                             </div>
                         </c:if>
@@ -164,7 +165,7 @@
                                     <ul>
                                         <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
                                     </ul>
-                                    <div class="header__cart__price">item: <span>$${cSession.total}</span></div>
+                                    <div class="header__cart__price"> <span>${cSession.total}vnd</span></div>
                                 </div>
                             </div>
                         </c:if>
@@ -175,7 +176,7 @@
                                 <ul>
                                     <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
                                 </ul>
-                                <div class="header__cart__price">item: <span>0.00</span></div>
+                                <div class="header__cart__price"> <span>0.00vnd</span></div>
                             </div>
                         </div>
                     </c:if>
@@ -209,11 +210,11 @@
                             <div class="hero__search__form">
                                 <form action="#">
                                     <div class="hero__search__categories">
-                                        All Categories
+                                        Bạn muốn tìm gì
                                         <span class="arrow_carrot-down"></span>
                                     </div>
                                     <input type="text" placeholder="What do yo u need?">
-                                    <button type="submit" class="site-btn">SEARCH</button>
+                                    <button type="submit" class="site-btn">Tìm kiếm</button>
                                 </form>
                             </div>
                             <div class="hero__search__phone">
@@ -222,7 +223,7 @@
                                 </div>
                                 <div class="hero__search__phone__text">
                                     <h5>+84363 323 084</h5>
-                                    <span>support 24/7 time</span>
+                                    <span>hỗ trợ 24/7</span>
                                 </div>
                             </div>
                         </div>
@@ -238,10 +239,10 @@
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <div class="breadcrumb__text">
-                            <h2>Contact Us</h2>
+                            <h2>Liên hệ chúng tôi</h2>
                             <div class="breadcrumb__option">
-                                <a href="./HomeControl">Home</a>
-                                <span>Contact Us</span>
+                                <a href="./HomeControl">Trang chủ</a>
+                                <span>Liên hệ</span>
                             </div>
                         </div>
                     </div>
@@ -257,29 +258,29 @@
                     <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                         <div class="contact__widget">
                             <span class="icon_phone"></span>
-                            <h4>Phone</h4>
+                            <h4>Số điện thoại</h4>
                             <p>+84363 323 084</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                         <div class="contact__widget">
                             <span class="icon_pin_alt"></span>
-                            <h4>Address</h4>
+                            <h4>Địa chỉ</h4>
                             <p>Can Tho, Viet Nam</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                         <div class="contact__widget">
                             <span class="icon_clock_alt"></span>
-                            <h4>Open time</h4>
-                            <p>8:00 am to 23:00 pm</p>
+                            <h4>Giờ mở cửa</h4>
+                            <p>7:00 am to 23:00 pm</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-6 text-center">
                         <div class="contact__widget">
                             <span class="icon_mail_alt"></span>
                             <h4>Email</h4>
-                            <p>hello@colorlib.com</p>
+                            <p>hellogroup6@gmail.com</p>
                         </div>
                     </div>
                 </div>
@@ -340,12 +341,12 @@
                     <div class="col-lg-3 col-md-6 col-sm-6">
                         <div class="footer__about">
                             <div class="footer__about__logo">
-                                <a href="./HomeControl"><img src="img/logo.png" alt=""></a>
+                                <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
                             </div>
                             <ul>
-                                <li>Address: Can Tho, Viet Nam</li>
-                                <li>Phone: +84363 323 084</li>
-                                <li>Email: hello@colorlib.com</li>
+                                <li>Địa chỉ: Ninh Kiều, Cần Thơ</li>
+                                <li>Số điện thoại: +8436 3323 084</li>
+                                <li>Email: hellogroup6@gmail.com</li>
                             </ul>
                         </div>
                     </div>
@@ -353,31 +354,20 @@
                         <div class="footer__widget">
                             <h6>Useful Links</h6>
                             <ul>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">About Our Shop</a></li>
-                                <li><a href="#">Secure Shopping</a></li>
-                                <li><a href="#">Delivery infomation</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Our Sitemap</a></li>
-                            </ul>
-                            <ul>
-                                <li><a href="#">Who We Are</a></li>
-                                <li><a href="#">Our Services</a></li>
-                                <li><a href="#">Projects</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">Innovation</a></li>
-                                <li><a href="#">Testimonials</a></li>
+                                <li><a href="./HomeControl">Trang chủ</a></li>
+                                <li><a href="./contact">Thông tin liên hệ</a></li>
+                                <li><a href="./ShopControl">Mua ngay</a></li>
+                                <li><a href="./shoppingcart">Giỏ hàng</a></li>
+                                <li><a href="./checkout">Thủ tục thanh toán</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="footer__widget">
-                            <h6>Join Our Newsletter Now</h6>
-                            <p>Get E-mail updates about our latest shop and special offers.</p>
-                            <form action="#">
-                                <input type="text" placeholder="Enter your mail">
-                                <button type="submit" class="site-btn">Subscribe</button>
-                            </form>
+                            <h6>Đến Ngay Với Chúng Tôi</h6>
+                            <p>Thời gian hoạt động: từ 7:00 đến 21:00 hằng ngày.</p>
+                            
+                            <p>Miễn phí giao hàng trong phạm vi nội ô Ninh Kiều.</p>
                             <div class="footer__widget__social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                 <a href="#"><i class="fa fa-instagram"></i></a>
