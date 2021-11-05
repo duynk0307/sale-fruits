@@ -195,10 +195,10 @@
                         <div class="hero__categories">
                             <div class="hero__categories__all">
                                 <i class="fa fa-bars"></i>
-                                <span>All departments</span>
+                                <span>Các loại trái cây</span>
                             </div>
                             <ul>
-                                <c:forEach items="${category1}" var="i">
+                                <c:forEach items="${listCate}" var="i">
                                     <li><a href="#">${i.cateName}</a></li>
                                     </c:forEach>
                             </ul>

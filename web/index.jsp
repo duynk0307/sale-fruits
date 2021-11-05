@@ -194,7 +194,7 @@
                         <div class="hero__categories">
                             <div class="hero__categories__all">
                                 <i class="fa fa-bars"></i>
-                                <span>All departments</span>
+                                <span>Các loại trái cây</span>
                             </div>
                             <ul>
                                 <c:forEach var="cate" items="${listCate}">
@@ -208,11 +208,11 @@
                             <div class="hero__search__form">
                                 <form action="#">
                                     <div class="hero__search__categories">
-                                        All Categories
+                                        Bạn muốn tìm gì
                                         <span class="arrow_carrot-down"></span>
                                     </div>
                                     <input type="text" placeholder="What do yo u need?">
-                                    <button type="submit" class="site-btn">SEARCH</button>
+                                    <button type="submit" class="site-btn">Tìm kiếm</button>
                                 </form>
                             </div>
                             <div class="hero__search__phone">
@@ -447,9 +447,9 @@
                                 <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
                             </div>
                             <ul>
-                                <li>Address: 60-49 Road 11378 New York</li>
-                                <li>Phone: +65 11.188.888</li>
-                                <li>Email: hello@colorlib.com</li>
+                                <li>Địa chỉ: Ninh Kiều, Cần Thơ</li>
+                                <li>Số điện thoại: +8436 3323 084</li>
+                                <li>Email: hellogroup6@gmail.com</li>
                             </ul>
                         </div>
                     </div>
@@ -457,31 +457,20 @@
                         <div class="footer__widget">
                             <h6>Useful Links</h6>
                             <ul>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">About Our Shop</a></li>
-                                <li><a href="#">Secure Shopping</a></li>
-                                <li><a href="#">Delivery infomation</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Our Sitemap</a></li>
-                            </ul>
-                            <ul>
-                                <li><a href="#">Who We Are</a></li>
-                                <li><a href="#">Our Services</a></li>
-                                <li><a href="#">Projects</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">Innovation</a></li>
-                                <li><a href="#">Testimonials</a></li>
+                                <li><a href="./HomeControl">Trang chủ</a></li>
+                                <li><a href="./contact">Thông tin liên hệ</a></li>
+                                <li><a href="./ShopControl">Mua ngay</a></li>
+                                <li><a href="./shoppingcart">Giỏ hàng</a></li>
+                                <li><a href="./checkout">Thủ tục thanh toán</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="footer__widget">
-                            <h6>Join Our Newsletter Now</h6>
-                            <p>Get E-mail updates about our latest shop and special offers.</p>
-                            <form action="#">
-                                <input type="text" placeholder="Enter your mail">
-                                <button type="submit" class="site-btn">Subscribe</button>
-                            </form>
+                            <h6>Đến Ngay Với Chúng Tôi</h6>
+                            <p>Thời gian hoạt động: từ 7:00 đến 21:00 hằng ngày.</p>
+                            
+                            <p>Miễn phí giao hàng trong phạm vi nội ô Ninh Kiều.</p>
                             <div class="footer__widget__social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                 <a href="#"><i class="fa fa-instagram"></i></a>
