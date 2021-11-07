@@ -292,7 +292,7 @@
                                     <li><a href="./HomeControl">Trang chủ</a></li>
                                     <li><a href="./user" class="active" >Người dùng</a></li>
                                     <li><a href="./product">Sản phẩm</a></li>
-                                    <li><a href="./contact">Đơn hàng</a></li>
+                                    <li><a href="./allorder">Đơn hàng</a></li>
                                         <c:if test="${account != null}">
                                         <li><a href="./userinfo"><i class="fa fa-user"></i>${account.username}  </a></li>
                                         <li><a href="Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
@@ -349,7 +349,7 @@
                         <div class="clearfix">
                             <div class="hint-text">Showing <b>${shownumber}</b> out of <b>${totalUser}</b> entries</div>
                             <ul class="pagination">
-                                <li class="page-item disabled"><i class="fa fa-angle-double-left"></i></a</li>
+                                <li class="page-item disabled"><i class="fa fa-angle-double-left"></i></li>
                                     <c:forEach begin="1" end="${endP}" var="i">
                                     <li class="page-item ${activePage == i ? "active": ""}"><a href="user?index=${i}" class="page-link">${i}</a></li>
                                     </c:forEach>
@@ -374,10 +374,10 @@
             <form action="signup" name="myForm" onsubmit="return validateForm()" method="POST">
                 <br>
                 <br>
-                <h1 style="font-size:30px">ADD NEW USER</h1>
                 <div class="icon">
                     <i class="fa fa-user-circle"></i>
                 </div>
+                <h1 style="font-size:30px">ADD NEW USER</h1>
                 <div class="formcontainer">
                     <div class="container">
                         <label for="uname"><strong>Username</strong></label>

@@ -5,8 +5,12 @@
  */
 package controlServlet;
 
+import dao.DAO;
+import entity.OrderDetails;
+import entity.OrderItem;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "OderControl", urlPatterns = {"/oder"})
-public class OderControl extends HttpServlet {
+@WebServlet(name = "OrderDetails", urlPatterns = {"/orderdetails"})
+public class OrderDetailsControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,8 +36,20 @@ public class OderControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        
+
+        DAO dao = new DAO();
+        String orderID = request.getParameter("orderID");
+
+        List<OrderDetails> listOrder = dao.getListOrderById(Integer.parseInt(orderID));
+        double totalPrice = 0;
+        for (OrderDetails item : listOrder) {
+            double total = item.getOrderPrice() * item.getOrderQuantity();
+            totalPrice += total;
+            item.setTotal(total);
+        }
+        request.setAttribute("listOrderDetail", listOrder);
+        request.setAttribute("totalPrice", totalPrice);
+        request.getRequestDispatcher("order-details.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

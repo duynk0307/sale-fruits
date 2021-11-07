@@ -264,7 +264,7 @@
                                     <li><a href="./HomeControl">Trang chủ</a></li>
                                     <li><a href="./user" class="active" >Người dùng</a></li>
                                     <li><a href="./product">Sản phẩm</a></li>
-                                    <li><a href="./contact">Đơn hàng</a></li>
+                                    <li><a href="./allorder">Đơn hàng</a></li>
                                         <c:if test="${account != null}">
                                         <li><a href="./userinfo"><i class="fa fa-user"></i>${account.username}  </a></li>
                                         <li><a href="Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
@@ -327,7 +327,7 @@
                         <div class="clearfix">
                             <div class="hint-text">Showing <b>${shownumber}</b> out of <b>${totalPro}</b> entries</div>
                             <ul class="pagination">
-                                <li class="page-item disabled"><i class="fa fa-angle-double-left"></i></a</li>
+                                <li class="page-item disabled"><i class="fa fa-angle-double-left"></i></li>
                                     <c:forEach begin="1" end="${endP}" var="i">
                                     <li class="page-item ${activePage == i ? "active": ""}"><a href="product?index=${i}" class="page-link">${i}</a></li>
                                     </c:forEach>

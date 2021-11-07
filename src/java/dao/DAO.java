@@ -6,11 +6,14 @@
 package dao;
 
 import context.DBContext;
+import controlServlet.OrderDetailsControl;
 import entity.Account;
 import entity.Banner;
 import entity.CartItem;
 import entity.CartSession;
 import entity.Category;
+import entity.OrderDetails;
+import entity.OrderItem;
 import entity.Product;
 import entity.Saleoff;
 import entity.Sources;
@@ -775,4 +778,82 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
+
+    public List<OrderItem> getListOrder() {
+
+        List<OrderItem> list = new ArrayList<>();
+        try {
+            String query = "SELECT * from OrderItems";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new OrderItem(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
+            }
+            return list;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return list;
+    }
+    public int getTotalOrder() {
+        try {
+            String query = "SELECT count(*) from OrderItems";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return 0;
+    }
+    
+    public List<Account> pagingOrder(int index) {
+        List<Account> list = new ArrayList<>();
+        String query = "select * from OrderItems\n"
+                + "ORDER BY userID\n"
+                + "OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY;";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, (index - 1) * 10);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Account acc = new Account(rs.getInt(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getString(7),
+                        rs.getInt(8));
+                list.add(acc);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+    public List<OrderDetails> getListOrderById(int orderID) {
+
+        List<OrderDetails> list = new ArrayList<>();
+        try {
+            String query = "SELECT * from OrderDetails where orderID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, orderID);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new OrderDetails(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4)));
+            }
+            return list;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return list;
+    }
+    
+
 }

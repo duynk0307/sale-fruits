@@ -1,6 +1,6 @@
 <%-- 
-    Document   : oderadmin
-    Created on : Nov 7, 2021, 8:23:44 PM
+    Document   : order-details
+    Created on : Nov 7, 2021, 10:12:22 PM
     Author     : Nguyen Khanh Duy;
 --%>
 
@@ -11,7 +11,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Product Detail</title>
+        <title>Order Detail</title>
         <!-- Css Styles -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -213,13 +213,6 @@
                 $(document).ready(function () {
                     $('[data-toggle="tooltip"]').tooltip();
                 });
-                function onDelete() {
-                    if (confirm("Are you sure you want to delete?")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
             </script>
         </head>
         <body>
@@ -237,7 +230,7 @@
                                     <li><a href="./HomeControl">Trang chủ</a></li>
                                     <li><a href="./user" class="active" >Người dùng</a></li>
                                     <li><a href="./product">Sản phẩm</a></li>
-                                    <li><a href="./contact">Đơn hàng</a></li>
+                                    <li><a href="./allorder">Đơn hàng</a></li>
                                         <c:if test="${account != null}">
                                         <li><a href="./userinfo"><i class="fa fa-user"></i>${account.username}  </a></li>
                                         <li><a href="Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
@@ -270,37 +263,35 @@
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Order Date </th>
-                                    <th>User ID</th>
-                                    <th>Delivered</th>
-                                    <th>Actions</th>
+                                    <th>Order ID</th>
+                                    <th>Product ID </th>
+                                    <th>Quantity(kg)</th>
+                                    <th>Price per 1 kg</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${listOrder}" var="li">
+                                <c:forEach items="${listOrderDetail}" var="li">
                                     <tr>
+                                        <td>${li.orderID}</td>
                                         <td>${li.productID}</td>
-                                        <td>${li.productName}</td>
-                                        <td>${li.title}</td>
-                                        <td>${li.cateID}</td>
-                                        <td>
-                                            <a href="product-info?productID=${li.productID}" class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i></a>
-                                            <a href="product-info?productID=${li.productID}" class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i></a>
-                                            <a href="deleteproduct?id=${li.productID}" class="delete" title="Delete" onclick="return onDelete()"data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                                        </td>
+                                        <td>${li.orderQuantity}</td>
+                                        <td>${li.orderPrice}</td>
+                                        <td>${li.total}</td>
                                     </tr>
                                 </c:forEach>
-
+                                    <tr>
+                                        <td>...</td>
+                                        <td>...</td>
+                                        <td>...</td>
+                                        <td><b>Total Order</b></td>
+                                        <td>${totalPrice}</td>
+                                    </tr>
                             </tbody>
                         </table>
                         <div class="clearfix">
-                            <div class="hint-text">Showing <b>${shownumber}</b> out of <b>${totalPro}</b> entries</div>
                             <ul class="pagination">
-                                <li class="page-item disabled"><i class="fa fa-angle-double-left"></i></a</li>
-                                    <c:forEach begin="1" end="${endP}" var="i">
-                                    <li class="page-item ${activePage == i ? "active": ""}"><a href="product?index=${i}" class="page-link">${i}</a></li>
-                                    </c:forEach>
+                                <li class="page-item disabled"><i class="fa fa-angle-double-left"></i></li>
                                 <li class="page-item disabled"><i class="fa fa-angle-double-right"></i></li>
                             </ul>
                         </div>
