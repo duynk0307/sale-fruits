@@ -144,7 +144,7 @@
                                 <li class="active"><a href="./ShopControl">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
-<!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
+                                        <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
                                         <li><a href="./shoppingcart">Giỏ hàng</a></li>
                                         <li><a href="./checkout">Thanh toán</a></li>
                                     </ul>
@@ -207,8 +207,8 @@
                                 <span>Các loại trái cây</span>
                             </div>
                             <ul>
-                                <c:forEach items="${listCate}" var="i">
-                                    <li><a href="#">${i.cateName}</a></li>
+                                <c:forEach items="${category1}" var="i">
+                                    <li><a href="ShopControl?cid=${i.cateID}">${i.cateName}</a></li>
                                     </c:forEach>
                             </ul>
                         </div>
@@ -265,7 +265,7 @@
                                 <h4>Các loại trái cây</h4>
                                 <ul>
                                     <c:forEach items="${category1}" var="i">
-                                        <li><a href="#">${i.cateName}</a></li>
+                                        <li><a href="ShopControl?cid=${i.cateID}">${i.cateName}</a></li>
                                         </c:forEach>
                                 </ul>
                             </div>
@@ -334,6 +334,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="section-title product__discount__title">
+                            <h2>Sản Phẩm</h2>
+                        </div>
                         <div class="row">
                             <c:forEach var="p" items="${listPro}" >
                                 <div class="col-lg-4 col-md-6 col-sm-6">
@@ -352,18 +355,17 @@
                                     </div>
                                 </div>
                             </c:forEach>
-                            
-                            <div class="product__pagination">
+                        </div>
+                        <div class="product__pagination">
                                 <c:if test="${tag > 1}">
                                     <a href="ShopControl?index=${tag-1}"><i class="fa fa-long-arrow-left"></i></a>
                                     </c:if>
                                     <c:forEach begin="1" end="${endP}" var="i">
-                                    <a style="${tag == i?"background-color: forestgreen":""}" href="ShopControl?index=${i}">${i}</a>
+                                    <a  style="${tag == i?"background-color: forestgreen;pointer-events: none;cursor: default;":""}" href="ShopControl?index=${i}">${i}</a>
                                 </c:forEach>
                                 <c:if test="${tag < endP}">
                                     <a href="ShopControl?index=${tag+1}"><i class="fa fa-long-arrow-right"></i></a>
                                     </c:if>
-                            </div>
                         </div>
                     </div>
                 </div>

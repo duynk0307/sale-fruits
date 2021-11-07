@@ -13,6 +13,7 @@ import entity.Category;
 import entity.Product;
 import entity.Saleoff;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,6 +41,8 @@ public class ShopControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String cateID = request.getParameter("cid");
+        String srcID = request.getParameter("srcId");
         String indexPage = request.getParameter("index");
         if (indexPage == null) {
             indexPage = "1";
@@ -50,15 +53,23 @@ public class ShopControl extends HttpServlet {
         List<Category> catePro = dao.getListCategory();
         List<Product> lastPro = dao.getLastProduct();
         List<Saleoff> listSff = dao.getListSaleOff();
-        
-        //new-------------------------------------------------------
-        
-        int count = dao.getTotalProduct();
+        List<Product> listPro = new ArrayList<>();
+        //Phân trang
+        int count;
+        if (cateID == null && srcID == null) {
+             count = dao.getTotalProduct();
+             listPro.addAll(dao.pagingProductByCate(index,cateID));
+        }else if(srcID == null) {
+             count = dao.getTotalCate(cateID);
+             listPro.addAll(dao.pagingProductByCate(index,cateID));
+        }else{
+            count = dao.getTotalSrc(srcID);
+            listPro.addAll(dao.pagingProductBySrc(index,srcID));
+        }
         int endPage = count/6;
-        if (count % 3 != 0) {
+        if (count % 6 != 0) {
             endPage++;
         }
-        List<Product> listPro = dao.pagingProduct(index);
         
         request.setAttribute("endP", endPage);
         request.setAttribute("tag", index);

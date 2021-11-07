@@ -71,6 +71,7 @@ public class DAO {
         }
         return null;
     }
+
     public Account getAccountById(int userID) {
         try {
             String query = "select * from UserLogin\n"
@@ -89,8 +90,7 @@ public class DAO {
         }
         return null;
     }
-    
-    
+
     public Account checkSignUp(String username) {
         try {
             String query = "select * from UserLogin\n"
@@ -123,8 +123,8 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
-    
-    public void updateAccount(int userID, String fullName, String phone, String email, String address){
+
+    public void updateAccount(int userID, String fullName, String phone, String email, String address) {
         try {
             String query = "UPDATE UserLogin\n"
                     + "SET fullName = ?, phone = ?, address = ?, email = ? WHERE userID = ?";
@@ -141,7 +141,7 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
-    
+
     public List<Product> getListProduct() {
         try {
             String query = "select * from Product";
@@ -537,15 +537,40 @@ public class DAO {
         return 0;
     }
 
-    public List<Product> pagingProduct(int index) {
+    public int getTotalCate(String cid) {
+        String cateID = "%" + cid + "%";
+        String query = "select count(*) from Product c\n"
+                + "where c.cateID Like ?";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, cateID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public List<Product> pagingProductByCate(int index, String cid) {
+        String cateID = "";
+        if (cid == null) {
+            cateID = "%TC%";
+        } else {
+            cateID = "%" + cid + "%";
+        }
         List<Product> list = new ArrayList<>();
         String query = "select * from Product p\n"
+                + "where p.cateID Like ?\n"
                 + "ORDER BY p.productID\n"
                 + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
         try {
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
-            ps.setInt(1, (index - 1) * 6);
+            ps.setString(1, cateID);
+            ps.setInt(2, (index - 1) * 6);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Product product = new Product(rs.getString(1),
@@ -581,5 +606,72 @@ public class DAO {
             System.err.println(e.getMessage());
         }
         return null;
+    }
+
+    public List<Product> getProductBySourceID(String cid) {
+        String query = "select p.* from Product p, ImportDetails i\n"
+                + "where i.sourceID = ?\n"
+                + "	and p.productID = i.productID";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, cid);
+            rs = ps.executeQuery();
+            List<Product> list = new ArrayList<>();
+            while (rs.next()) {
+                Product product = new Product(rs.getString(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getDouble(7),
+                        rs.getDouble(8));
+                list.add(product);
+            }
+            return list;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public int getTotalSrc(String cid) {
+        String query = "select Count(*) from Product p, ImportDetails i\n"
+                + "where i.sourceID = ?\n"
+                + "and p.productID = i.productID";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, cid);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public List<Product> pagingProductBySrc(int index, String cid) {
+        List<Product> list = new ArrayList<>();
+        String query = "select p.* from Product p, ImportDetails i\n"
+                + "where i.sourceID Like ?\n"
+                + "	and p.productID = i.productID\n"
+                + "ORDER BY p.productID\n"
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, cid);
+            ps.setInt(2, (index - 1) * 6);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(rs.getString(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getDouble(7),
+                        rs.getDouble(8));
+                list.add(product);
+            }
+        } catch (Exception e) {
+        }
+        return list;
     }
 }

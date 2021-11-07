@@ -137,7 +137,7 @@
                                 <li><a href="./ShopControl">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
-<!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
+                                        <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
                                         <li><a href="./shoppingcart">Giỏ hàng</a></li>
                                         <li><a href="./checkout">Thanh toán</a></li>
                                     </ul>
@@ -201,7 +201,7 @@
                             </div>
                             <ul>
                                 <c:forEach var="cate" items="${listCate}">
-                                    <li><a href="#">${cate.cateName}</a></li>
+                                    <li><a href="ShopControl?cid=${cate.cateID}">${cate.cateName}</a></li>
                                     </c:forEach>
                             </ul>
                         </div>
@@ -254,11 +254,16 @@
         <section class="categories">
             <div class="container">
                 <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <h2>Sản phẩm đến từ</h2>
+                        </div>
+                    </div>
                     <div class="categories__slider owl-carousel">
                         <c:forEach var="p" items="${Logo1}">
                             <div class="col-lg-3">
                                 <div class="categories__item set-bg" data-setbg="${p.sourceLogo}">
-                                    <h5><a href="#">${p.sourceName}</a></h5>
+                                    <h5><a href="ShopControl?srcId=${p.sourceID}">${p.sourceName}</a></h5>
                                 </div>
                             </div>
                         </c:forEach>
@@ -472,7 +477,7 @@
                         <div class="footer__widget">
                             <h6>Đến Ngay Với Chúng Tôi</h6>
                             <p>Thời gian hoạt động: từ 7:00 đến 21:00 hằng ngày.</p>
-                            
+
                             <p>Miễn phí giao hàng trong phạm vi nội ô Ninh Kiều.</p>
                             <div class="footer__widget__social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
