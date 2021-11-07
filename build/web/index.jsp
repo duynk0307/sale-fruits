@@ -144,7 +144,7 @@
                                 </li>
                                 <li><a href="./contact">Liên hệ</a></li>
                                     <c:if test="${account.roleID == 1}">
-                                    <li><a href="./admin.jsp">Administrator</a></li>
+                                    <li><a href="./user">Administrator</a></li>
                                     </c:if>
                             </ul>
                         </nav>

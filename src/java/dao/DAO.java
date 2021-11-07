@@ -36,7 +36,7 @@ public class DAO {
 
     public List<Account> getListAccount() {
         try {
-            String query = "select * from UserLogin";
+            String query = "select * from UserLogin isDelete = 0";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
@@ -55,7 +55,7 @@ public class DAO {
     public Account getLoginAccount(String username, String password) {
         try {
             String query = "select * from UserLogin\n"
-                    + "where username=? and password=?";
+                    + "where username=? and password=? and isDelete = 0";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             ps.setString(1, username);
@@ -94,7 +94,7 @@ public class DAO {
     public Account checkSignUp(String username) {
         try {
             String query = "select * from UserLogin\n"
-                    + "where username=?";
+                    + "where username=? and isDelete = 0";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             ps.setString(1, username);
@@ -110,13 +110,18 @@ public class DAO {
         return null;
     }
 
-    public void signUp(String username, String password, String email, String phone) {
+    public void signUp(String username, String password, String fullname, String phone, String address, String email) {
         try {
             String query = "insert into UserLogin\n"
-                    + "values(?,?,?,?,0)";
+                    + "values(?,?,?,?,?,?,0)";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, fullname);
+            ps.setString(4, phone);
+            ps.setString(5, address);
+            ps.setString(6, email);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -144,7 +149,7 @@ public class DAO {
 
     public List<Product> getListProduct() {
         try {
-            String query = "select * from Product";
+            String query = "select * from Product where isDelete = 0";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
@@ -345,7 +350,7 @@ public class DAO {
 
     public List<Product> getLastProduct() {
         try {
-            String query = "SELECT TOP 6 * FROM Product p\n"
+            String query = "SELECT TOP 6 * FROM Product p where p.isDelete = 0\n"
                     + "ORDER BY p.productID DESC";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
@@ -370,7 +375,7 @@ public class DAO {
         try {
             String query = "select * from(SELECT TOP 6 productID FROM OrderDetails o\n"
                     + "ORDER BY o.orderQuantity DESC) r, Product p\n"
-                    + "Where p.productID = r.productID";
+                    + "Where p.productID = r.productID AND p.isDelete = 0";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
@@ -411,7 +416,7 @@ public class DAO {
     public List<Category> getFeaturedProduct() {
         try {
             String query = "select r.cateID, c.cateName from Category c,(SELECT DISTINCT Top 4 cateID FROM Product p\n"
-                    + "where p.inventory > 0\n"
+                    + "where p.inventory > 0 and p.isDelete=0\n"
                     + "ORDER BY p.cateID DESC) r\n"
                     + "where c.cateID = r.cateID";
             con = new DBContext().getConnection();
@@ -501,7 +506,7 @@ public class DAO {
     public List<Saleoff> getListSaleOff() {
         try {
             String query = "select * from Saleoff s, Product p, Category c\n"
-                    + "where s.productID = p.productID\n"
+                    + "where s.productID = p.productID AND p.isDelete = 0\n"
                     + "	and p.cateID = c.cateID";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
@@ -524,7 +529,7 @@ public class DAO {
     }
 
     public int getTotalProduct() {
-        String query = "select count(*) from Product";
+        String query = "select count(*) from Product where isDelete = 0";
         try {
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
@@ -539,7 +544,7 @@ public class DAO {
 
     public int getTotalCate(String cid) {
         String cateID = "%" + cid + "%";
-        String query = "select count(*) from Product c\n"
+        String query = "select count(*) from Product c where c.isDelete = 0\n"
                 + "where c.cateID Like ?";
         try {
             con = new DBContext().getConnection();
@@ -563,7 +568,7 @@ public class DAO {
         }
         List<Product> list = new ArrayList<>();
         String query = "select * from Product p\n"
-                + "where p.cateID Like ?\n"
+                + "where p.cateID Like ? and p.isDelete = 0\n"
                 + "ORDER BY p.productID\n"
                 + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
         try {
@@ -585,9 +590,32 @@ public class DAO {
         return list;
     }
 
+    public List<Product> pagingProduct(int index) {
+        List<Product> list = new ArrayList<>();
+        String query = "select * from Product p where p.isDelete = 0\n"
+                + "ORDER BY p.productID\n"
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, (index - 1) * 6);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(rs.getString(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getDouble(7),
+                        rs.getDouble(8));
+                list.add(product);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
     public List<Product> getReviewProduct() {
         try {
-            String query = "SELECT TOP 6 * FROM Product p\n"
+            String query = "SELECT TOP 6 * FROM Product p WHERE p.isDelete = 0\n"
                     + "ORDER BY p.salePrice DESC";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
@@ -610,7 +638,7 @@ public class DAO {
 
     public List<Product> getProductBySourceID(String cid) {
         String query = "select p.* from Product p, ImportDetails i\n"
-                + "where i.sourceID = ?\n"
+                + "where i.sourceID = ? and p.isDelete=0\n"
                 + "	and p.productID = i.productID";
         try {
             con = new DBContext().getConnection();
@@ -634,7 +662,7 @@ public class DAO {
 
     public int getTotalSrc(String cid) {
         String query = "select Count(*) from Product p, ImportDetails i\n"
-                + "where i.sourceID = ?\n"
+                + "where i.sourceID = ? and p.isDelete = 0\n"
                 + "and p.productID = i.productID";
         try {
             con = new DBContext().getConnection();
@@ -652,7 +680,7 @@ public class DAO {
     public List<Product> pagingProductBySrc(int index, String cid) {
         List<Product> list = new ArrayList<>();
         String query = "select p.* from Product p, ImportDetails i\n"
-                + "where i.sourceID Like ?\n"
+                + "where i.sourceID Like ? and p.isDelete=0\n"
                 + "	and p.productID = i.productID\n"
                 + "ORDER BY p.productID\n"
                 + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
@@ -673,5 +701,78 @@ public class DAO {
         } catch (Exception e) {
         }
         return list;
+    }
+
+    public int getTotalUser() {
+        try {
+            String query = "SELECT count(*) from UserLogin where isDelete = 0";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return 0;
+    }
+
+    public List<Account> pagingUser(int index) {
+        List<Account> list = new ArrayList<>();
+        String query = "select * from UserLogin where isDelete = 0\n"
+                + "ORDER BY userID\n"
+                + "OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY;";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, (index - 1) * 10);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Account acc = new Account(rs.getInt(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getString(7),
+                        rs.getInt(8));
+                list.add(acc);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
+    public void deleteProduct(String productID) {
+        try {
+            String query = "UPDATE Product\n"
+                    + "SET isDelete = 1\n"
+                    + "WHERE productID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, productID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void updateProduct(String productID, String productName, String image, String title, String description, String cateID, double salePrice) {
+        try {
+            String query = "UPDATE Product\n"
+                    + "SET productName = ?, image = ?, title = ?, description = ?, cateID = ?, salePrice = ?\n"
+                    + "WHERE productID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, productName);
+            ps.setString(2, image);
+            ps.setString(3, title);
+            ps.setString(4, description);
+            ps.setString(5, cateID);
+            ps.setDouble(6, salePrice);
+            ps.setString(7, productID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

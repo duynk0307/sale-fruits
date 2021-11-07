@@ -6,21 +6,20 @@
 package controlServlet;
 
 import dao.DAO;
-import entity.Account;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "LoginControl", urlPatterns = {"/LoginControl"})
-public class LoginControl extends HttpServlet {
+@WebServlet(name = "UpdateProduct", urlPatterns = {"/updateProduct"})
+public class UpdateProduct extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,20 +33,22 @@ public class LoginControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        
         DAO dao = new DAO();
-        Account account = dao.getLoginAccount(username, password);
-        System.out.println(account);
-        if (account != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("account", account);
-            response.sendRedirect("HomeControl");
-        } else {
-            request.setAttribute("message", "Sai tài khoản hoặc mật khẩu");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        }
+        String productID = request.getParameter("productID");
+        String productName = request.getParameter("productName");
+        String image = request.getParameter("image");
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+        String cateID = request.getParameter("cateID");
+        double salePrice = Double.parseDouble(request.getParameter("salePrice"));
+        
+        dao.updateProduct(productID, productName, image, title, description, cateID, salePrice);
+        
+        request.setAttribute("updateSuccess", "Cập nhật thông tin sản phẩm thành công");
+        request.getRequestDispatcher("updateproduct.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

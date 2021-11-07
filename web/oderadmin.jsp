@@ -1,6 +1,6 @@
 <%-- 
-    Document   : admin
-    Created on : Oct 26, 2021, 5:59:31 PM
+    Document   : oderadmin
+    Created on : Nov 7, 2021, 8:23:44 PM
     Author     : Nguyen Khanh Duy;
 --%>
 
@@ -11,7 +11,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>User Detail</title>
+        <title>Product Detail</title>
         <!-- Css Styles -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -202,7 +202,6 @@
                 background-color: #DFF2BF;
                 background-image: url('https://i.imgur.com/Q9BGTuy.png');
             }
-
             /* Change styles for span on extra small screens */
             @media screen and (max-width: 300px) {
                 span.psw {
@@ -220,60 +219,6 @@
                     } else {
                         return false;
                     }
-                }
-                function validateForm() {
-                    // regex bat validate
-                    var rexuser = new RegExp("^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$");
-                    var rexname = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-                    var rexemail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-                    // lay value
-                    let user = document.forms["myForm"]["username"].value;
-                    let pass = document.forms["myForm"]["password"].value;
-                    let fullname = document.forms["myForm"]["fullname"].value;
-                    let phone = document.forms["myForm"]["phone"].value;
-                    let address = document.forms["myForm"]["address"].value;
-                    let email = document.forms["myForm"]["email"].value;
-                    var error = false;
-
-                    if (rexuser.test(user) === false) {
-                        document.getElementById("errUser").innerHTML = "Username between 8 and 20 characters and no special characters";
-                        error = true;
-                    } else {
-                        document.getElementById("errUser").innerHTML = "";
-                    }
-                    if (pass.length < 6) {
-                        document.getElementById("errPass").innerHTML = "Password contain at least 6 characters";
-                        error = true;
-                    } else {
-                        document.getElementById("errPass").innerHTML = "";
-                    }
-
-                    if (rexname.test(fullname) === false) {
-                        document.getElementById("errName").innerHTML = "Full name do not contain special characters";
-                        error = true;
-                    } else {
-                        document.getElementById("errName").innerHTML = "";
-                    }
-
-                    if (/[0][0-9]{9}/.test(phone) === false) {
-                        document.getElementById("errPhone").innerHTML = "Invalid phone number";
-                        error = true;
-                    } else {
-                        document.getElementById("errPhone").innerHTML = "";
-                    }
-
-                    if (rexemail.test(String(email).toLowerCase()) === false) {
-                        document.getElementById("errEmail").innerHTML = "Invalid email address";
-                        error = true;
-                    } else {
-                        document.getElementById("errEmail").innerHTML = "";
-                    }
-
-                    if (error) {
-                        return false;
-                    }
-                    return true;
                 }
             </script>
         </head>
@@ -306,12 +251,17 @@
                     </div>
                 </div>
             </header>
+            <c:if test="${deleteSucess != null}">
+                <div class="success">
+                    ${deleteSucess}
+                </div>
+            </c:if>
             <div class="container-xl">
                 <div class="table-responsive">
                     <div class="table-wrapper">
                         <div class="table-title">
                             <div class="row">
-                                <div class="col-sm-8"><h2>Danh Sách <b>Người Dùng</b></h2></div>
+                                <div class="col-sm-8"><h2>Chi Tiết  <b>Đơn Hàng</b></h2></div>
                                 <div class="col-sm-4">
 
                                 </div>
@@ -321,25 +271,23 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Username </th>
-                                    <th>Full Name</th>
-                                    <th>Phone</i></th>
-                                    <th>Address</th>
-                                    <th>Email</i></th>
+                                    <th>Order Date </th>
+                                    <th>User ID</th>
+                                    <th>Delivered</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${listAcc}" var="li">
+                                <c:forEach items="${listOrder}" var="li">
                                     <tr>
-                                        <td>${li.userID}</td>
-                                        <td>${li.username}</td>
-                                        <td>${li.fullName}</td>
-                                        <td>${li.phone}</td>
-                                        <td>${li.address}</td>
-                                        <td>${li.email}</td>
+                                        <td>${li.productID}</td>
+                                        <td>${li.productName}</td>
+                                        <td>${li.title}</td>
+                                        <td>${li.cateID}</td>
                                         <td>
-                                            <a href="#" class="delete" title="Delete" onclick="return onDelete()"data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                            <a href="product-info?productID=${li.productID}" class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i></a>
+                                            <a href="product-info?productID=${li.productID}" class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i></a>
+                                            <a href="deleteproduct?id=${li.productID}" class="delete" title="Delete" onclick="return onDelete()"data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -347,11 +295,11 @@
                             </tbody>
                         </table>
                         <div class="clearfix">
-                            <div class="hint-text">Showing <b>${shownumber}</b> out of <b>${totalUser}</b> entries</div>
+                            <div class="hint-text">Showing <b>${shownumber}</b> out of <b>${totalPro}</b> entries</div>
                             <ul class="pagination">
                                 <li class="page-item disabled"><i class="fa fa-angle-double-left"></i></a</li>
                                     <c:forEach begin="1" end="${endP}" var="i">
-                                    <li class="page-item ${activePage == i ? "active": ""}"><a href="user?index=${i}" class="page-link">${i}</a></li>
+                                    <li class="page-item ${activePage == i ? "active": ""}"><a href="product?index=${i}" class="page-link">${i}</a></li>
                                     </c:forEach>
                                 <li class="page-item disabled"><i class="fa fa-angle-double-right"></i></li>
                             </ul>
@@ -359,53 +307,6 @@
                     </div>
                 </div>  
             </div> 
-
-            <c:if test="${addSucess != null}">
-                <div class="success">
-                    ${addSucess}
-                </div>
-            </c:if>
-            <div class="alert-warning">
-                <c:if test="${signupMessage != null}">
-                    ${signupMessage}
-                </c:if>
-            </div>
-
-            <form action="signup" name="myForm" onsubmit="return validateForm()" method="POST">
-                <br>
-                <br>
-                <h1 style="font-size:30px">ADD NEW USER</h1>
-                <div class="icon">
-                    <i class="fa fa-user-circle"></i>
-                </div>
-                <div class="formcontainer">
-                    <div class="container">
-                        <label for="uname"><strong>Username</strong></label>
-                        <input type="text" placeholder="Enter Username" name="username" required>
-                        <div class="alert-danger" id="errUser"></div>
-                        <label for="password"><strong>Password</strong></label>
-                        <input type="password" placeholder="Enter Password" name="password" required>
-                        <div class="alert-danger" id="errPass"></div>
-                        <label for="fname"><strong>Full Name</strong></label>
-                        <input type="text" placeholder="Enter FullName" name="fullname" required>
-                        <div class="alert-danger" id="errName"></div>
-                        <label for="phone"><strong>Phone</strong></label>
-                        <input type="text" placeholder="Enter Phone" name="phone" required>
-                        <div class="alert-danger" id="errPhone"></div>
-                        <label for="address"><strong>Address</strong></label>
-                        <input type="text" placeholder="Enter Address" name="address" required>
-                        <div class="alert-danger" id="errAddress"></div>
-                        <label for="email"><strong>Email</strong></label>
-                        <input type="text" placeholder="Enter Email" name="email" required>
-                        <div class="alert-danger" id="errEmail"></div>
-
-                    </div>
-                    <button type="submit" name="adminRegis" value="adminregister"><strong>ADD</strong></button>
-                    <br>
-                    <button type="reset"><strong>RESET</strong></button>
-                </div>
-            </form>
-
             <!-- Js Plugins -->
             <script src="js/jquery-3.3.1.min.js"></script>
             <script src="js/bootstrap.min.js"></script>

@@ -52,6 +52,11 @@
                 </div>
             </div>
         </header>
+        <div class="alert-success">
+            <c:if test="${regisSucess != null}">
+                ${regisSucess}
+            </c:if>
+        </div>
         <div class="login-wrap">
             <div class="login-html">
                 <div><p>${signupMessage}</p></div>
@@ -75,7 +80,7 @@
                                 <input name="password" id="pass" type="password" class="input" data-type="password">
                             </div>
                             <div class="group">
-                                <input type="submit" class="button" value="Sign In">
+                                <input type="submit" class="button" value="Đăng nhập">
                             </div>
                             <div class="hr"></div>
                             <div class="group">
@@ -83,10 +88,10 @@
                             </div>
                         </div>
                     </form>
-                    <form action="SignUpControl" method="post">
+                    <form action="signup" method="post">
                         <div class="sign-up-htm">
                             <div class="group">
-                                <label for="user" class="label">Username</label>
+                                <label for="user" class="label">Tên tài khoản</label>
                                 <input name="username" id="user" type="text" class="input">
                             </div>
                             <div class="group">
@@ -94,12 +99,8 @@
                                 <input name="password"id="pass" type="password" class="input" data-type="password">
                             </div>
                             <div class="group">
-                                <label for="pass" class="label">Nhập lại mật khẩu</label>
-                                <input name="repassword" id="pass" type="password" class="input" data-type="password">
-                            </div>
-                            <div class="group">
                                 <label for="pass" class="label">Họ và tên</label>
-                                <input name="fullName" id="pass" type="text" class="input">
+                                <input name="fullname" id="pass" type="text" class="input">
                             </div>
                             <div class="group">
                                 <label for="pass" class="label">Email</label>
@@ -110,9 +111,10 @@
                                 <input name="phone" id="pass" type="text" class="input">
                             </div>
                             <div class="group">
-                                <input type="submit" class="button" value="Sign Up">
+                                <input type="submit" class="button" value="Đăng ký">
                             </div>
                         </div>
+                    </form>
                     </form>
                 </div>
             </div>

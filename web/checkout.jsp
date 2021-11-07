@@ -277,7 +277,7 @@
                                 </div>
                                 <div class="checkout__input__checkbox">
                                     <label for="paypal">
-                                        Nhận hàng khi thanh toán
+                                        Thanh toán khi nhận hàng
                                         <input type="checkbox" id="paypal">
                                         <span class="checkmark"></span>
                                     </label>

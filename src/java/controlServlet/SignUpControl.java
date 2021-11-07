@@ -34,21 +34,46 @@ public class SignUpControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String repassword = request.getParameter("repassword");
+        String fullname = request.getParameter("fullname");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
-        
+        String address = request.getParameter("address");
+
+        String whoRegis = request.getParameter("adminRegis");
         DAO dao = new DAO();
         Account account = dao.checkSignUp(username);
-        if (account != null){
-            request.setAttribute("signupMessage", "Account already exists");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+        if (account != null) {
+            request.setAttribute("signupMessage", "Tài khoản đã tồn tại");
+            if (whoRegis != null) {
+                if (whoRegis.equals("adminregister")) {
+                    request.getRequestDispatcher("user").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                }
+            } else {
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
+
         } else {
-            dao.signUp(username, password, email, phone);
-            request.getRequestDispatcher("").forward(request, response);
+            dao.signUp(username, password, fullname, phone, address, email);
+            if (whoRegis != null) {
+                if (whoRegis.equals("adminregister")) {
+                    request.setAttribute("regisSucess", "Đăng kí tài khoản thành công");
+                    request.getRequestDispatcher("user").forward(request, response);
+                } else {
+                    request.setAttribute("regisSucess", "Đăng kí tài khoản thành công");
+                    request.getRequestDispatcher("login").forward(request, response);
+                }
+            } else {
+                request.setAttribute("regisSucess", "Đăng kí tài khoản thành công");
+                request.getRequestDispatcher("login").forward(request, response);
+            }
+
         }
     }
 

@@ -8,6 +8,8 @@ package controlServlet;
 import dao.DAO;
 import entity.Account;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "LoginControl", urlPatterns = {"/LoginControl"})
-public class LoginControl extends HttpServlet {
+@WebServlet(name = "UserControl", urlPatterns = {"/user"})
+public class UserControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,19 +37,49 @@ public class LoginControl extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
         DAO dao = new DAO();
-        Account account = dao.getLoginAccount(username, password);
-        System.out.println(account);
-        if (account != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("account", account);
-            response.sendRedirect("HomeControl");
-        } else {
-            request.setAttribute("message", "Sai tài khoản hoặc mật khẩu");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+        String indexPage = request.getParameter("index");
+        if (indexPage == null) {
+            indexPage = "1";
         }
+        int index = Integer.parseInt(indexPage);
+
+        String signupMessage = request.getParameter("signupMessage");
+        if (signupMessage != null) {
+            request.setAttribute("signupMessage", signupMessage);
+        }
+        String regisSucess = request.getParameter("regisSucess");
+        if (regisSucess != null) {
+            request.setAttribute("addSucess", regisSucess);
+        }
+
+        int count = dao.getTotalUser();
+        int endPage = count / 10;
+        if (count % 10 != 0) {
+            endPage++;
+        }
+
+        List<Account> listAcc = dao.pagingUser(index);
+
+        // kiem soat da login hay chua
+//        HttpSession session = request.getSession();
+//        Account acc = (Account) session.getAttribute("account");
+//        if (acc != null) {
+//            if (acc.getRoleID() == 0) {
+//                response.sendRedirect("HomeControl");
+//            } else {
+//                request.setAttribute("user", acc);
+                request.setAttribute("shownumber", listAcc.size());
+                request.setAttribute("activePage", index);
+                request.setAttribute("endP", endPage);
+                request.setAttribute("totalUser", count);
+                request.setAttribute("listAcc", listAcc);
+                request.getRequestDispatcher("admin.jsp").forward(request, response);
+//            }
+//        } else {
+//            response.sendRedirect("HomeControl");
+//        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
