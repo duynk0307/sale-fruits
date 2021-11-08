@@ -3,12 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ACER/OneDrive/Máy%20tính/Project/sale-fruits/web/shop-grid.jsp</file>
-            <file>file:/C:/Users/ACER/OneDrive/Máy%20tính/Project/sale-fruits/src/java/controlServlet/ShopControl.java</file>
-            <file>file:/C:/Users/ACER/OneDrive/Máy%20tính/Project/sale-fruits/src/java/entity/Saleoff.java</file>
-            <file>file:/C:/Users/ACER/OneDrive/Máy%20tính/Project/sale-fruits/web/index.jsp</file>
-            <file>file:/C:/Users/ACER/OneDrive/Máy%20tính/Project/sale-fruits/src/java/dao/DAO.java</file>
-            <file>file:/C:/Users/ACER/OneDrive/Máy%20tính/Project/sale-fruits/src/java/entity/Sources.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/order-details.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/entity/OrderItem.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/DeleteProduct.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/ShopControl.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/entity/OrderDetails.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/OrderDetailsControl.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/dao/DAO.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/product.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/orderadmin.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/admin.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/DeliveredControl.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/OrderAdmin.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/dao/TestingMain.java</file>
         </group>
     </open-files>
 </project-private>

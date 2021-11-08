@@ -244,11 +244,6 @@
                     </div>
                 </div>
             </header>
-            <c:if test="${deleteSucess != null}">
-                <div class="success">
-                    ${deleteSucess}
-                </div>
-            </c:if>
             <div class="container-xl">
                 <div class="table-responsive">
                     <div class="table-wrapper">

@@ -58,10 +58,6 @@ public class OrderAdmin extends HttpServlet {
 //                response.sendRedirect("HomeControl");
 //            } else {
 //                request.setAttribute("user", acc);
-        String deleteMess = request.getParameter("deleteSuccess");
-        if (deleteMess!=null){
-            request.setAttribute("deleteSuccess", "Xóa tài khoản thành công");
-        }
         request.setAttribute("shownumber", listOrder.size());
         request.setAttribute("activePage", index);
         request.setAttribute("endP", endPage);

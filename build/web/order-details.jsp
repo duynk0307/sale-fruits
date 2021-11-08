@@ -267,7 +267,7 @@
                                     <th>Product ID </th>
                                     <th>Quantity(kg)</th>
                                     <th>Price per 1 kg</th>
-                                    <th>Total</th>
+                                    <th>Total(vnd)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -284,7 +284,7 @@
                                         <td>...</td>
                                         <td>...</td>
                                         <td>...</td>
-                                        <td><b>Total Order</b></td>
+                                        <td><b>Total Order(vnd)</b></td>
                                         <td>${totalPrice}</td>
                                     </tr>
                             </tbody>

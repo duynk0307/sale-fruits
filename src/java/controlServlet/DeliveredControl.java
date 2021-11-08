@@ -5,8 +5,11 @@
  */
 package controlServlet;
 
+import dao.DAO;
+import entity.OrderItem;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,18 +35,45 @@ public class DeliveredControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DeliveredControl</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DeliveredControl at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        DAO dao = new DAO();
+        String orderID = request.getParameter("orderID");
+
+        dao.updateDeliveredOrder(Integer.parseInt(orderID));
+        
+        
+        List<OrderItem> listOrder = dao.getListOrder();
+        String indexPage = request.getParameter("index");
+        if (indexPage == null) {
+            indexPage = "1";
         }
+        int index = Integer.parseInt(indexPage);
+
+        int count = dao.getTotalOrder();
+        int endPage = count / 10;
+        if (count % 10 != 0) {
+            endPage++;
+        }
+        // kiem soat da login hay chua
+//        HttpSession session = request.getSession();
+//        Account acc = (Account) session.getAttribute("account");
+//        if (acc != null) {
+//            if (acc.getRoleID() == 0) {
+//                response.sendRedirect("HomeControl");
+//            } else {
+//                request.setAttribute("user", acc);
+        request.setAttribute("shownumber", listOrder.size());
+        request.setAttribute("activePage", index);
+        request.setAttribute("endP", endPage);
+        request.setAttribute("totalOrder", count);
+
+        request.setAttribute("listOrder", listOrder);
+
+        request.getRequestDispatcher("orderadmin.jsp").forward(request, response);
+        //            }
+//        } else {
+//            response.sendRedirect("HomeControl");
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

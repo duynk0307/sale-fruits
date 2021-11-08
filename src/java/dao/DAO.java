@@ -855,5 +855,18 @@ public class DAO {
         return list;
     }
     
+    public void updateDeliveredOrder(int orderID) {
+        try {
+            String query = "UPDATE OrderItems SET delivered=? WHERE orderID =?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, java.time.LocalDate.now().toString());
+            ps.setInt(2, orderID);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
 }
