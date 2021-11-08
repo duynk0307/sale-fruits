@@ -9,8 +9,12 @@ import dao.DAO;
 import entity.Account;
 import entity.CartItem;
 import entity.CartSession;
+import entity.Category;
 import entity.Product;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,10 +24,10 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Nguyen Khanh Duy;
+ * @author ACER
  */
-@WebServlet(name = "AddToCart", urlPatterns = {"/AddToCart"})
-public class AddToCart extends HttpServlet {
+@WebServlet(name = "searchControl", urlPatterns = {"/search"})
+public class searchControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,37 +41,48 @@ public class AddToCart extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        String txtSearch = request.getParameter("txtS");
+        String indexPage = request.getParameter("index");
+        if (indexPage == null) {
+            indexPage = "1";
+        }
+        int index = Integer.parseInt(indexPage);
+        
         DAO dao = new DAO();
-
-        // kiem tra session va lay cac thong tin tai khoan dang su dung tren session
+        List<Category> catePro = dao.getListCategory();
+        List<Product> lastPro = dao.getLastProduct();
+        
+        int count;
+        boolean choise = false;
+        count = dao.getTotalSrearch(txtSearch);
+        int endPage = count/6;
+        if (count % 6 != 0) {
+            endPage++;
+        }
+        List<Product> searchPro = dao.pagingSearchProduct(index, txtSearch);
+        
+        request.setAttribute("endP", endPage);
+        request.setAttribute("tag", index);
+        request.setAttribute("isFilter", choise);
+        request.setAttribute("txtS", txtSearch);
+        request.setAttribute("listPro", searchPro);
+        request.setAttribute("lastPro", lastPro);
+        request.setAttribute("category1", catePro);
+        
+        // kiem soat da login hay chua
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
-        if (acc == null) {
-            response.sendRedirect("login.jsp");
-        } else {
+        if (acc != null) {
+            List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
             CartSession cSession = dao.getCartSession(acc.getUserID());
-
-            // lay product id can them vao gio hang
-            String productID = request.getParameter("pID");
-            System.out.println(productID);
-            // kiem tra gio hang da co san pham nay chua
-            CartItem pItem = dao.getProductCartItem(cSession.getSessionID(), productID);
-            Product product = dao.getProductByID(productID);
-            
-            // neu chua thi them vao gio
-            // nguoc lai neu da co thi them so luong, hoac neu dang o trang thai 0, thi chuyen trang thai 1 (hien)
-            if (pItem == null) {
-                dao.insertCartItem(cSession.getSessionID(), productID, product.getSalePrice());
-            } else {
-                if (pItem.getState() == 0) {
-                    dao.changeStateOn(pItem.getCartID());
-                } else {
-                    dao.updateCartItem(pItem.getCartID(), pItem.getQuantity() + 1, product.getSalePrice());
-                }
+            if (cItem != null) {
+                request.setAttribute("cItem", cItem);
+                request.setAttribute("cSession", cSession);
             }
-            dao.setCartTotal(dao.getCartTotal(cSession.getSessionID()), cSession.getSessionID());
-            response.sendRedirect("./ShopControl");
         }
+        
+        request.getRequestDispatcher("shop-grid.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
