@@ -214,12 +214,12 @@
                     <div class="col-lg-9">
                         <div class="hero__search">
                             <div class="hero__search__form">
-                                <form action="#">
+                                <form action="./search" method="get">
                                     <div class="hero__search__categories">
                                         Bạn muốn tìm gì
                                         <span class="arrow_carrot-down"></span>
                                     </div>
-                                    <input type="text" placeholder="What do yo u need?">
+                                    <input type="text" placeholder="Tên trái cây.." name="txtS" value="${txtS}">
                                     <button type="submit" class="site-btn">Tìm kiếm</button>
                                 </form>
                             </div>

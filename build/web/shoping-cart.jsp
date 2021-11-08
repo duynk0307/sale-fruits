@@ -66,15 +66,19 @@
             </div>
             <nav class="humberger__menu__nav mobile-menu">
                 <ul>
-                    <li class="active"><a href="./HomeControl">Home</a></li>
+                    <li><a href="./HomeControl">Trang chủ</a></li>
                     <li><a href="./ShopControl">Shop</a></li>
-                    <li><a href="#">Pages</a>
+                    <li class="active"><a href="#">Pages</a>
                         <ul class="header__menu__dropdown">
-                            <li><a href="./shoppingcart">Shoping Cart</a></li>
-                            <li><a href="./checkout">Check Out</a></li>
+                            <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
+                            <li><a href="./shoppingcart">Giỏ hàng</a></li>
+                            <li><a href="./checkout">Thanh toán</a></li>
                         </ul>
                     </li>
-                    <li><a href="./contact">Contact</a></li>
+                    <li><a href="./contact">Liên hệ</a></li>
+                        <c:if test="${account.roleID == 1}">
+                        <li><a href="./admin.jsp">Administrator</a></li>
+                        </c:if>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
@@ -140,11 +144,11 @@
                     <div class="col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="./HomeControl">Trang chủ</a></li>
+                                <li><a href="./HomeControl">Trang chủ</a></li>
                                 <li><a href="./ShopControl">Shop</a></li>
-                                <li><a href="#">Pages</a>
+                                <li class="active"><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
-<!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
+                                        <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
                                         <li><a href="./shoppingcart">Giỏ hàng</a></li>
                                         <li><a href="./checkout">Thanh toán</a></li>
                                     </ul>
@@ -216,12 +220,12 @@
                     <div class="col-lg-9">
                         <div class="hero__search">
                             <div class="hero__search__form">
-                                <form action="#">
+                                <form action="./search" method="get">
                                     <div class="hero__search__categories">
                                         Bạn muốn tìm gì
                                         <span class="arrow_carrot-down"></span>
                                     </div>
-                                    <input type="text" placeholder="What do yo u need?">
+                                    <input type="text" placeholder="Tên trái cây.." name="txtS" value="${txtS}">
                                     <button type="submit" class="site-btn">Tìm kiếm</button>
                                 </form>
                             </div>
@@ -325,24 +329,24 @@
                     </div>
                 </div>
                 <div class="row">
-<!--                    <div class="col-lg-12">
-                        <div class="shoping__cart__btns">
-                            <a href="./ShopControl" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                            <a href="./update" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                                Làm mới giỏ</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="shoping__continue">
-                            <div class="shoping__discount">
-                                <h5>Discount Codes</h5>
-                                <form action="#">
-                                    <input type="text" placeholder="Enter your coupon code">
-                                    <button type="submit" class="site-btn">APPLY COUPON</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>-->
+                    <!--                    <div class="col-lg-12">
+                                            <div class="shoping__cart__btns">
+                                                <a href="./ShopControl" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                                                <a href="./update" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
+                                                    Làm mới giỏ</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="shoping__continue">
+                                                <div class="shoping__discount">
+                                                    <h5>Discount Codes</h5>
+                                                    <form action="#">
+                                                        <input type="text" placeholder="Enter your coupon code">
+                                                        <button type="submit" class="site-btn">APPLY COUPON</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>-->
                     <div class="col-lg-6">
                         <div class="shoping__checkout">
                             <h5>Tổng Tiền Giỏ Hàng</h5>
@@ -390,7 +394,7 @@
                         <div class="footer__widget">
                             <h6>Đến Ngay Với Chúng Tôi</h6>
                             <p>Thời gian hoạt động: từ 7:00 đến 21:00 hằng ngày.</p>
-                            
+
                             <p>Miễn phí giao hàng trong phạm vi nội ô Ninh Kiều.</p>
                             <div class="footer__widget__social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
