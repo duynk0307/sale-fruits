@@ -837,7 +837,6 @@ public class DAO {
         }
         return list;
     }
-<<<<<<< HEAD
     
     public void updateDeliveredOrder(int orderID) {
         try {
@@ -851,8 +850,7 @@ public class DAO {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-=======
-
+    }
     public List<Product> pagingProduct(int index) {
         List<Product> list = new ArrayList<>();
         String query = "select p.* from Product p left join Saleoff s\n"
@@ -920,7 +918,6 @@ public class DAO {
         } catch (Exception e) {
         }
         return list;
->>>>>>> e1eb995feae85ac4b299f0b2ab6d99676e4bbfbc
     }
 
 }
