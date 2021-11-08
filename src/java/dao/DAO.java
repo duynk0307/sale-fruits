@@ -521,7 +521,7 @@ public class DAO {
                         rs.getString(1), rs.getDouble(2),
                         rs.getString(4), rs.getString(5),
                         rs.getString(6), rs.getDouble(9),
-                        rs.getString(12));
+                        rs.getString(13));
                 list.add(saleoff);
             }
             return list;
@@ -532,7 +532,10 @@ public class DAO {
     }
 
     public int getTotalProduct() {
-        String query = "select count(*) from Product where isDelete = 0";
+        String query = "select count(*) from Product p left join Saleoff s\n"
+                + "on p.productID = s.productID\n"
+                + "where s.saleOff is NULL\n"
+                + "	and isDelete = 0";
         try {
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
@@ -547,8 +550,9 @@ public class DAO {
 
     public int getTotalCate(String cid) {
         String cateID = "%" + cid + "%";
-        String query = "select count(*) from Product c where c.isDelete = 0\n"
-                + "where c.cateID Like ?";
+        String query = "select count(*) from Product c \n"
+                + "where c.cateID Like ?\n"
+                + " and c.isDelete = 0";
         try {
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
@@ -579,29 +583,6 @@ public class DAO {
             ps = con.prepareStatement(query);
             ps.setString(1, cateID);
             ps.setInt(2, (index - 1) * 6);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Product product = new Product(rs.getString(1),
-                        rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5),
-                        rs.getString(6), rs.getDouble(7),
-                        rs.getDouble(8));
-                list.add(product);
-            }
-        } catch (Exception e) {
-        }
-        return list;
-    }
-
-    public List<Product> pagingProduct(int index) {
-        List<Product> list = new ArrayList<>();
-        String query = "select * from Product p where p.isDelete = 0\n"
-                + "ORDER BY p.productID\n"
-                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
-        try {
-            con = new DBContext().getConnection();
-            ps = con.prepareStatement(query);
-            ps.setInt(1, (index - 1) * 6);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Product product = new Product(rs.getString(1),
@@ -797,6 +778,7 @@ public class DAO {
         }
         return list;
     }
+
     public int getTotalOrder() {
         try {
             String query = "SELECT count(*) from OrderItems";
@@ -811,7 +793,7 @@ public class DAO {
         }
         return 0;
     }
-    
+
     public List<Account> pagingOrder(int index) {
         List<Account> list = new ArrayList<>();
         String query = "select * from OrderItems\n"
@@ -835,6 +817,7 @@ public class DAO {
         }
         return list;
     }
+
     public List<OrderDetails> getListOrderById(int orderID) {
 
         List<OrderDetails> list = new ArrayList<>();
@@ -854,6 +837,7 @@ public class DAO {
         }
         return list;
     }
+<<<<<<< HEAD
     
     public void updateDeliveredOrder(int orderID) {
         try {
@@ -867,6 +851,76 @@ public class DAO {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+=======
+
+    public List<Product> pagingProduct(int index) {
+        List<Product> list = new ArrayList<>();
+        String query = "select p.* from Product p left join Saleoff s\n"
+                + "on p.productID = s.productID\n"
+                + "where s.saleOff is NULL\n"
+                + " and p.isDelete = 0\n"
+                + "ORDER BY p.productID\n"
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, (index - 1) * 6);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(rs.getString(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getDouble(7),
+                        rs.getDouble(8));
+                list.add(product);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public int getTotalSrearch(String name) {
+        String txt = "%" + name + "%";
+        String query = "select count(*) from Product c\n"
+                + "where c.title Like ?";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, txt);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+
+    public List<Product> pagingSearchProduct(int index, String name) {
+        List<Product> list = new ArrayList<>();
+        String query = "select p.* from Product p, ImportDetails i\n"
+                + "where p.title Like ?\n"
+                + "	and p.productID = i.productID\n"
+                + "ORDER BY p.productID\n"
+                + "OFFSET ? ROWS FETCH NEXT 6 ROWS ONLY;";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, "%" + name + "%");
+            ps.setInt(2, (index - 1) * 6);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(rs.getString(1),
+                        rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5),
+                        rs.getString(6), rs.getDouble(7),
+                        rs.getDouble(8));
+                list.add(product);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+>>>>>>> e1eb995feae85ac4b299f0b2ab6d99676e4bbfbc
     }
 
 }

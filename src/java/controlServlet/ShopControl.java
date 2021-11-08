@@ -43,6 +43,9 @@ public class ShopControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String cateID = request.getParameter("cid");
         String srcID = request.getParameter("srcId");
+        if ("".equals(srcID)) {
+            srcID = null;
+        }
         String indexPage = request.getParameter("index");
         if (indexPage == null) {
             indexPage = "1";
@@ -56,9 +59,11 @@ public class ShopControl extends HttpServlet {
         List<Product> listPro = new ArrayList<>();
         //Phân trang
         int count;
+        boolean choise = false;
         if (cateID == null && srcID == null) {
              count = dao.getTotalProduct();
-             listPro.addAll(dao.pagingProductByCate(index,cateID));
+             listPro.addAll(dao.pagingProduct(index));
+             choise = true;
         }else if(srcID == null) {
              count = dao.getTotalCate(cateID);
              listPro.addAll(dao.pagingProductByCate(index,cateID));
@@ -73,10 +78,13 @@ public class ShopControl extends HttpServlet {
         
         request.setAttribute("endP", endPage);
         request.setAttribute("tag", index);
+        request.setAttribute("isFilter", choise);
         request.setAttribute("listPro", listPro);
         request.setAttribute("listPff", listSff);
         request.setAttribute("lastPro", lastPro);
         request.setAttribute("category1", catePro);
+        request.setAttribute("cateS", cateID);
+        request.setAttribute("srcS", srcID);
         
         // kiem soat da login hay chua
         HttpSession session = request.getSession();

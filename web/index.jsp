@@ -56,16 +56,19 @@
             </div>
             <nav class="humberger__menu__nav mobile-menu">
                 <ul>
-                    <li class="active"><a href="./HomeControl">Home</a></li>
+                    <li class="active"><a href="./HomeControl">Trang chủ</a></li>
                     <li><a href="./ShopControl">Shop</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="header__menu__dropdown">
-                            <!--<li><a href="./shop-details.jsp">Shop Details</a></li>-->
-                            <li><a href="./shoppingcart">Shoping Cart</a></li>
-                            <li><a href="./checkout">Check Out</a></li>
+                            <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
+                            <li><a href="./shoppingcart">Giỏ hàng</a></li>
+                            <li><a href="./checkout">Thanh toán</a></li>
                         </ul>
                     </li>
-                    <li><a href="./contact">Contact</a></li>
+                    <li><a href="./contact">Liên hệ</a></li>
+                        <c:if test="${account.roleID == 1}">
+                        <li><a href="./user">Administrator</a></li>
+                        </c:if>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
@@ -209,12 +212,12 @@
                     <div class="col-lg-9">
                         <div class="hero__search">
                             <div class="hero__search__form">
-                                <form action="#">
+                                <form action="./search" method="get">
                                     <div class="hero__search__categories">
                                         Bạn muốn tìm gì
                                         <span class="arrow_carrot-down"></span>
                                     </div>
-                                    <input type="text" placeholder="What do yo u need?">
+                                    <input type="text" placeholder="Tên trái cây.." name="txtS" value="${txtS}">
                                     <button type="submit" class="site-btn">Tìm kiếm</button>
                                 </form>
                             </div>

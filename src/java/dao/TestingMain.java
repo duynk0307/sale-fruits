@@ -17,11 +17,11 @@ public class TestingMain {
 
     public static void main(String[] args) {
         DAO dao = new DAO();
-//        List<Product> pro = dao.getListProduct();
-//
-//        for (Product product : pro) {
-//            System.out.println(product.toString());
-//        }
+        List<Product> pro = dao.pagingProductByCate(1,"TC1");
+
+        for (Product product : pro) {
+            System.out.println(product.toString());
+        }
 //        List<CartItem> cate = dao.getListCartItem(115);
 //
 //        System.out.println(cate);

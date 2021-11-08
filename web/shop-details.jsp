@@ -214,12 +214,12 @@
                     <div class="col-lg-9">
                         <div class="hero__search">
                             <div class="hero__search__form">
-                                <form action="#">
+                                <form action="./search" method="get">
                                     <div class="hero__search__categories">
                                         Bạn muốn tìm gì
                                         <span class="arrow_carrot-down"></span>
                                     </div>
-                                    <input type="text" placeholder="What do yo u need?">
+                                    <input type="text" placeholder="Tên trái cây.." name="txtS" value="${txtS}">
                                     <button type="submit" class="site-btn">Tìm kiếm</button>
                                 </form>
                             </div>
@@ -277,8 +277,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="#" class="primary-btn">ADD TO CARD</a>
-                            <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                            <a href="<c:url value="AddToCart">
+                                   <c:param name="pID" value="${pd.productID}"/>
+                               </c:url>" class="primary-btn">Thêm vào giỏ</a>
                             <ul>
                                 <li><b>Trạng thái</b> 
                                     <span style="color:MediumSeaGreen">
@@ -288,7 +289,7 @@
                                     </li>
                                     <li><b>Giao Hàng</b> <span>trong 2h <samp>Miễn phí giao hàng!</samp></span></li>
                                     <li><b>Nặng</b> <span>1 kg</span></li>
-                                    <li><b>Share on</b>
+                                    <li><b>Chia sẻ</b>
                                         <div class="share">
                                             <a href="#"><i class="fa fa-facebook"></i></a>
                                             <a href="#"><i class="fa fa-twitter"></i></a>
@@ -320,9 +321,9 @@
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="${p.image}">
                                     <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="<c:url value="AddToCart">
+                                                   <c:param name="pID" value="${p.productID}"/>
+                                               </c:url>"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
@@ -369,7 +370,7 @@
                         <div class="footer__widget">
                             <h6>Đến Ngay Với Chúng Tôi</h6>
                             <p>Thời gian hoạt động: từ 7:00 đến 21:00 hằng ngày.</p>
-                            
+
                             <p>Miễn phí giao hàng trong phạm vi nội ô Ninh Kiều.</p>
                             <div class="footer__widget__social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>

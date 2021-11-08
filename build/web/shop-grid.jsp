@@ -66,15 +66,19 @@
             </div>
             <nav class="humberger__menu__nav mobile-menu">
                 <ul>
-                    <li class="active"><a href="./HomeControl">Home</a></li>
-                    <li><a href="./ShopControl">Shop</a></li>
+                    <li><a href="./HomeControl">Trang chủ</a></li>
+                    <li class="active"><a href="./ShopControl">Shop</a></li>
                     <li><a href="#">Pages</a>
                         <ul class="header__menu__dropdown">
-                            <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                            <li><a href="./checkout">Check Out</a></li>
+                            <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
+                            <li><a href="./shoppingcart">Giỏ hàng</a></li>
+                            <li><a href="./checkout">Thanh toán</a></li>
                         </ul>
                     </li>
-                    <li><a href="./contact">Contact</a></li>
+                    <li><a href="./contact">Liên hệ</a></li>
+                        <c:if test="${account.roleID == 1}">
+                        <li><a href="./admin.jsp">Administrator</a></li>
+                        </c:if>
                 </ul>
             </nav>
             <div id="mobile-menu-wrap"></div>
@@ -216,12 +220,12 @@
                     <div class="col-lg-9">
                         <div class="hero__search">
                             <div class="hero__search__form">
-                                <form action="#">
+                                <form action="./search" method="get">
                                     <div class="hero__search__categories">
                                         Bạn muốn tìm gì
                                         <span class="arrow_carrot-down"></span>
                                     </div>
-                                    <input type="text" placeholder="What do yo u need?">
+                                    <input type="text" placeholder="Tên trái cây.." name="txtS" value="${txtS}">
                                     <button type="submit" class="site-btn">Tìm kiếm</button>
                                 </form>
                             </div>
@@ -265,7 +269,7 @@
                                 <h4>Các loại trái cây</h4>
                                 <ul>
                                     <c:forEach items="${category1}" var="i">
-                                        <li><a href="ShopControl?cid=${i.cateID}">${i.cateName}</a></li>
+                                        <li><a href="ShopControl?cid=${i.cateID}" style="${cateS == i.cateID?"font-weight: bold;color: forestgreen;pointer-events: none;cursor: default;":""}">${i.cateName}</a></li>
                                         </c:forEach>
                                 </ul>
                             </div>
@@ -305,35 +309,37 @@
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-7">
-                        <div class="product__discount">
-                            <div class="section-title product__discount__title">
-                                <h2>Giảm giá</h2>
-                            </div>
-                            <div class="row">
-                                <div class="product__discount__slider owl-carousel">
-                                    <c:forEach items="${listPff}" var="p">
-                                        <div class="col-lg-4">
-                                            <div class="product__discount__item">
-                                                <div class="product__discount__item__pic set-bg"
-                                                     data-setbg="${p.image}">
-                                                    <div class="product__discount__percent">-${(p.saleOff*100).intValue()}%</div>
-                                                    <ul class="product__item__pic__hover">
-                                                        <li><a href="<c:url value="AddToCart">
-                                                                   <c:param name="pID" value="${p.productID}"/>
-                                                               </c:url>"><i class="fa fa-shopping-cart"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="product__discount__item__text">
-                                                    <span>${p.cateName}</span>
-                                                    <h5><a href="detailsControl?sid=${p.productID}">${p.title}</a></h5>
-                                                    <div class="product__item__price">${p.salePrice.intValue()}đ <span>${p.salePrice*(p.saleOff+1)}</span></div>
+                        <c:if test="${isFilter}">
+                            <div class="product__discount">
+                                <div class="section-title product__discount__title">
+                                    <h2>Giảm giá</h2>
+                                </div>
+                                <div class="row">
+                                    <div class="product__discount__slider owl-carousel">
+                                        <c:forEach items="${listPff}" var="p">
+                                            <div class="col-lg-4">
+                                                <div class="product__discount__item">
+                                                    <div class="product__discount__item__pic set-bg"
+                                                         data-setbg="${p.image}">
+                                                        <div class="product__discount__percent">-${(p.saleOff*100).intValue()}%</div>
+                                                        <ul class="product__item__pic__hover">
+                                                            <li><a href="<c:url value="AddToCart">
+                                                                       <c:param name="pID" value="${p.productID}"/>
+                                                                   </c:url>"><i class="fa fa-shopping-cart"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="product__discount__item__text">
+                                                        <span>${p.cateName}</span>
+                                                        <h5><a href="detailsControl?sid=${p.productID}">${p.title}</a></h5>
+                                                        <div class="product__item__price">${p.salePrice.intValue()}đ <span>${p.salePrice*(p.saleOff+1)}</span></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </c:forEach>
+                                        </c:forEach>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </c:if>
                         <div class="section-title product__discount__title">
                             <h2>Sản Phẩm</h2>
                         </div>
@@ -357,15 +363,15 @@
                             </c:forEach>
                         </div>
                         <div class="product__pagination">
-                                <c:if test="${tag > 1}">
-                                    <a href="ShopControl?index=${tag-1}"><i class="fa fa-long-arrow-left"></i></a>
-                                    </c:if>
-                                    <c:forEach begin="1" end="${endP}" var="i">
-                                    <a  style="${tag == i?"background-color: forestgreen;pointer-events: none;cursor: default;":""}" href="ShopControl?index=${i}">${i}</a>
-                                </c:forEach>
-                                <c:if test="${tag < endP}">
-                                    <a href="ShopControl?index=${tag+1}"><i class="fa fa-long-arrow-right"></i></a>
-                                    </c:if>
+                            <c:if test="${tag > 1}">
+                                <a href="ShopControl?index=${tag-1}&cid=${cateS}&srcId=${srcS}"><i class="fa fa-long-arrow-left"></i></a>
+                                </c:if>
+                                <c:forEach begin="1" end="${endP}" var="i">
+                                <a  style="${tag == i?"background-color: forestgreen;pointer-events: none;cursor: default;":""}" href="ShopControl?index=${i}&cid=${cateS}&srcId=${srcS}">${i}</a>
+                            </c:forEach>
+                            <c:if test="${tag < endP}">
+                                <a href="ShopControl?index=${tag+1}&cid=${cateS}&srcId=${srcS}"><i class="fa fa-long-arrow-right"></i></a>
+                                </c:if>
                         </div>
                     </div>
                 </div>
