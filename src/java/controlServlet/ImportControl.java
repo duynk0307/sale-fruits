@@ -60,7 +60,7 @@ public class ImportControl extends HttpServlet {
                 request.setAttribute("user", acc);
                 String mess = request.getParameter("success");
                 if (mess != null) {
-                    request.setAttribute("success", mess);
+                    request.setAttribute("sucess", mess);
                 }
                 request.setAttribute("shownumber", listImport.size());
                 request.setAttribute("activePage", index);

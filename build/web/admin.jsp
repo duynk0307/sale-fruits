@@ -290,9 +290,10 @@
                             <nav class="header__menu">
                                 <ul>
                                     <li><a href="./HomeControl">Trang chủ</a></li>
-                                    <li><a href="./user" class="active" >Người dùng</a></li>
+                                    <li  class="active" ><a href="./user">Người dùng</a></li>
                                     <li><a href="./product">Sản phẩm</a></li>
                                     <li><a href="./allorder">Đơn hàng</a></li>
+                                    <li><a href="./import">Nhập hàng</a></li>
                                         <c:if test="${account != null}">
                                         <li><a href="./userinfo"><i class="fa fa-user"></i>${account.username}  </a></li>
                                         <li><a href="Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>

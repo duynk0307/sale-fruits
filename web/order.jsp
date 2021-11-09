@@ -143,9 +143,9 @@
                     <div class="col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="./HomeControl">Trang chủ</a></li>
+                                <li><a href="./HomeControl">Trang chủ</a></li>
                                 <li><a href="./ShopControl">Shop</a></li>
-                                <li><a href="#">Pages</a>
+                                <li class="active"><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
                                         <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
                                         <li><a href="./shoppingcart">Giỏ hàng</a></li>

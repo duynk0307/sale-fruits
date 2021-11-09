@@ -247,6 +247,7 @@
                                     <li><a href="./user" class="active" >Người dùng</a></li>
                                     <li><a href="./product">Sản phẩm</a></li>
                                     <li><a href="./allorder">Đơn hàng</a></li>
+                                    <li class="active"><a href="./import">Nhập hàng</a></li>
                                         <c:if test="${account != null}">
                                         <li><a href="./userinfo"><i class="fa fa-user"></i>${account.username}  </a></li>
                                         <li><a href="Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
@@ -265,7 +266,7 @@
                     <div class="table-wrapper">
                         <div class="table-title">
                             <div class="row">
-                                <div class="col-sm-8"><h2>Danh Sách  <b>Đơn Hàng</b></h2></div>
+                                <div class="col-sm-8"><h2>Danh Sách  <b>Nhập Hàng</b></h2></div>
                                 <div class="col-sm-4">
 
                                 </div>
@@ -281,13 +282,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${listIp}" var="li">
+                                <c:forEach items="${listImport}" var="li">
                                     <tr>
                                         <td>${li.ipID}</td>
                                         <td>${li.ipDate}</td>
                                         <td>${li.userID}</td>
                                         <td>
-                                            <a href="importdetails?ipID=${li.ipID}" class="edit" title="View" data-toggle="tooltip"><i class="fa fa-view"></i></a>
+                                            <a href="importdetails?ipID=${li.ipID}" class="edit" title="View" data-toggle="tooltip"><i class="fa fa-eye"></i></a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -328,10 +329,10 @@
                         <label for="ipDate"><strong>Import Date</strong></label>
                         <input type="text" placeholder="Enter Import Date" name="ipDate" value="${dateNow}" readonly>
                         <label for="userID"><strong>User ID</strong></label>
-                        <input type="text" name="userID" value="${account.username}" readonly>
+                        <input type="text" name="userID" value="${account.userID}" readonly>
 
                     </div>
-                    <button type="submit"><strong>ADD PRODUCT</strong></button>
+                    <button type="submit"><strong>ADD IMPORT</strong></button>
                     <br>
                     <button type="reset"><strong>RESET</strong></button>
                 </div>

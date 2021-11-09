@@ -1008,7 +1008,7 @@ public class DAO {
 
     public List<ImportDetails> getListImportByID(String ipID) {
         List<ImportDetails> list = new ArrayList<>();
-        String query = "select * from Import where ipID = ?";
+        String query = "select * from ImportDetails where ipID = ?";
         try {
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
@@ -1049,7 +1049,7 @@ public class DAO {
             ps = con.prepareStatement(query);
             ps.setString(1, ipID);
             ps.setString(2, ipDate);
-            ps.setString(3, userID);
+            ps.setInt(3, Integer.parseInt(userID));
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -1191,5 +1191,21 @@ public class DAO {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+    }
+    
+    public void updateProductInventory(String productID, double inventory) {
+        try {
+            String query = "UPDATE Product\n"
+                    + "SET  inventory = ?\n"
+                    + "WHERE productID = ?\n";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setDouble(1, inventory);
+            ps.setString(2, productID);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+                    }
     }
 }

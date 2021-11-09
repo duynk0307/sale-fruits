@@ -6,6 +6,7 @@
 package controlServlet;
 
 import dao.DAO;
+import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -35,7 +36,7 @@ public class AddImportProduct extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         DAO dao = new DAO();
-
+        
         String productID = request.getParameter("productID");
         String ipID = request.getParameter("ipID");
         double ipQuantity = Double.parseDouble(request.getParameter("ipQuantity"));
@@ -43,9 +44,10 @@ public class AddImportProduct extends HttpServlet {
         String sourceID = request.getParameter("sourceID");
         
         dao.addImportProduct(productID, ipID, ipQuantity, ipPrice, sourceID);
-        
+        Product product = dao.getProductByID(productID);
+        dao.updateProductInventory(productID, product.getInventory()+ipQuantity);
         request.setAttribute("success", "Thêm thành công");
-        request.getRequestDispatcher("import-details.jsp").forward(request, response);
+        request.getRequestDispatcher("importdetails").forward(request, response);
 
     }
 

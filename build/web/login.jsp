@@ -135,7 +135,7 @@
                                 <input name="password" id="pass" type="password" class="input" data-type="password" style="padding: 15px 20px">
                             </div>
                             <div class="group">
-                                <input type="submit" class="button" value="Đăng nhập">
+                                <input type="submit" class="button" value="Đăng nhập" style="padding: 15px 20px">
                             </div>
                             <div class="hr"></div>
                             <div class="group">

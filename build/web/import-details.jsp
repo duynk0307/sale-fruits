@@ -256,6 +256,7 @@
                                     <li><a href="./user" class="active" >Người dùng</a></li>
                                     <li><a href="./product">Sản phẩm</a></li>
                                     <li><a href="./allorder">Đơn hàng</a></li>
+                                    <li class="active"><a href="./import">Nhập hàng</a></li>
                                         <c:if test="${account != null}">
                                         <li><a href="./userinfo"><i class="fa fa-user"></i>${account.username}  </a></li>
                                         <li><a href="Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a></li>
@@ -274,7 +275,7 @@
                     <div class="table-wrapper">
                         <div class="table-title">
                             <div class="row">
-                                <div class="col-sm-8"><h2>Danh Sách  <b>Đơn Hàng</b></h2></div>
+                                <div class="col-sm-8"><h2>Danh Sách  <b>Sản Phẩm Nhập</b></h2></div>
                                 <div class="col-sm-4">
 
                                 </div>
@@ -291,7 +292,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${listIp}" var="li">
+                                <c:forEach items="${listImport}" var="li">
                                     <tr>
                                         <td>${li.productID}</td>
                                         <td>${li.ipID}</td>

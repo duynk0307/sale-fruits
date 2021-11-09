@@ -142,8 +142,8 @@
                     <div class="col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="./HomeControl">Trang chủ</a></li>
-                                <li><a href="./ShopControl">Shop</a></li>
+                                <li ><a href="./HomeControl">Trang chủ</a></li>
+                                <li class="active"><a href="./ShopControl">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
                                         <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
@@ -210,8 +210,8 @@
                                 <span>Các loại trái cây</span>
                             </div>
                             <ul>
-                                <c:forEach items="${listCate}" var="i">
-                                    <li><a href="#">${i.cateName}</a></li>
+                                <c:forEach items="${category1}" var="i">
+                                    <li><a href="ShopControl?cid=${i.cateID}">${i.cateName}</a></li>
                                     </c:forEach>
                             </ul>
                         </div>
