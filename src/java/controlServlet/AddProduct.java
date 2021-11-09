@@ -6,24 +6,23 @@
 package controlServlet;
 
 import dao.DAO;
-import entity.Account;
 import entity.Category;
 import entity.Product;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "ProductControl", urlPatterns = {"/product"})
-public class ProductControl extends HttpServlet {
+@WebServlet(name = "AddProduct", urlPatterns = {"/addproduct"})
+public class AddProduct extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,7 +36,40 @@ public class ProductControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
         DAO dao = new DAO();
+
+        // kiem soat da login hay chua
+//        HttpSession session = request.getSession();
+//        Account acc = (Account) session.getAttribute("account");
+//        if (acc != null) {
+//            if (acc.getRoleID() == 0) {
+//                response.sendRedirect("HomeControl");
+//            } else {
+//                request.setAttribute("user", acc);
+        String productID = request.getParameter("productID");
+        String productName = request.getParameter("productName");
+        String image = request.getParameter("image");
+        String title = request.getParameter("title");
+        String description = request.getParameter("description");
+        String cateID = request.getParameter("cateID");
+        double salePrice = Double.parseDouble(request.getParameter("salePrice"));
+        List<Product> liPro = dao.getListProduct();
+        boolean check = false;
+        for (int i = 0; i < liPro.size(); i++) {
+            if (liPro.get(i).getProductID().equals(productID)) {
+                check = true;
+            }
+        }
+        if (check) {
+            request.setAttribute("deleteSuccess", "Sản phẩm đã tồn tại");
+        } else {
+            dao.addProduct(productID, productName, image, title, description, cateID, salePrice);
+            request.setAttribute("deleteSuccess", "Thêm sản phẩm thành công");
+        }
+
         String indexPage = request.getParameter("index");
         if (indexPage == null) {
             indexPage = "1";
@@ -52,31 +84,20 @@ public class ProductControl extends HttpServlet {
         List<Product> listPro = dao.pagingProduct(index);
 
         List<Category> listCate = dao.getListCategory();
-        //kiem soat da login hay chua
-        HttpSession session = request.getSession();
-        Account acc = (Account) session.getAttribute("account");
-        if (acc != null) {
-            if (acc.getRoleID() == 0) {
-                response.sendRedirect("HomeControl");
-            } else {
-                request.setAttribute("user", acc);
-                String deleteMess = request.getParameter("deleteSuccess");
-                if (deleteMess != null) {
-                    request.setAttribute("deleteSuccess", "Xóa tài khoản thành công");
-                }
-                request.setAttribute("listCate", listCate);
-                request.setAttribute("shownumber", listPro.size());
-                request.setAttribute("activePage", index);
-                request.setAttribute("endP", endPage);
-                request.setAttribute("totalPro", count);
 
-                request.setAttribute("listPro", listPro);
+        request.setAttribute("listCate", listCate);
+        request.setAttribute("shownumber", listPro.size());
+        request.setAttribute("activePage", index);
+        request.setAttribute("endP", endPage);
+        request.setAttribute("totalPro", count);
 
-                request.getRequestDispatcher("product.jsp").forward(request, response);
-            }
-        } else {
-            response.sendRedirect("HomeControl");
-        }
+        request.setAttribute("listPro", listPro);
+
+        request.getRequestDispatcher("product.jsp").forward(request, response);
+        //            }
+//        } else {
+//            response.sendRedirect("HomeControl");
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

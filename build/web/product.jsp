@@ -338,7 +338,7 @@
                 </div>  
             </div> 
 
-            <form action="signup" name="myForm" onsubmit="return validateForm()" method="POST">
+            <form action="addproduct?index=${activePage}" name="myForm" onsubmit="return validateForm()" method="POST">
                 <br>
                 <br>
                 <div class="icon">

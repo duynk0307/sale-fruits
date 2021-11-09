@@ -6,6 +6,7 @@
 package controlServlet;
 
 import dao.DAO;
+import entity.Account;
 import entity.Category;
 import entity.OrderItem;
 import entity.Product;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -51,26 +53,26 @@ public class OrderAdmin extends HttpServlet {
             endPage++;
         }
         // kiem soat da login hay chua
-//        HttpSession session = request.getSession();
-//        Account acc = (Account) session.getAttribute("account");
-//        if (acc != null) {
-//            if (acc.getRoleID() == 0) {
-//                response.sendRedirect("HomeControl");
-//            } else {
-//                request.setAttribute("user", acc);
-        request.setAttribute("shownumber", listOrder.size());
-        request.setAttribute("activePage", index);
-        request.setAttribute("endP", endPage);
-        request.setAttribute("totalOrder", count);
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("account");
+        if (acc != null) {
+            if (acc.getRoleID() == 0) {
+                response.sendRedirect("HomeControl");
+            } else {
+                request.setAttribute("user", acc);
+                request.setAttribute("shownumber", listOrder.size());
+                request.setAttribute("activePage", index);
+                request.setAttribute("endP", endPage);
+                request.setAttribute("totalOrder", count);
 
-        request.setAttribute("listOrder", listOrder);
+                request.setAttribute("listOrder", listOrder);
 
-        request.getRequestDispatcher("orderadmin.jsp").forward(request, response);
-        //            }
-//        } else {
-//            response.sendRedirect("HomeControl");
-//        }
-        
+                request.getRequestDispatcher("orderadmin.jsp").forward(request, response);
+            }
+        } else {
+            response.sendRedirect("HomeControl");
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

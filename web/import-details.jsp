@@ -1,18 +1,18 @@
 <%-- 
-    Document   : product
-    Created on : Nov 7, 2021, 8:57:26 AM
+    Document   : import-details
+    Created on : Nov 9, 2021, 7:52:37 AM
     Author     : Nguyen Khanh Duy;
 --%>
 
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Product Detail</title>
+        <title>Danh Sách Nhập Hàng</title>
         <!-- Css Styles -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -214,31 +214,22 @@
                 $(document).ready(function () {
                     $('[data-toggle="tooltip"]').tooltip();
                 });
-                function onDelete() {
-                    if (confirm("Are you sure you want to delete?")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
                 function validateForm() {
 
                     // lay value
-                    let productID = document.forms["myForm"]["productID"].value;
-                    let salePrice = document.forms["myForm"]["salePrice"].value;
-                    var error = false;
+                    let quantity = document.forms["myForm"]["ipQuantity"].value;
+                    let price = document.forms["myForm"]["salePrice"].value;
 
-                    if (/^[a-zA-Z0-9]{3,4}$/.test(productID) === false) {
-                        document.getElementById("errid").innerHTML = "Product id from 3-4 characters and not contain special characters";
-                        error = true;
-                    } else {
-                        document.getElementById("errid").innerHTML = "";
-                    }
-
-                    if (typeof salePrice === 'number') {
+                    if (typeof price === 'number') {
                         document.getElementById("errPrice").innerHTML = "";
                     } else {
                         document.getElementById("errPrice").innerHTML = "Price must be a number";
+                        error = true;
+                    }
+                    if (typeof quantity === 'number') {
+                        document.getElementById("errPrice").innerHTML = "";
+                    } else {
+                        document.getElementById("errPrice").innerHTML = "Quantity must be a number";
                         error = true;
                     }
 
@@ -278,17 +269,12 @@
                     </div>
                 </div>
             </header>
-            <c:if test="${deleteSucess != null}">
-                <div class="success">
-                    ${deleteSucess}
-                </div>
-            </c:if>
             <div class="container-xl">
                 <div class="table-responsive">
                     <div class="table-wrapper">
                         <div class="table-title">
                             <div class="row">
-                                <div class="col-sm-8"><h2>Chi Tiết  <b>Sản Phẩm</b></h2></div>
+                                <div class="col-sm-8"><h2>Danh Sách  <b>Đơn Hàng</b></h2></div>
                                 <div class="col-sm-4">
 
                                 </div>
@@ -297,87 +283,79 @@
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name </th>
-                                    <th>Title</th>
-                                    <th>Category</th>
-                                    <th>Sale Price</i></th>
-                                    <th>Inventory</i></th>
-                                    <th>Actions</th>
+                                    <th>Product ID</th>
+                                    <th>Import ID </th>
+                                    <th>Quantity</th>
+                                    <th>Import Price</th>
+                                    <th>Source</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${listPro}" var="li">
+                                <c:forEach items="${listIp}" var="li">
                                     <tr>
                                         <td>${li.productID}</td>
-                                        <td>${li.productName}</td>
-                                        <td>${li.title}</td>
-                                        <td>${li.cateID}</td>
-                                        <td>${li.salePrice}</td>
-                                        <td>${li.inventory}</td>
-                                        <td>
-                                            <a href="product-info?productID=${li.productID}" class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i></a>
-                                            <a href="deleteproduct?id=${li.productID}" class="delete" title="Delete" onclick="return onDelete()"data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                                        </td>
+                                        <td>${li.ipID}</td>
+                                        <td>${li.ipQuantity}</td>
+                                        <td>${li.ipPrice}</td>
+                                        <td>${li.sourceID}</td>
                                     </tr>
                                 </c:forEach>
 
                             </tbody>
                         </table>
                         <div class="clearfix">
-                            <div class="hint-text">Showing <b>${shownumber}</b> out of <b>${totalPro}</b> entries</div>
                             <ul class="pagination">
                                 <li class="page-item disabled"><i class="fa fa-angle-double-left"></i></li>
-                                    <c:forEach begin="1" end="${endP}" var="i">
-                                    <li class="page-item ${activePage == i ? "active": ""}"><a href="product?index=${i}" class="page-link">${i}</a></li>
-                                    </c:forEach>
                                 <li class="page-item disabled"><i class="fa fa-angle-double-right"></i></li>
                             </ul>
                         </div>
                     </div>
                 </div>  
-            </div> 
-
-            <form action="addproduct?index=${activePage}" name="myForm" onsubmit="return validateForm()" method="POST">
+            </div>
+            <c:if test="${sucess != null}">
+                <div class="success">
+                    ${sucess}
+                </div>
+            </c:if>
+            <form action="addimportproduct?index=${activePage}" name="myForm" onsubmit="return validateForm()" method="POST">
                 <br>
                 <br>
                 <div class="icon">
                     <i class="fa fa-product-hunt"></i>
                 </div>
-                <h1 style="font-size:30px">ADD NEW PRODUCT</h1>
+                <h1 style="font-size:30px">ADD Import Product</h1>
                 <div class="formcontainer">
                     <div class="container">
-                        <label for="productID"><strong>ID</strong></label>
-                        <input type="text" placeholder="Enter product ID" minlength="3"name="productID" required>
-                        <div class="alert-danger" id="errid"></div>
-                        <label for="productName"><strong>Product Name</strong></label>
-                        <input type="text" placeholder="Enter Product Name" name="productName" required>
-                        <label for="image"><strong>Image</strong></label>
-                        <input type="text" placeholder="Enter Image" name="image" required>
-                        <label for="title"><strong>Title</strong></label>
-                        <input type="text" placeholder="Enter Title" name="title" required>
-                        <label for="description"><strong>Description</strong></label>
-                        <input type="text" placeholder="Enter Description" name="description" required>
-                        <label for="address"><strong>Category</strong></label>
+                        <label for="productID"><strong>Product ID</strong></label>
                         <br>
-                        <select name="cateID">
-                            <c:forEach items="${listCate}" var="c">
-                                <option value="${c.cateID}">${c.cateName}</option>
+                        <select name="productID">
+                            <c:forEach items="${listProduct}" var="c">
+                                <option value="${c.productID}">${c.productName}</option>
                             </c:forEach>
                         </select>
                         <br>
                         <br>
-                        <label for="salePrice"><strong>Sale Price</strong></label>
-                        <input type="text" placeholder="Enter Sale Price" name="salePrice" required>
-                        <div class="alert-danger" id="errPrice"></div>
-
+                        <label for="ipID"><strong>Import ID</strong></label>
+                        <input type="text" name="ipID" value="${ipID}" readonly>
+                        <label for="ipQuantity"><strong>Quantity</strong></label>
+                        <input type="text" name="ipQuantity" placeholder="Enter import quantity of product" required>
+                        <label for="ipPrice"><strong>Price</strong></label>
+                        <input type="text" name="ipPrice" placeholder="Enter import price of product" required>
+                        <label for="sourceID"><strong>Source</strong></label>
+                        <br>
+                        <select name="sourceID">
+                            <c:forEach items="${listSc}" var="c">
+                                <option value="${c.sourceID}">${c.sourceName}</option>
+                            </c:forEach>
+                        </select>
+                        <br>
+                        <br>
                     </div>
-                    <button type="submit"><strong>ADD PRODUCT</strong></button>
+                    <button type="submit"><strong>ADD IMPORT PRODUCT</strong></button>
                     <br>
                     <button type="reset"><strong>RESET</strong></button>
                 </div>
             </form>
-
             <!-- Js Plugins -->
             <script src="js/jquery-3.3.1.min.js"></script>
             <script src="js/bootstrap.min.js"></script>

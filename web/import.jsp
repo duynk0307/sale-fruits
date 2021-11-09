@@ -1,18 +1,18 @@
 <%-- 
-    Document   : product
-    Created on : Nov 7, 2021, 8:57:26 AM
+    Document   : import
+    Created on : Nov 9, 2021, 7:50:10 AM
     Author     : Nguyen Khanh Duy;
 --%>
 
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Product Detail</title>
+        <title>Danh Sách Nhập Hàng</title>
         <!-- Css Styles -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -214,34 +214,16 @@
                 $(document).ready(function () {
                     $('[data-toggle="tooltip"]').tooltip();
                 });
-                function onDelete() {
-                    if (confirm("Are you sure you want to delete?")) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-                function validateForm() {
-
+                function validateForm(){
                     // lay value
-                    let productID = document.forms["myForm"]["productID"].value;
-                    let salePrice = document.forms["myForm"]["salePrice"].value;
+                    let ipID = document.forms["myForm"]["ipID"].value;
                     var error = false;
-
-                    if (/^[a-zA-Z0-9]{3,4}$/.test(productID) === false) {
-                        document.getElementById("errid").innerHTML = "Product id from 3-4 characters and not contain special characters";
+                    if (/^[a-zA-Z0-9]{3,4}$/.test(ipID) === false) {
+                        document.getElementById("errid").innerHTML = "Import id not contain special characters";
                         error = true;
                     } else {
                         document.getElementById("errid").innerHTML = "";
                     }
-
-                    if (typeof salePrice === 'number') {
-                        document.getElementById("errPrice").innerHTML = "";
-                    } else {
-                        document.getElementById("errPrice").innerHTML = "Price must be a number";
-                        error = true;
-                    }
-
                     if (error) {
                         return false;
                     }
@@ -278,17 +260,12 @@
                     </div>
                 </div>
             </header>
-            <c:if test="${deleteSucess != null}">
-                <div class="success">
-                    ${deleteSucess}
-                </div>
-            </c:if>
             <div class="container-xl">
                 <div class="table-responsive">
                     <div class="table-wrapper">
                         <div class="table-title">
                             <div class="row">
-                                <div class="col-sm-8"><h2>Chi Tiết  <b>Sản Phẩm</b></h2></div>
+                                <div class="col-sm-8"><h2>Danh Sách  <b>Đơn Hàng</b></h2></div>
                                 <div class="col-sm-4">
 
                                 </div>
@@ -298,26 +275,19 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name </th>
-                                    <th>Title</th>
-                                    <th>Category</th>
-                                    <th>Sale Price</i></th>
-                                    <th>Inventory</i></th>
+                                    <th>Import Date </th>
+                                    <th>User ID</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach items="${listPro}" var="li">
+                                <c:forEach items="${listIp}" var="li">
                                     <tr>
-                                        <td>${li.productID}</td>
-                                        <td>${li.productName}</td>
-                                        <td>${li.title}</td>
-                                        <td>${li.cateID}</td>
-                                        <td>${li.salePrice}</td>
-                                        <td>${li.inventory}</td>
+                                        <td>${li.ipID}</td>
+                                        <td>${li.ipDate}</td>
+                                        <td>${li.userID}</td>
                                         <td>
-                                            <a href="product-info?productID=${li.productID}" class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-edit"></i></a>
-                                            <a href="deleteproduct?id=${li.productID}" class="delete" title="Delete" onclick="return onDelete()"data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                            <a href="importdetails?ipID=${li.ipID}" class="edit" title="View" data-toggle="tooltip"><i class="fa fa-view"></i></a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -325,51 +295,40 @@
                             </tbody>
                         </table>
                         <div class="clearfix">
-                            <div class="hint-text">Showing <b>${shownumber}</b> out of <b>${totalPro}</b> entries</div>
+                            <div class="hint-text">Showing <b>${shownumber}</b> out of <b>${totalImport}</b> entries</div>
                             <ul class="pagination">
                                 <li class="page-item disabled"><i class="fa fa-angle-double-left"></i></li>
                                     <c:forEach begin="1" end="${endP}" var="i">
-                                    <li class="page-item ${activePage == i ? "active": ""}"><a href="product?index=${i}" class="page-link">${i}</a></li>
+                                    <li class="page-item ${activePage == i ? "active": ""}"><a href="import?index=${i}" class="page-link">${i}</a></li>
                                     </c:forEach>
                                 <li class="page-item disabled"><i class="fa fa-angle-double-right"></i></li>
                             </ul>
                         </div>
                     </div>
                 </div>  
-            </div> 
-
-            <form action="addproduct?index=${activePage}" name="myForm" onsubmit="return validateForm()" method="POST">
+            </div>
+            <c:if test="${sucess != null}">
+                <div class="success">
+                    ${sucess}
+                </div>
+            </c:if>
+            <form action="addimport?index=${activePage}" name="myForm" onsubmit="return validateForm()" method="POST">
                 <br>
                 <br>
                 <div class="icon">
                     <i class="fa fa-product-hunt"></i>
                 </div>
-                <h1 style="font-size:30px">ADD NEW PRODUCT</h1>
+                <h1 style="font-size:30px">ADD IMPORT</h1>
                 <div class="formcontainer">
                     <div class="container">
-                        <label for="productID"><strong>ID</strong></label>
-                        <input type="text" placeholder="Enter product ID" minlength="3"name="productID" required>
-                        <div class="alert-danger" id="errid"></div>
-                        <label for="productName"><strong>Product Name</strong></label>
-                        <input type="text" placeholder="Enter Product Name" name="productName" required>
-                        <label for="image"><strong>Image</strong></label>
-                        <input type="text" placeholder="Enter Image" name="image" required>
-                        <label for="title"><strong>Title</strong></label>
-                        <input type="text" placeholder="Enter Title" name="title" required>
-                        <label for="description"><strong>Description</strong></label>
-                        <input type="text" placeholder="Enter Description" name="description" required>
-                        <label for="address"><strong>Category</strong></label>
-                        <br>
-                        <select name="cateID">
-                            <c:forEach items="${listCate}" var="c">
-                                <option value="${c.cateID}">${c.cateName}</option>
-                            </c:forEach>
-                        </select>
-                        <br>
-                        <br>
-                        <label for="salePrice"><strong>Sale Price</strong></label>
-                        <input type="text" placeholder="Enter Sale Price" name="salePrice" required>
-                        <div class="alert-danger" id="errPrice"></div>
+                        <label for="ipID"><strong>Import ID</strong></label>
+                        <input type="text" placeholder="Enter Import ID, example: i21" minlength="3" maxlength="4" name="ipID" required>
+                        <jsp:useBean id="now" class="java.util.Date" />
+                        <fmt:formatDate var="dateNow" value="${now}" pattern="yyyy-MM-dd" />
+                        <label for="ipDate"><strong>Import Date</strong></label>
+                        <input type="text" placeholder="Enter Import Date" name="ipDate" value="${dateNow}" readonly>
+                        <label for="userID"><strong>User ID</strong></label>
+                        <input type="text" name="userID" value="${account.username}" readonly>
 
                     </div>
                     <button type="submit"><strong>ADD PRODUCT</strong></button>
@@ -377,7 +336,6 @@
                     <button type="reset"><strong>RESET</strong></button>
                 </div>
             </form>
-
             <!-- Js Plugins -->
             <script src="js/jquery-3.3.1.min.js"></script>
             <script src="js/bootstrap.min.js"></script>

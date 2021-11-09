@@ -7,8 +7,9 @@ package controlServlet;
 
 import dao.DAO;
 import entity.Account;
-import entity.Category;
+import entity.ImportDetails;
 import entity.Product;
+import entity.Sources;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -22,8 +23,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "ProductControl", urlPatterns = {"/product"})
-public class ProductControl extends HttpServlet {
+@WebServlet(name = "ImportDetailsAdmin", urlPatterns = {"/importdetails"})
+public class ImportDetailsAdmin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,21 +39,12 @@ public class ProductControl extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         DAO dao = new DAO();
-        String indexPage = request.getParameter("index");
-        if (indexPage == null) {
-            indexPage = "1";
-        }
-        int index = Integer.parseInt(indexPage);
-
-        int count = dao.getTotalProduct();
-        int endPage = count / 6;
-        if (count % 6 != 0) {
-            endPage++;
-        }
-        List<Product> listPro = dao.pagingProduct(index);
-
-        List<Category> listCate = dao.getListCategory();
-        //kiem soat da login hay chua
+        String ipID = request.getParameter("ipID");
+        List<ImportDetails> listdetails = dao.getListImportByID(ipID);
+        List<Sources> listSc = dao.getLogoSourses();
+        List<Product> listProduct = dao.getListProduct();
+        
+        // kiem soat da login hay chua
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
         if (acc != null) {
@@ -60,23 +52,22 @@ public class ProductControl extends HttpServlet {
                 response.sendRedirect("HomeControl");
             } else {
                 request.setAttribute("user", acc);
-                String deleteMess = request.getParameter("deleteSuccess");
-                if (deleteMess != null) {
-                    request.setAttribute("deleteSuccess", "Xóa tài khoản thành công");
-                }
-                request.setAttribute("listCate", listCate);
-                request.setAttribute("shownumber", listPro.size());
-                request.setAttribute("activePage", index);
-                request.setAttribute("endP", endPage);
-                request.setAttribute("totalPro", count);
+        String mess = request.getParameter("success");
+        if (mess!=null){
+            request.setAttribute("success", "Thêm thành công");
+        }
+        
+        request.setAttribute("listImport", listdetails);
+        request.setAttribute("listProduct", listProduct);
+        request.setAttribute("listSc", listSc);
+        request.setAttribute("ipID", ipID);
 
-                request.setAttribute("listPro", listPro);
-
-                request.getRequestDispatcher("product.jsp").forward(request, response);
+        request.getRequestDispatcher("import-details.jsp").forward(request, response);
             }
         } else {
             response.sendRedirect("HomeControl");
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

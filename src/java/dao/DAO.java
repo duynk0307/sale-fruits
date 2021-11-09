@@ -12,6 +12,8 @@ import entity.Banner;
 import entity.CartItem;
 import entity.CartSession;
 import entity.Category;
+import entity.Import;
+import entity.ImportDetails;
 import entity.OrderDetails;
 import entity.OrderItem;
 import entity.Product;
@@ -759,6 +761,21 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
+    public void updateProduct(String productID, double quantity) {
+        Product product =getProductByID(productID);
+        try {
+            String query = "UPDATE Product\n"
+                    + "SET inventory=?\n"
+                    + "WHERE productID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setDouble(1, product.getInventory()-quantity);
+            ps.setString(2, productID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
     public List<OrderItem> getListOrder() {
 
@@ -839,6 +856,10 @@ public class DAO {
     }
     
     public void updateDeliveredOrder(int orderID) {
+        List<OrderDetails> listOr = getListOrderById(orderID);
+        for (int i = 0; i < listOr.size(); i++) {
+            updateProduct(listOr.get(i).getProductID(), listOr.get(i).getOrderQuantity());
+        }
         try {
             String query = "UPDATE OrderItems SET delivered=? WHERE orderID =?";
             con = new DBContext().getConnection();
@@ -919,5 +940,122 @@ public class DAO {
         }
         return list;
     }
+    
+    public void addProduct(String productID, String productName, String image, String title, String description, String cateID, double salePrice) {
+        try {
+            String query = "insert into Product\n"
+                    + "values(?,?,?,?,?,?,?,0,0)";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, productID);
+            ps.setString(2, productName);
+            ps.setString(3, image);
+            ps.setString(4, title);
+            ps.setString(5, description);
+            ps.setString(6, cateID);
+            ps.setDouble(7, salePrice);
+            ps.executeUpdate();
 
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    
+    public List<Import> pagingImport(int index) {
+        List<Import> list = new ArrayList<>();
+        String query = "select * from Import\n"
+                + "ORDER BY ipID\n"
+                + "OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY;";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, (index - 1) * 10);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Import ip = new Import(rs.getString(1), rs.getString(2), rs.getString(3));
+                list.add(ip);
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+    
+    public int getTotalImport() {
+        String query = "select count(*) from Import";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    public List<ImportDetails> getListImportByID(String ipID) {
+        List<ImportDetails> list = new ArrayList<>();
+        String query = "select * from Import where ipID = ?";
+        try {
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, ipID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ImportDetails(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4), rs.getString(5)));
+            }
+            return list;
+        } catch (Exception e) {
+        }
+        return list;
+    }
+    public void addImportProduct(String productID, String ipID, double ipQuantity, double ipPrice, String sourceID) {
+        try {
+            String query = "insert into ImportDetails\n"
+                    + "values(?,?,?,?,?)";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, productID);
+            ps.setString(2, ipID);
+            ps.setDouble(3, ipQuantity);
+            ps.setDouble(4, ipPrice);
+            ps.setString(5, sourceID);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public void addImport(String ipID, String ipDate, String userID) {
+        try {
+            String query = "insert into Import\n"
+                    + "values(?,?,?)";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, ipID);
+            ps.setString(2, ipDate);
+            ps.setString(3, userID);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public Import getImportID(String ipID) {
+        try {
+            String query = "select * from Import\n"
+                    + "where ipID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, ipID);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                return new Import(rs.getString(1), rs.getString(2),rs.getString(3));
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+    
 }

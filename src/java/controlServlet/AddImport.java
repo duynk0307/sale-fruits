@@ -6,24 +6,20 @@
 package controlServlet;
 
 import dao.DAO;
-import entity.Account;
-import entity.Category;
-import entity.Product;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "ProductControl", urlPatterns = {"/product"})
-public class ProductControl extends HttpServlet {
+@WebServlet(name = "AddImport", urlPatterns = {"/addimport"})
+public class AddImport extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,46 +33,18 @@ public class ProductControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         DAO dao = new DAO();
-        String indexPage = request.getParameter("index");
-        if (indexPage == null) {
-            indexPage = "1";
-        }
-        int index = Integer.parseInt(indexPage);
-
-        int count = dao.getTotalProduct();
-        int endPage = count / 6;
-        if (count % 6 != 0) {
-            endPage++;
-        }
-        List<Product> listPro = dao.pagingProduct(index);
-
-        List<Category> listCate = dao.getListCategory();
-        //kiem soat da login hay chua
-        HttpSession session = request.getSession();
-        Account acc = (Account) session.getAttribute("account");
-        if (acc != null) {
-            if (acc.getRoleID() == 0) {
-                response.sendRedirect("HomeControl");
-            } else {
-                request.setAttribute("user", acc);
-                String deleteMess = request.getParameter("deleteSuccess");
-                if (deleteMess != null) {
-                    request.setAttribute("deleteSuccess", "Xóa tài khoản thành công");
-                }
-                request.setAttribute("listCate", listCate);
-                request.setAttribute("shownumber", listPro.size());
-                request.setAttribute("activePage", index);
-                request.setAttribute("endP", endPage);
-                request.setAttribute("totalPro", count);
-
-                request.setAttribute("listPro", listPro);
-
-                request.getRequestDispatcher("product.jsp").forward(request, response);
-            }
+        String ipID = request.getParameter("ipID");
+        String ipDate = request.getParameter("ipDate");
+        String userID = request.getParameter("userID");
+        if (dao.getImportID(ipID)!= null){
+            request.setAttribute("success", "Import ID đã tồn tại");
         } else {
-            response.sendRedirect("HomeControl");
+            dao.addImport(ipID, ipDate, userID);
+             request.setAttribute("success", "Thêm thành công");
         }
+        request.getRequestDispatcher("import").forward(request, response);    
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

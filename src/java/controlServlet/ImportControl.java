@@ -7,8 +7,7 @@ package controlServlet;
 
 import dao.DAO;
 import entity.Account;
-import entity.Category;
-import entity.Product;
+import entity.Import;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -22,8 +21,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "ProductControl", urlPatterns = {"/product"})
-public class ProductControl extends HttpServlet {
+@WebServlet(name = "ImportControl", urlPatterns = {"/import"})
+public class ImportControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,6 +36,7 @@ public class ProductControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         DAO dao = new DAO();
         String indexPage = request.getParameter("index");
         if (indexPage == null) {
@@ -44,14 +44,12 @@ public class ProductControl extends HttpServlet {
         }
         int index = Integer.parseInt(indexPage);
 
-        int count = dao.getTotalProduct();
-        int endPage = count / 6;
-        if (count % 6 != 0) {
+        int count = dao.getTotalImport();
+        int endPage = count / 10;
+        if (count % 10 != 0) {
             endPage++;
         }
-        List<Product> listPro = dao.pagingProduct(index);
-
-        List<Category> listCate = dao.getListCategory();
+        List<Import> listImport = dao.pagingImport(index);
         //kiem soat da login hay chua
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
@@ -60,19 +58,18 @@ public class ProductControl extends HttpServlet {
                 response.sendRedirect("HomeControl");
             } else {
                 request.setAttribute("user", acc);
-                String deleteMess = request.getParameter("deleteSuccess");
-                if (deleteMess != null) {
-                    request.setAttribute("deleteSuccess", "Xóa tài khoản thành công");
+                String mess = request.getParameter("success");
+                if (mess != null) {
+                    request.setAttribute("success", mess);
                 }
-                request.setAttribute("listCate", listCate);
-                request.setAttribute("shownumber", listPro.size());
+                request.setAttribute("shownumber", listImport.size());
                 request.setAttribute("activePage", index);
                 request.setAttribute("endP", endPage);
                 request.setAttribute("totalPro", count);
 
-                request.setAttribute("listPro", listPro);
+                request.setAttribute("listImport", listImport);
 
-                request.getRequestDispatcher("product.jsp").forward(request, response);
+                request.getRequestDispatcher("import.jsp").forward(request, response);
             }
         } else {
             response.sendRedirect("HomeControl");

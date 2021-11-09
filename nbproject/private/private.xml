@@ -3,23 +3,32 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/order-details.jsp</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/entity/OrderItem.java</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/DeleteProduct.java</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/ShopControl.java</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/entity/OrderDetails.java</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/OrderDetailsControl.java</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/dao/DAO.java</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/product.jsp</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/orderadmin.jsp</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/web/admin.jsp</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/DeliveredControl.java</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/controlServlet/OrderAdmin.java</file>
-            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/sale-fruits/src/java/dao/TestingMain.java</file>
-=======
-            <file>file:/C:/Users/ACER/OneDrive/Máy%20tính/ProjectPRJ192/sale-fruits/web/shop-grid.jsp</file>
->>>>>>> e1eb995feae85ac4b299f0b2ab6d99676e4bbfbc
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/import.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/shop-details.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/entity/Import.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/controlServlet/ProductInformation.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/controlServlet/OrderAdmin.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/admin.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/login.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/dao/DAO.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/controlServlet/AddImport.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/user-info.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/controlServlet/ProductControl.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/import-details.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/index.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/controlServlet/OrderDetailsControl.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/controlServlet/ImportControl.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/order.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/controlServlet/CheckoutControl.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/checkout.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/controlServlet/OderControl.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/shop-grid.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/updateproduct.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/controlServlet/DeliveredControl.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/shoping-cart.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/order-details.jsp</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/src/java/controlServlet/ImportDetailsAdmin.java</file>
+            <file>file:/C:/Users/seeho/OneDrive/This%20PC/projectPRJ/clone8-11/sale-fruits/web/contact.jsp</file>
         </group>
     </open-files>
 </project-private>
