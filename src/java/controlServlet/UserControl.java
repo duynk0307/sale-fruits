@@ -61,24 +61,24 @@ public class UserControl extends HttpServlet {
 
         List<Account> listAcc = dao.pagingUser(index);
 
-        // kiem soat da login hay chua
-//        HttpSession session = request.getSession();
-//        Account acc = (Account) session.getAttribute("account");
-//        if (acc != null) {
-//            if (acc.getRoleID() == 0) {
-//                response.sendRedirect("HomeControl");
-//            } else {
-//                request.setAttribute("user", acc);
+        //kiem soat da login hay chua
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("account");
+        if (acc != null) {
+            if (acc.getRoleID() == 0) {
+                response.sendRedirect("HomeControl");
+            } else {
+                request.setAttribute("user", acc);
                 request.setAttribute("shownumber", listAcc.size());
                 request.setAttribute("activePage", index);
                 request.setAttribute("endP", endPage);
                 request.setAttribute("totalUser", count);
                 request.setAttribute("listAcc", listAcc);
                 request.getRequestDispatcher("admin.jsp").forward(request, response);
-//            }
-//        } else {
-//            response.sendRedirect("HomeControl");
-//        }
+            }
+        } else {
+            response.sendRedirect("HomeControl");
+        }
 
     }
 

@@ -10,7 +10,10 @@ import entity.Account;
 import entity.CartItem;
 import entity.CartSession;
 import entity.Category;
+import entity.OrderItem;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,8 +26,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "UserInfomation", urlPatterns = {"/userinfo"})
-public class UserInfomation extends HttpServlet {
+@WebServlet(name = "CheckoutCart", urlPatterns = {"/checkoutcart"})
+public class CheckoutCart extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,18 +41,36 @@ public class UserInfomation extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         DAO dao = new DAO();
-        // kiem soat da login hay chua
+
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
         if (acc != null) {
-            request.setAttribute("user", acc);
-            request.getRequestDispatcher("user-info.jsp").forward(request, response);
+            List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
+            CartSession cSession = dao.getCartSession(acc.getUserID());
+            List<Category> cate = dao.getListCategory();
+            if (cItem.isEmpty()) {
+                cItem = new ArrayList<>();
+            }
+            dao.addOrder(acc.getUserID());
+            OrderItem order = dao.getOrderByUserId(acc.getUserID());
+            int orderID = order.getOrderID();
+            for (int i = 0; i < cItem.size(); i++) {
+                dao.addOrderDetails(orderID,cItem.get(i).getProductID(), cItem.get(i).getQuantity(), cItem.get(i).getSalePrice());
+            }
+            dao.changeStateOffBySession(cSession.getSessionID());
+            
+            List<OrderItem> listOrder = dao.getListOrderItemById(acc.getUserID());
+            request.setAttribute("listCate", cate);
+            request.setAttribute("cItem", cItem);
+            request.setAttribute("cSession", cSession);
+            request.setAttribute("listOrder", listOrder);
+            dao.setCartTotal(dao.getCartTotal(cSession.getSessionID()), cSession.getSessionID());
+            request.getRequestDispatcher("order.jsp").forward(request, response);
         } else {
-            response.sendRedirect("HomeControl");
+            response.sendRedirect("login.jsp");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -6,7 +6,6 @@
 package dao;
 
 import context.DBContext;
-import controlServlet.OrderDetailsControl;
 import entity.Account;
 import entity.Banner;
 import entity.CartItem;
@@ -326,6 +325,18 @@ public class DAO {
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             ps.setInt(1, cartID);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public void changeStateOffBySession(int sessionID) {
+        try {
+            String query = "UPDATE CartItem SET state = 0 WHERE sessionID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, sessionID);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -761,15 +772,16 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
+
     public void updateProduct(String productID, double quantity) {
-        Product product =getProductByID(productID);
+        Product product = getProductByID(productID);
         try {
             String query = "UPDATE Product\n"
                     + "SET inventory=?\n"
                     + "WHERE productID = ?";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
-            ps.setDouble(1, product.getInventory()-quantity);
+            ps.setDouble(1, product.getInventory() - quantity);
             ps.setString(2, productID);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -854,7 +866,7 @@ public class DAO {
         }
         return list;
     }
-    
+
     public void updateDeliveredOrder(int orderID) {
         List<OrderDetails> listOr = getListOrderById(orderID);
         for (int i = 0; i < listOr.size(); i++) {
@@ -872,6 +884,7 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
+
     public List<Product> pagingProduct(int index) {
         List<Product> list = new ArrayList<>();
         String query = "select p.* from Product p left join Saleoff s\n"
@@ -940,7 +953,7 @@ public class DAO {
         }
         return list;
     }
-    
+
     public void addProduct(String productID, String productName, String image, String title, String description, String cateID, double salePrice) {
         try {
             String query = "insert into Product\n"
@@ -960,7 +973,7 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
-    
+
     public List<Import> pagingImport(int index) {
         List<Import> list = new ArrayList<>();
         String query = "select * from Import\n"
@@ -979,7 +992,7 @@ public class DAO {
         }
         return list;
     }
-    
+
     public int getTotalImport() {
         String query = "select count(*) from Import";
         try {
@@ -993,6 +1006,7 @@ public class DAO {
         }
         return 0;
     }
+
     public List<ImportDetails> getListImportByID(String ipID) {
         List<ImportDetails> list = new ArrayList<>();
         String query = "select * from Import where ipID = ?";
@@ -1009,6 +1023,7 @@ public class DAO {
         }
         return list;
     }
+
     public void addImportProduct(String productID, String ipID, double ipQuantity, double ipPrice, String sourceID) {
         try {
             String query = "insert into ImportDetails\n"
@@ -1026,6 +1041,7 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
+
     public void addImport(String ipID, String ipDate, String userID) {
         try {
             String query = "insert into Import\n"
@@ -1041,6 +1057,7 @@ public class DAO {
             System.err.println(e.getMessage());
         }
     }
+
     public Import getImportID(String ipID) {
         try {
             String query = "select * from Import\n"
@@ -1049,13 +1066,79 @@ public class DAO {
             ps = con.prepareStatement(query);
             ps.setString(1, ipID);
             rs = ps.executeQuery();
-            while (rs.next()){
-                return new Import(rs.getString(1), rs.getString(2),rs.getString(3));
+            while (rs.next()) {
+                return new Import(rs.getString(1), rs.getString(2), rs.getString(3));
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         return null;
     }
-    
+
+    public void addOrder(int userID) {
+        try {
+            String query = "insert into OrderItems (dateOfOrder, userID)\n"
+                    + "values(?,?)";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, java.time.LocalDate.now().toString());
+            ps.setInt(2, userID);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public OrderItem getOrderByUserId(int userID) {
+        try {
+            String query = "select * from OrderItems where userID = ? ORDER BY orderID desc;";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, userID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new OrderItem(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4));
+            }
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return new OrderItem();
+    }
+    public List<OrderItem> getListOrderItemById(int userID) {
+
+        List<OrderItem> list = new ArrayList<>();
+        try {
+            String query = "SELECT * from OrderItems where userID = ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, userID);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(new OrderItem(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4)));
+            }
+            return list;
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return list;
+    }
+    public void addOrderDetails(int orderID, String productID, double orderQuantity, double orderPrice) {
+        try {
+            String query = "insert into OrderDetails\n"
+                    + "values(?,?, ?, ?)";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, orderID);
+            ps.setString(2, productID);
+            ps.setDouble(3, orderQuantity);
+            ps.setDouble(4, orderPrice);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }

@@ -98,15 +98,15 @@
             <div class="header__top">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-md-6">
                             <div class="header__top__left">
                                 <ul>
-                                    <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                                    <li>Free Shipping for all Order of $99</li>
+                                    <li><i class="fa fa-envelope"></i> hellogroup6@gmail.com</li>
+                                    <li>Miễn phí giao hàng cho đơn hàng từ 500.000 đồng</li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 col-md-6">
                             <div class="header__top__right">
                                 <div class="header__top__right__social">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
@@ -116,12 +116,15 @@
                                 </div>
                                 <c:if test="${account == null}">
                                     <div class="header__top__right__auth">
-                                        <a href="./login.jsp"><i class="fa fa-user"></i> Login</a>
+                                        <a href="./login.jsp"><i class="fa fa-user"></i> Đăng nhập</a>
                                     </div>
                                 </c:if>
                                 <c:if test="${account != null}">
                                     <div class="header__top__right__auth">
-                                        <a href="Logout"><i class="fa fa-user"></i> Logout</a>
+                                        <a href="./userinfo"><i class="fa fa-user"></i>${account.username}  </a>
+                                    </div>
+                                    <div class="header__top__right__auth">
+                                        <a href="Logout"><i class="fa fa-sign-out"></i>Đăng xuất</a>
                                     </div>
                                 </c:if>
                             </div>
@@ -136,18 +139,20 @@
                             <a href="./HomeControl"><img src="img/logo.png" alt=""></a>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li><a href="./HomeControl">Home</a></li>
-                                <li class="active"><a href="./ShopControl">Shop</a></li>
+                                <li class="active"><a href="./HomeControl">Trang chủ</a></li>
+                                <li><a href="./ShopControl">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
-                                        <li><a href="./shoping-cart.jsp">Shoping Cart</a></li>
-                                        <li><a href="./checkout">Check Out</a></li>
+                                        <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
+                                        <li><a href="./shoppingcart">Giỏ hàng</a></li>
+                                        <li><a href="./checkout">Thanh toán</a></li>
+                                        <li><a href="./order">Đơn hàng đã đặt</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="./contact">Contact</a></li>
+                                <li><a href="./contact">Liên hệ</a></li>
                                     <c:if test="${account.roleID == 1}">
                                     <li><a href="./user">Administrator</a></li>
                                     </c:if>
@@ -161,7 +166,7 @@
                                     <ul>
                                         <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>${cItem.size()}</span></a></li>
                                     </ul>
-                                    <div class="header__cart__price">item: <span>$${cSession.total}</span></div>
+                                    <div class="header__cart__price"> <span>${cSession.total}vnd</span></div>
                                 </div>
                             </div>
                         </c:if>
@@ -171,7 +176,7 @@
                                     <ul>
                                         <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
                                     </ul>
-                                    <div class="header__cart__price">item: <span>$${cSession.total}</span></div>
+                                    <div class="header__cart__price"> <span>${cSession.total}vnd</span></div>
                                 </div>
                             </div>
                         </c:if>
@@ -182,7 +187,7 @@
                                 <ul>
                                     <li><a href="./shoppingcart"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
                                 </ul>
-                                <div class="header__cart__price">item: <span>0.00</span></div>
+                                <div class="header__cart__price"> <span>0.00vnd</span></div>
                             </div>
                         </div>
                     </c:if>

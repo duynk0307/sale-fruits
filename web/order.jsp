@@ -147,6 +147,7 @@
                                         <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
                                         <li><a href="./shoppingcart">Giỏ hàng</a></li>
                                         <li><a href="./checkout">Thanh toán</a></li>
+                                        <li><a href="./order">Đơn hàng đã đặt</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="./contact">Liên hệ</a></li>
@@ -205,55 +206,46 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th class="shoping__product">Các sản phẩm</th>
-                                            <th>Giá</th>
-                                            <th>Số lượng</th>
-                                            <th>Tổng</th>
+                                            <th>Stt đơn hàng</th>
+                                            <th class="shoping__cart__item">Mã đơn hàng</th>
+                                            <th>Ngày đặt</th>
+                                            <th>Tình trạng</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <c:set var="count" value="0"></c:set>
-                                        <c:if test="${!cItem.isEmpty()}">
-                                            <c:forEach items="${cItem}" var="item" >
+                                        <c:if test="${!listOrder.isEmpty()}">
+                                            <c:forEach items="${listOrder}" var="item" >
                                                 <tr>
-                                                    <td class="shoping__cart__item">
-                                                        <img src="<c:out value="${item.product.image}" />" alt="">
-                                                        <h3><c:out value="${item.productName}" /></h3>
+                                                    <td>
+                                                        <h3><c:out value="${count}" /></h3>
+                                                        <c:set var="count" value="${count+1}"></c:set>
+                                                    </td>
+                                                    <td>
+                                                        <h3><c:out value="${item.orderID}" /></h3>
                                                     </td>
                                                     <td class="shoping__cart__price">
-                                                        $<c:out value="${item.salePrice}" />
+                                                        <c:out value="${item.dateofOrder}" />
                                                     </td>
-                                                    <td class="shoping__cart__quantity">
-                                                        <div class="quantity">
-                                                            <div class="pro-qty">
-                                                                <input type="text" name="product${count}" value="<c:out value="${item.quantity}" />">
-                                                                <c:set var="count" value="${count+1}"></c:set>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="shoping__cart__total">
-                                                            S<c:out value="${item.total}" />
+                                                    <td class="shoping__cart__total">
+                                                        <c:if test="${item.delivered != null}">
+                                                            <c:out value="Đã giao ${item.delivered}" />
+                                                        </c:if>
+                                                        <c:if test="${item.delivered == null}">
+                                                            <c:out value="Chưa giao" />
+                                                        </c:if>
                                                     </td>
                                                     <td class="shoping__cart__item__close">
-                                                        <a href="<c:url value="deletecart">
-                                                               <c:param name="pID" value="${item.productID}"/>
-                                                           </c:url>"><span class="icon_close"></span></a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
                                         </c:if>
-                                        <c:if test="${cItem.isEmpty()}">
+                                        <c:if test="${listOrder.isEmpty()}">
                                             <tr>
-                                                <td class="shoping__cart__item">Bạn chưa chọn sản phẩm nào! Vui lòng chọn thêm sản phẩm!</td>
+                                                <td class="shoping__cart__item">Bạn chưa từng mua gì!</td>
                                             </tr>
                                         </c:if>
-                                        <tr>
-                                            <td class="shoping__cart__item"><a href="./ShopControl" class="primary-btn cart-btn">TIẾP TỤC MUA HÀNG</a></td>
-                                            <td class="shoping__cart__item__close">
-                                                <input type="submit" value="Làm mới giỏ" class="primary-btn cart-btn cart-btn-right">
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </form>
@@ -262,5 +254,72 @@
                 </div>
         </section>
         <!-- Shoping Cart Section End -->
+
+        <!-- Footer Section Begin -->
+        <footer class="footer spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer__about">
+                            <div class="footer__about__logo">
+                                <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+                            </div>
+                            <ul>
+                                <li>Địa chỉ: Ninh Kiều, Cần Thơ</li>
+                                <li>Số điện thoại: +8436 3323 084</li>
+                                <li>Email: hellogroup6@gmail.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+                        <div class="footer__widget">
+                            <h6>Useful Links</h6>
+                            <ul>
+                                <li><a href="./HomeControl">Trang chủ</a></li>
+                                <li><a href="./contact">Thông tin liên hệ</a></li>
+                                <li><a href="./ShopControl">Mua ngay</a></li>
+                                <li><a href="./shoppingcart">Giỏ hàng</a></li>
+                                <li><a href="./checkout">Thủ tục thanh toán</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="footer__widget">
+                            <h6>Đến Ngay Với Chúng Tôi</h6>
+                            <p>Thời gian hoạt động: từ 7:00 đến 21:00 hằng ngày.</p>
+
+                            <p>Miễn phí giao hàng trong phạm vi nội ô Ninh Kiều.</p>
+                            <div class="footer__widget__social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer__copyright">
+                            <div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
+                            <div class="footer__copyright__payment"><img src="img/payment-item.png" alt=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer Section End -->
+
+        <!-- Js Plugins -->
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.nice-select.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        <script src="js/jquery.slicknav.js"></script>
+        <script src="js/mixitup.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>

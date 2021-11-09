@@ -10,6 +10,7 @@ import entity.Account;
 import entity.CartItem;
 import entity.CartSession;
 import entity.Category;
+import entity.OrderItem;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -41,18 +42,17 @@ public class CheckoutControl extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         DAO dao = new DAO();
-        List<Category> cate = dao.getListCategory();
-
-        request.setAttribute("listCate", cate);
 
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
         if (acc != null) {
             List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
             CartSession cSession = dao.getCartSession(acc.getUserID());
+            List<Category> cate = dao.getListCategory();
             if (cItem.isEmpty()) {
                 cItem = new ArrayList<>();
-            } 
+            }
+            request.setAttribute("listCate", cate);
             request.setAttribute("cItem", cItem);
             request.setAttribute("cSession", cSession);
             dao.setCartTotal(dao.getCartTotal(cSession.getSessionID()), cSession.getSessionID());

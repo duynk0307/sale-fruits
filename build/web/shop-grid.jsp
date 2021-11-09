@@ -151,6 +151,7 @@
                                         <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
                                         <li><a href="./shoppingcart">Giỏ hàng</a></li>
                                         <li><a href="./checkout">Thanh toán</a></li>
+                                        <li><a href="./order">Đơn hàng đã đặt</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="./contact">Liên hệ</a></li>

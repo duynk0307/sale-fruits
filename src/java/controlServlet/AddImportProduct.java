@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "AddImportProduct", urlPatterns = {"/importdetails"})
+@WebServlet(name = "AddImportProduct", urlPatterns = {"/addimportproduct"})
 public class AddImportProduct extends HttpServlet {
 
     /**

@@ -140,9 +140,9 @@
                                 <li><a href="./ShopControl">Shop</a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
-                                        <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
                                         <li><a href="./shoppingcart">Giỏ hàng</a></li>
                                         <li><a href="./checkout">Thanh toán</a></li>
+                                        <li><a href="./order">Đơn hàng đã đặt</a></li>
                                     </ul>
                                 </li>
                                 <li class="active"><a href="./contact">Liên hệ</a></li>

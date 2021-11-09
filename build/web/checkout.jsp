@@ -142,6 +142,7 @@
                                         <!--                                        <li><a href="./shop-details.jsp">Shop Details</a></li>-->
                                         <li><a href="./shoppingcart">Giỏ hàng</a></li>
                                         <li><a href="./checkout">Thanh toán</a></li>
+                                        <li><a href="./order">Đơn hàng đã đặt</a></li>                                        
                                     </ul>
                                 </li>
                                 <li><a href="./contact">Liên hệ</a></li>
@@ -269,23 +270,29 @@
                                         </c:forEach>
                                     </c:if>    
                             </ul>
-                            <div class="checkout__order__subtotal">Tổng phụ <span>${cSession.total}vnd</span></div>
                             <div class="checkout__order__total">Tổng tiền<span>${cSession.total}vnd</span></div>
                             <div class="checkout__input__checkbox">
                                 <label for="payment">
                                     Giao hàng nhanh
-                                    <input type="checkbox" id="payment">
+                                    <input type="checkbox" id="payment" readonly checked>
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
                             <div class="checkout__input__checkbox">
                                 <label for="paypal">
                                     Thanh toán khi nhận hàng
-                                    <input type="checkbox" id="paypal">
+                                    <input type="checkbox" id="paypal" readonly checked>
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
-                            <button type="submit" class="site-btn">ĐẶT HÀNG</button>
+                            <form action="checkoutcart" method="post">
+                                <c:if test="${!cItem.isEmpty()}">
+                                <button type="submit" class="site-btn">ĐẶT HÀNG</button>
+                                </c:if>
+                                <c:if test="${cItem.isEmpty()}">
+                                    <label>Vui lòng chọn thêm sản phẩm</label>
+                                </c:if>
+                            </form>
                         </div>
                     </div>
                 </div>

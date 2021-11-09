@@ -5,20 +5,29 @@
  */
 package controlServlet;
 
+import dao.DAO;
+import entity.Account;
+import entity.CartItem;
+import entity.CartSession;
+import entity.Category;
+import entity.OrderItem;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "OderControl", urlPatterns = {"/oder"})
-public class OderControl extends HttpServlet {
+@WebServlet(name = "OrderControl", urlPatterns = {"/order"})
+public class OrderControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +41,29 @@ public class OderControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        DAO dao = new DAO();
+        List<Category> cate = dao.getListCategory();
+
+        request.setAttribute("listCate", cate);
+
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("account");
+        if (acc != null) {
+            List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
+            CartSession cSession = dao.getCartSession(acc.getUserID());
+            List<OrderItem> listOrder = dao.getListOrderItemById(acc.getUserID());
+            if (cItem.isEmpty()) {
+                cItem = new ArrayList<>();
+            } 
+            
+            request.setAttribute("cItem", cItem);
+            request.setAttribute("cSession", cSession);
+            request.setAttribute("listOrder", listOrder);
+            dao.setCartTotal(dao.getCartTotal(cSession.getSessionID()), cSession.getSessionID());
+            request.getRequestDispatcher("order.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("login.jsp");
+        }
         
     }
 
