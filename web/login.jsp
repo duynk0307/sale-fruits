@@ -143,27 +143,27 @@
                             </div>
                         </div>
                     </form>
-                    <form action="SignUpControl" method="post" onsubmit="return validateForm()">
+                    <form action="SignUpControl" method="post" name="myForm" onsubmit="return validateForm()">
                         <div class="sign-up-htm">
                             <div class="group">
                                 <label for="username" class="label">Tên tài khoản</label>
                                 <input name="username" id="user" type="text" class="input" required>
-                                <label for="username" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 15px" id="errUser"></label>
+                                <label for="username" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 12px" id="errUser"></label>
                             </div>
                             <div class="group">
                                 <label for="password" class="label">Mật khẩu</label>
-                                <input name="password"id="pass" type="password" class="input" data-type="password" required>
-                                <label for="address" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 15px" id="errPass"></label>
+                                <input name="password" id="pass" type="password" class="input" data-type="password" required>
+                                <label for="address" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 12px" id="errPass"></label>
                             </div>
                             <div class="group">
                                 <label for="fullname" class="label">Họ và tên</label>
                                 <input name="fullname" id="pass" type="text" class="input" required>
-                                <label for="address" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 15px" id="errName"></label>
+                                <label for="address" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 12px" id="errName"></label>
                             </div>
                             <div class="group">
                                 <label for="phone" class="label">Số điện thoại</label>
-                                <input name="phone" id="pass" type="text" class="input" required>
-                                <label for="address" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 15px" id="errPhone"></label>
+                                <input name="phone" id="pass" type="text" class="input" minlength="10" required>
+                                <label for="address" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 12px" id="errPhone"></label>
                             </div>
                             <div class="group">
                                 <label for="address" class="label">Địa chỉ</label>
