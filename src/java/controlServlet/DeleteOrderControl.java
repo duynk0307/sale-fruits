@@ -7,20 +7,27 @@ package controlServlet;
 
 import dao.DAO;
 import entity.Account;
+import entity.CartItem;
+import entity.CartSession;
+import entity.Category;
+import entity.OrderItem;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Nguyen Khanh Duy;
  */
-@WebServlet(name = "SignUpControl", urlPatterns = {"/SignUpControl"})
-public class SignUpControl extends HttpServlet {
+@WebServlet(name = "DeleteOrderControl", urlPatterns = {"/deleteorder"})
+public class DeleteOrderControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,48 +41,33 @@ public class SignUpControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String fullname = request.getParameter("fullname");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        String address = request.getParameter("address");
-
-        String whoRegis = request.getParameter("adminRegis");
         DAO dao = new DAO();
-        Account account = dao.checkSignUp(username);
-        if (account != null) {
-            request.setAttribute("signupMessage", "Tài khoản đã tồn tại");
-            if (whoRegis != null) {
-                if (whoRegis.equals("adminregister")) {
-                    request.getRequestDispatcher("user").forward(request, response);
-                } else {
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                }
-            } else {
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-            }
 
+        // kiem tra session da dang nhap chua
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("account");
+        if (acc != null) {
+            List<CartItem> cItem = dao.getListCartItem(acc.getUserID());
+            CartSession cSession = dao.getCartSession(acc.getUserID());
+            List<Category> cate = dao.getListCategory();
+            String orderID = request.getParameter("orderID");
+            if (cItem.isEmpty()) {
+                cItem = new ArrayList<>();
+            }
+            // xoa order bang orderID
+            dao.deleteOrderByID(Integer.parseInt(orderID));
+            
+            
+            List<OrderItem> listOrder = dao.getListOrderItemById(acc.getUserID());
+            request.setAttribute("listCate", cate);
+            request.setAttribute("cItem", cItem);
+            request.setAttribute("cSession", cSession);
+            request.setAttribute("listOrder", listOrder);
+            dao.setCartTotal(dao.getCartTotal(cSession.getSessionID()), cSession.getSessionID());
+            request.getRequestDispatcher("order.jsp").forward(request, response);
         } else {
-            dao.signUp(username, password, fullname, phone, address, email);
-            Account regisAcc = dao.getAccountByUserName(username);
-            dao.addCartSession(regisAcc.getUserID());
-            if (whoRegis != null) {
-                if (whoRegis.equals("adminregister")) {
-                    request.setAttribute("regisSucess", "Đăng kí tài khoản thành công");
-                    request.getRequestDispatcher("user").forward(request, response);
-                } else {
-                    request.setAttribute("regisSucess", "Đăng kí tài khoản thành công");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                }
-            } else {
-                request.setAttribute("regisSucess", "Đăng kí tài khoản thành công");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-            }
-
+            response.sendRedirect("login.jsp");
         }
     }
 

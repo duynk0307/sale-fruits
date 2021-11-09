@@ -398,7 +398,6 @@
                         <label for="email"><strong>Email</strong></label>
                         <input type="text" placeholder="Enter Email" name="email" required>
                         <div class="alert-danger" id="errEmail"></div>
-
                     </div>
                     <button type="submit" name="adminRegis" value="adminregister"><strong>ADD</strong></button>
                     <br>

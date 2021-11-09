@@ -16,7 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Login</title>
-        
+
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;900&display=swap" rel="stylesheet">
         <!-- Css Styles -->
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -28,6 +28,61 @@
         <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="css/style.css" type="text/css">
         <link rel="stylesheet" href="css/login-form.css" type="text/css">
+        <script>
+            function validateForm() {
+                // regex bat validate
+                var rexuser = new RegExp("^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$");
+                var rexname = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+                var rexemail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                // lay value
+                let user = document.forms["myForm"]["username"].value;
+                let pass = document.forms["myForm"]["password"].value;
+                let fullname = document.forms["myForm"]["fullname"].value;
+                let phone = document.forms["myForm"]["phone"].value;
+                let email = document.forms["myForm"]["email"].value;
+                var error = false;
+
+                if (rexuser.test(user) === false) {
+                    document.getElementById("errUser").innerText = "Username between 8 and 20 characters and no special characters";
+                    error = true;
+                } else {
+                    document.getElementById("errUser").innerText = "";
+                }
+                if (pass.length < 6) {
+                    document.getElementById("errPass").innerText = "Password contain at least 6 characters";
+                    error = true;
+                } else {
+                    document.getElementById("errPass").innerText = "";
+                }
+
+                if (rexname.test(fullname) === false) {
+                    document.getElementById("errName").innerText = "Full name do not contain special characters";
+                    error = true;
+                } else {
+                    document.getElementById("errName").innerText = "";
+                }
+
+                if (/[0][0-9]{9}/.test(phone) === false) {
+                    document.getElementById("errPhone").innerText = "Invalid phone number";
+                    error = true;
+                } else {
+                    document.getElementById("errPhone").innerText = "";
+                }
+
+                if (rexemail.test(String(email).toLowerCase()) === false) {
+                    document.getElementById("errEmail").innerText = "Invalid email address";
+                    error = true;
+                } else {
+                    document.getElementById("errEmail").innerText = "";
+                }
+
+                if (error) {
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </head>
 
     <body>
@@ -73,11 +128,11 @@
                         <div class="sign-in-htm">
                             <div class="group">
                                 <label for="user" class="label">Tên tài khoản</label>
-                                <input name="username" id="user" type="text" class="input">
+                                <input name="username" id="user" type="text" class="input" style="padding: 15px 20px">
                             </div>
                             <div class="group">
                                 <label for="pass" class="label">Mật khẩu</label>
-                                <input name="password" id="pass" type="password" class="input" data-type="password">
+                                <input name="password" id="pass" type="password" class="input" data-type="password" style="padding: 15px 20px">
                             </div>
                             <div class="group">
                                 <input type="submit" class="button" value="Đăng nhập">
@@ -88,27 +143,36 @@
                             </div>
                         </div>
                     </form>
-                    <form action="signup" method="post">
+                    <form action="SignUpControl" method="post" onsubmit="return validateForm()">
                         <div class="sign-up-htm">
                             <div class="group">
-                                <label for="user" class="label">Tên tài khoản</label>
-                                <input name="username" id="user" type="text" class="input">
+                                <label for="username" class="label">Tên tài khoản</label>
+                                <input name="username" id="user" type="text" class="input" required>
+                                <label for="username" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 15px" id="errUser"></label>
                             </div>
                             <div class="group">
-                                <label for="pass" class="label">Mật khẩu</label>
-                                <input name="password"id="pass" type="password" class="input" data-type="password">
+                                <label for="password" class="label">Mật khẩu</label>
+                                <input name="password"id="pass" type="password" class="input" data-type="password" required>
+                                <label for="address" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 15px" id="errPass"></label>
                             </div>
                             <div class="group">
-                                <label for="pass" class="label">Họ và tên</label>
-                                <input name="fullname" id="pass" type="text" class="input">
+                                <label for="fullname" class="label">Họ và tên</label>
+                                <input name="fullname" id="pass" type="text" class="input" required>
+                                <label for="address" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 15px" id="errName"></label>
+                            </div>
+                            <div class="group">
+                                <label for="phone" class="label">Số điện thoại</label>
+                                <input name="phone" id="pass" type="text" class="input" required>
+                                <label for="address" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 15px" id="errPhone"></label>
+                            </div>
+                            <div class="group">
+                                <label for="address" class="label">Địa chỉ</label>
+                                <input type="text" placeholder="Nhập Địa Chỉ" name="address" class="input" required>
                             </div>
                             <div class="group">
                                 <label for="pass" class="label">Email</label>
-                                <input name="email" id="pass" type="text" class="input">
-                            </div>
-                            <div class="group">
-                                <label for="pass" class="label">Số điện thoại</label>
-                                <input name="phone" id="pass" type="text" class="input">
+                                <input name="email" id="pass" type="text" class="input" required>
+                                <label for="address" class="alert-danger label" style="background-color: rgba(0,0,0, 0.2); padding-left: 10px; font-size: 15px" id="errEmail"></label>
                             </div>
                             <div class="group">
                                 <input type="submit" class="button" value="Đăng ký">

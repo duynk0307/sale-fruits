@@ -122,6 +122,9 @@
                                 </c:if>
                                 <c:if test="${account != null}">
                                     <div class="header__top__right__auth">
+                                        <a href="./userinfo"><i class="fa fa-user"></i>${account.username}  </a>
+                                    </div>
+                                    <div class="header__top__right__auth">
                                         <a href="Logout"><i class="fa fa-user"></i> Đăng xuất</a>
                                     </div>
                                 </c:if>
@@ -206,29 +209,24 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>Stt đơn hàng</th>
-                                            <th class="shoping__cart__item">Mã đơn hàng</th>
-                                            <th>Ngày đặt</th>
+                                            <th class="shoping__product">Mã đơn hàng</th>
+                                            <th class="shoping__cart__price">Ngày đặt</th>
                                             <th>Tình trạng</th>
-                                            <th></th>
+                                            <th>.....</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:set var="count" value="0"></c:set>
                                         <c:if test="${!listOrder.isEmpty()}">
                                             <c:forEach items="${listOrder}" var="item" >
                                                 <tr>
-                                                    <td>
-                                                        <h3><c:out value="${count}" /></h3>
-                                                        <c:set var="count" value="${count+1}"></c:set>
-                                                    </td>
-                                                    <td>
+                                                    <td class="shoping__cart__item">
                                                         <h3><c:out value="${item.orderID}" /></h3>
                                                     </td>
-                                                    <td class="shoping__cart__price">
+                                                    <td >
                                                         <c:out value="${item.dateofOrder}" />
                                                     </td>
-                                                    <td class="shoping__cart__total">
+                                                    <td>
                                                         <c:if test="${item.delivered != null}">
                                                             <c:out value="Đã giao ${item.delivered}" />
                                                         </c:if>
@@ -236,8 +234,13 @@
                                                             <c:out value="Chưa giao" />
                                                         </c:if>
                                                     </td>
-                                                    <td class="shoping__cart__item__close">
-                                                    </td>
+                                                    
+                                                    <td></td>
+                                                    <c:if test="${item.delivered==null}">
+                                                        <td class="shoping__cart__item__close">
+                                                            <a href="deleteorder?orderID=${item.orderID}"><span class="icon_close"></span></a>
+                                                        </td>
+                                                    </c:if>
                                                 </tr>
                                             </c:forEach>
                                         </c:if>

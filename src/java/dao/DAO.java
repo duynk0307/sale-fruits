@@ -117,7 +117,7 @@ public class DAO {
     public void signUp(String username, String password, String fullname, String phone, String address, String email) {
         try {
             String query = "insert into UserLogin\n"
-                    + "values(?,?,?,?,?,?,0)";
+                    + "values(?,?,?,?,?,?,0,0)";
             con = new DBContext().getConnection();
             ps = con.prepareStatement(query);
             ps.setString(1, username);
@@ -127,7 +127,6 @@ public class DAO {
             ps.setString(5, address);
             ps.setString(6, email);
             ps.executeUpdate();
-
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -1135,6 +1134,58 @@ public class DAO {
             ps.setString(2, productID);
             ps.setDouble(3, orderQuantity);
             ps.setDouble(4, orderPrice);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    
+    public void deleteOrderByID(int orderID) {
+        try {
+            String query = "DELETE FROM OrderDetails WHERE orderID= ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, orderID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        try {
+            String query = "DELETE FROM OrderItems WHERE orderID= ?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, orderID);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    public Account getAccountByUserName(String username) {
+        try {
+            String query = "select * from UserLogin\n"
+                    + "where username=?";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Account account = new Account(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8));
+                return account;
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return new Account();
+    }
+    public void addCartSession(int userID) {
+        try {
+            String query = "insert into CartSession\n"
+                    + "values(?,0)";
+            con = new DBContext().getConnection();
+            ps = con.prepareStatement(query);
+            ps.setInt(1, userID);
             ps.executeUpdate();
 
         } catch (Exception e) {

@@ -118,6 +118,9 @@
                                 </c:if>
                                 <c:if test="${account != null}">
                                     <div class="header__top__right__auth">
+                                        <a href="./userinfo"><i class="fa fa-user"></i>${account.username}  </a>
+                                    </div>
+                                    <div class="header__top__right__auth">
                                         <a href="Logout"><i class="fa fa-user"></i> Đăng xuất</a>
                                     </div>
                                 </c:if>
